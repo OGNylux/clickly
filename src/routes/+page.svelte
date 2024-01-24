@@ -1,2 +1,16 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="js">
+    import { emojis } from "$lib/store";
+
+    function incrementCount() {
+        emojis.increment(5);
+    }
+
+</script>
+
+
+<main>
+    <button on:click={incrementCount} class="animate-bounce">
+        😄
+    </button>
+    <p>Counter: {$emojis}</p>
+</main>
