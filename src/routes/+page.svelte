@@ -13,4 +13,5 @@
         <img src="https://em-content.zobj.net/source/twitter/376/eggplant_1f346.png" alt="">
     </button>
     <p>Counter: {$emojis}</p>
+    <a href="/classic">a</a>
 </main>
