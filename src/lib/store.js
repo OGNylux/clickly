@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { writable } from "svelte/store";
 
-
 // enable server communication and certain features
 export const isClassic = writable(false);
 
