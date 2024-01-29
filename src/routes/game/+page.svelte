@@ -1,5 +1,5 @@
 <script>
-    import { emojis, isOnline } from "$lib/store";
+    import { emojis, isClassic } from "$lib/store";
 
     function incrementCount() {
         emojis.increment(5);
@@ -14,7 +14,7 @@
     </button>
     <div>
         <p>Counter: {$emojis}</p>
-        <p>isOnline: {$isOnline}</p>
-        <button on:click={() => isOnline.set(!$isOnline)}>setOnline</button>
+        <p>isOnline: {$isClassic}</p>
+        <button on:click={() => isClassic.set(!$isClassic)}>setOnline</button>
     </div>
 </main>

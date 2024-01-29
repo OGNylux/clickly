@@ -1,7 +1,7 @@
-import { isOnline } from '$lib/store.js';
+import { isClassic } from '$lib/store.js';
 
 export function load({ fetch }) {
-    if (isOnline) {
+    if (isClassic) {
        // TODO: set store to server data
     }
 }

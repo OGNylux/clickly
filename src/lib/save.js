@@ -1,5 +1,5 @@
 import { browser } from "$app/environment";
-import { emojis, score, isOnline} from "./store";
+import { emojis, score, isClassic} from "./store";
 
 /**
  * Load the store state from local storage
@@ -23,18 +23,18 @@ export function loadLocalStorage() {
  * @returns {void}
  */
 export function save() {
-    let online = false;
-    const ununscribeIsOnline = isOnline.subscribe(o => {online = o, console.log(o);});
+    let classic = false;
+    const ununscribeIsOnline = isClassic.subscribe(c => {classic = c, console.log(c);});
 
     // TODO: add all stores
     const unscribeEmojis = emojis.subscribe(value => {
-        if (browser && !online) {
-            console.log(online);
+        if (browser && !classic) {
+            console.log(classic);
             localStorage.setItem('emojis', JSON.stringify(value));
         }
     });
     const unscribeScore = score.subscribe(value => {
-        if (browser && !online) {
+        if (browser && !classic) {
             localStorage.setItem('score', JSON.stringify(value));
         }
     });

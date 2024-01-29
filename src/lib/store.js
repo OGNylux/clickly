@@ -3,7 +3,7 @@ import { writable } from "svelte/store";
 
 
 // enable server communication and certain features
-export const isOnline = writable(false);
+export const isClassic = writable(false);
 
 function cropStore() {
     const { subscribe, set, update } = writable(0);
