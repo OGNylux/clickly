@@ -3,7 +3,7 @@ import { writable } from "svelte/store";
 
 const authenticated = writable(false);
 
- function cropStore() {
+function cropStore() {
     const { subscribe, set, update } = writable(0);
     return {
         subscribe,
