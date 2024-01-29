@@ -1,9 +1,9 @@
 // @ts-nocheck
 import { writable } from "svelte/store";
 
-const authenticated = writable(false);
-// 0 = menu, 1 = classic, 2 = ranked
-export const gameMode = writable(0);
+
+// enable server communication and certain features
+export const isOnline = writable(false);
 
 function cropStore() {
     const { subscribe, set, update } = writable(0);

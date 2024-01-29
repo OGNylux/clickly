@@ -1,10 +1,11 @@
 <script>
     import { onMount } from "svelte";
     import "../app.css";
-    import { init } from "$lib/localSave";
+    import { loadLocalStorage, writeLocalStorage } from "$lib/save";
 
     onMount(() => {
-        init();
+        loadLocalStorage();
+        writeLocalStorage();
     });
 </script>
 
