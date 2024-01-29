@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { writable } from "svelte/store";
 
-const authenticated = writable(false);
+// enable server communication and certain features
+export const isClassic = writable(false);
 
 function cropStore() {
     const { subscribe, set, update } = writable(0);
