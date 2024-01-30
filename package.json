@@ -23,6 +23,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@heroiclabs/nakama-js": "^2.7.1"
+		"@heroiclabs/nakama-js": "^2.7.1",
+		"motion": "^10.17.0"
 	}
 }

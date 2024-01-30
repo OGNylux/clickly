@@ -4,6 +4,7 @@ export interface storeItem {
 	index: number;
 	name: string;
 	description: string;
+    component: string;
 	image: {
 		src: string;
 		alt: string;
@@ -24,6 +25,7 @@ export const storeItems = [
         index: 0,
         name: 'nerd face',
         description: 'nerd face',
+        component: 'NerdEmoji',
         image: {
             src: 'emojis/nerd.svg',
             alt: 'nerd face',
@@ -40,6 +42,7 @@ export const storeItems = [
         index: 1,
         name: 'blushed face',
         description: 'blushed face',
+        component: 'BlushedEmoji',
         image: {
             src: 'emojis/blushed.svg',
             alt: 'blushed face',
@@ -51,5 +54,27 @@ export const storeItems = [
         sell: 50,
         cropsCost: 0,
         max: Infinity,
-   }
+   },
+   {
+        index: 2,
+        name: 'hot face',
+        description: 'hot face',
+        component: 'HotEmoji',
+        image: {
+            src: 'emojis/hot.svg',
+            alt: 'hot face',
+        },
+        multiplier: 6,  
+        operation: 'linEps',
+        initialCost: 300,
+        costMultiplier: 1.5,
+        sell: 50,
+        cropsCost: 0,
+        max: Infinity,
+    }
 ]
+
+export const buildingsComponents = [
+    'NerdEmoji',
+    'HotEmoji',
+];

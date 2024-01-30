@@ -9,7 +9,7 @@
         interval = 0;
 
     const unsubscribeEmojis = emojis.subscribe(v => emojisLocal = v);
-    const unsubscribeBuildings = buildings.subscribe(v => { buildingsLocal = v; passiveIncome = Array(8).fill(0); });
+    const unsubscribeBuildings = buildings.subscribe(v => buildingsLocal = v);
 
     function buy(amount = 1, index = 0) {
         const item = storeItems[index];
@@ -40,9 +40,9 @@
 </script>
 
 <div class="grid">
-    <p>passive income: {passiveIncome.reduce((p,a) => p+a, 0)}</p>
+    <p>passive income: {passiveIncome.reduce((p,a) => p+a, 0)}E/s</p>
     {#each storeItems as storeItem}
-        <div class="flex">
+        <div class="flex items-center gap-2">
             <img src={storeItem.image.src} alt={storeItem.image.alt} class="size-12">
             <div>
                 <p>{storeItem.name}</p>
