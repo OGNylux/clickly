@@ -2,7 +2,7 @@
 import { writable } from "svelte/store";
 
 // enable server communication and certain features
-export const isClassic = writable(false);
+export const isClassic = writable(true);
 
 function cropStore() {
     const { subscribe, set, update } = writable(0);
@@ -36,7 +36,7 @@ function buildingStore() {
         subscribe,
         increment: (incrementValue, index) => update(n => { n[index] += incrementValue; return n }),
         decrement: (decrementValue, index) => update(n => { n[index] -= decrementValue; return n }),
-        set: (value, index) => set(n => { n[index] = value; return n }),
+        set: (arr) => set(n => {n = [...arr]; return n; }),
         reset: () => set(Array(8).fill(0))
     };
 }

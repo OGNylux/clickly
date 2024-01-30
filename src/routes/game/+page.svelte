@@ -1,20 +1,21 @@
 <script>
-    import { emojis, isClassic } from "$lib/store";
+    import { emojis } from '$lib/store';
+    import Shop from '$lib/components/Shop.svelte';
+    import Buildings from '$lib/components/Buildings.svelte';
 
     function incrementCount() {
         emojis.increment(5);
     }
-
 </script>
 
 
 <main class="w-full h-screen flex justify-center items-center"> 
-    <button on:click={incrementCount} class="transform active:scale-75 transition-transform ">
-        <img src="emojis/moai.svg" alt="" class="size-80">
-    </button>
+    <Buildings />
     <div>
         <p>Counter: {$emojis}</p>
-        <p>isOnline: {$isClassic}</p>
-        <button on:click={() => isClassic.set(!$isClassic)}>setOnline</button>
+        <button on:click={incrementCount} class="transform active:scale-75 transition-transform ">
+            <img src="emojis/heart.svg" alt="" class="size-80">
+        </button>
     </div>
+    <Shop />
 </main>
