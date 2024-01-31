@@ -1,15 +1,13 @@
-<script>
+<script lang="ts">
     import { storeItems } from "$lib/data";
     import { buildings, emojis } from "$lib/store";
     import { onDestroy, onMount } from "svelte";
     import ShopItem from "./ShopItem.svelte";
     
-    let emojisLocal = 0,
-    buildingsLocal = Array(8).fill(0),
-    passiveIncome = Array(8).fill(0),
-    interval = 0;
+    let buildingsLocal = Array(8).fill(0),
+        passiveIncome = Array(8).fill(0),
+        interval = 0;
     
-    const unsubscribeEmojis = emojis.subscribe(v => emojisLocal = v);
     const unsubscribeBuildings = buildings.subscribe(v => buildingsLocal = v);
 
     onMount(() => {
