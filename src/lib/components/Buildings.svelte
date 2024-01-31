@@ -1,7 +1,6 @@
-<script>
+<script lang="ts">
     import { storeItems } from "$lib/data";
     import { buildings } from "$lib/store";
-    import Building from "./ShopItem.svelte";
     import Emoji from "./Emoji.svelte";
 
 </script>
@@ -9,7 +8,6 @@
     {#each storeItems as storeItem, i}
         <div class="flex">
             <Emoji emoji={storeItem.component} animated={true}/>
-            <!-- <img src={storeItem.image.src} alt={storeItem.image.alt}> -->
             <p class="text-5xl">{$buildings[i]}</p>
         </div>
     {/each}

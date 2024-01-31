@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { buildings, crops, emojis, score, isClassic } from "$lib/store";
     import { reset } from "$lib/save";
 

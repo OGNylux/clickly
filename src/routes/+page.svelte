@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import HotEmoji from "$lib/components/emojis/HotEmoji.svelte";
 
 </script>

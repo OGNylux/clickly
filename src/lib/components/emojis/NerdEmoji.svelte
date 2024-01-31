@@ -1,7 +1,12 @@
-<script>
+<script lang="ts">
     import {animate} from "motion";
     import {onMount} from "svelte";
+
+    export let animated = false;
+
     onMount(() => {
+        if (!animated) return;
+        
         animate("#glasses", {transform: ["rotate(0deg)", "rotate(5deg)" , "rotate(0deg)"]}, {duration: 1, repeat: Infinity, easing: "ease-in-out"});
     });
 </script>

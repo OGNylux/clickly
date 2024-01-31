@@ -20,7 +20,7 @@ export interface storeItem {
 }
 
 
-export const storeItems = [
+export const storeItems: storeItem[] = [
    {
         index: 0,
         name: 'nerd face',

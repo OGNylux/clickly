@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { emojis } from '$lib/store';
     import Shop from '$lib/components/Shop.svelte';
     import Buildings from '$lib/components/Buildings.svelte';
