@@ -23,7 +23,7 @@
             <p>Classic mode: {$isClassic ? "on" : "off"}</p>
             <div>
                 <button class="bg-sky-500 p-1 rounded" on:click={() => emojis.decrement(value)}>-💩</button>
-                <input class="p-1 rounded" type="text" name="debug" bind:value>
+                <input class="p-1 rounded" type="number" name="debug" bind:value>
                 <button class="bg-sky-500 p-1 rounded" on:click={() => emojis.increment(value)}>+💩</button>
             </div>
             <button class="bg-sky-500 p-1 rounded" on:click={() => reset()}>reset</button>
