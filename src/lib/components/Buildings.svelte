@@ -1,6 +1,7 @@
 <script>
     import { storeItems } from "$lib/data";
     import { buildings } from "$lib/store";
+    import Building from "./ShopItem.svelte";
     import Emoji from "./Emoji.svelte";
 
 </script>
