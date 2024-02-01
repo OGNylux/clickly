@@ -6,8 +6,13 @@
     
     let storeSell = storeItem.sell;
 
+    function getEarnings() {
+        const valueMultiplier = storeItem.valueMultiplier * $buildings[storeItem.index];
+        return Math.round(storeItem.sell * (valueMultiplier == 0 ? 1 : valueMultiplier));
+    }
+
     function sell(amount = 1) {
-        const sell = storeItem.sell;
+        const sell = getEarnings();
         if ($buildings[storeItem.index] <= 0) return;
         
         emojis.increment(sell * amount);
@@ -15,7 +20,7 @@
     }
 
     $ : if ($buildings){
-            storeSell = storeItem.sell;
+            storeSell = getEarnings();
         }
 </script>
 
