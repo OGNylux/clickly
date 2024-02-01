@@ -73,8 +73,3 @@ export const storeItems: storeItem[] = [
         max: Infinity,
     }
 ]
-
-export const buildingsComponents = [
-    'NerdEmoji',
-    'HotEmoji',
-];
