@@ -9,11 +9,12 @@ export interface storeItem {
 		src: string;
 		alt: string;
 	};
-	multiplier: number;
-    // describes how the storeItem affects the emojis per second or crops per second (linear and exponential)
+	incomeMultiplier: number;
+    // describes how the storeItem affects the passive income of E or crops per second
 	operation: 'linEps' | 'expEps' | 'linCps' | 'expCps';
 	initialCost: number;
-	costMultiplier: number;
+	valueMultiplier: number;
+    // describes the change in the buy/sell value of the emoji (measured in E)
 	sell: number;
 	cropsCost: number;
 	max: number;
@@ -30,10 +31,10 @@ export const storeItems: storeItem[] = [
             src: 'emojis/nerd.svg',
             alt: 'nerd face',
         },
-        multiplier: 1,
+        incomeMultiplier: 1,
         operation: 'linEps',
         initialCost: 10,
-        costMultiplier: 1.2,
+        valueMultiplier: 1.2,
         sell: 5,
         cropsCost: 0,
         max: Infinity,
@@ -47,10 +48,10 @@ export const storeItems: storeItem[] = [
             src: 'emojis/blushed.svg',
             alt: 'blushed face',
         },
-        multiplier: 3,
+        incomeMultiplier: 3,
         operation: 'linEps',
         initialCost: 100,
-        costMultiplier: 1.4,
+        valueMultiplier: 1.4,
         sell: 50,
         cropsCost: 0,
         max: Infinity,
@@ -64,10 +65,10 @@ export const storeItems: storeItem[] = [
             src: 'emojis/hot.svg',
             alt: 'hot face',
         },
-        multiplier: 6,  
+        incomeMultiplier: 6,  
         operation: 'linEps',
         initialCost: 300,
-        costMultiplier: 1.5,
+        valueMultiplier: 1.5,
         sell: 50,
         cropsCost: 0,
         max: Infinity,

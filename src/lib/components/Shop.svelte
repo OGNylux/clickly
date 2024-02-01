@@ -13,7 +13,7 @@
     onMount(() => {
         interval = setInterval(() => {
             for (let i = 0; i < storeItems.length; i++) {
-                const income = $buildings[i] * storeItems[i].multiplier;
+                const income = $buildings[i] * storeItems[i].incomeMultiplier;
                 if (income == 0) break;
 
                 passiveIncome[i] = income;

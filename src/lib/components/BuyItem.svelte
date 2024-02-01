@@ -7,8 +7,8 @@
     let storePrice = storeItem.initialCost;
 
     function getCost() {
-        const costMultiplier = storeItem.costMultiplier * $buildings[storeItem.index];
-        return Math.round(storeItem.initialCost * (costMultiplier == 0 ? 1 : costMultiplier));
+        const valueMultiplier = storeItem.valueMultiplier * $buildings[storeItem.index];
+        return Math.round(storeItem.initialCost * (valueMultiplier == 0 ? 1 : valueMultiplier));
     }
 
     function buy(amount = 1) {
