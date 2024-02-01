@@ -34,9 +34,16 @@
 
 <div class="flex flex-col gap-2">
     <p>passive income: {passiveIncome.reduce((p,a) => p+a, 0)}E/s</p>
-    <div class="grid grid-cols-2 bg-slate-100 rounded-xl w-24 font-medium resetBgColor">
-        <button on:click={toggleShop} class="has-[:checked]:bg-slate-300 rounded-full border-slate-200 border-2 buy_button">Buy</button>
-        <button on:click={toggleShop} class="bg-slate-300 rounded-full border-slate-200 border-2 sell_button">Sell</button>
+    <div class="grid grid-flow-col grid-cols-2">
+        <div class="grid grid-cols-2 bg-slate-100 rounded-xl w-24 font-medium">
+            <button on:click={toggleShop} class="has-[:checked]:bg-slate-300 rounded-full buy_button">Buy</button>
+            <button on:click={toggleShop} class="bg-slate-300 rounded-full sell_button">Sell</button>
+        </div>
+        <div class="grid grid-cols-3 bg-slate-100 rounded-xl w-24 font-medium justify-start">
+            <button class="has-[:checked]:bg-slate-300 rounded-full buy_button">1</button>
+            <button class="bg-slate-300">10</button>
+            <button class="bg-slate-300 rounded-full sell_button">100</button>
+        </div>
     </div>
     {#if buy}
         {#each storeItems as storeItem}
