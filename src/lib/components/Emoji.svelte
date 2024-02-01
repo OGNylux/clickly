@@ -4,6 +4,7 @@
 
     export let animated = false;
     export let emoji: String;
+    export let size = 48;
  
     let Emote: any;
 
@@ -12,4 +13,4 @@
     });
 </script>
 
-<svelte:component this={Emote} animated={animated} />
+<svelte:component this={Emote} animated={animated} size={size}/>

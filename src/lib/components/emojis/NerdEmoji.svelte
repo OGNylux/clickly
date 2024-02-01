@@ -1,8 +1,9 @@
 <script lang="ts">
-    import {animate} from "motion";
-    import {onMount} from "svelte";
+    import { animate } from "motion";
+    import { onMount } from "svelte";
 
     export let animated = false;
+    export let size = 64;
 
     onMount(() => {
         if (!animated) return;
@@ -11,7 +12,7 @@
     });
 </script>
 
-<svg width="100" height="100" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width={size} height={size} viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M30 60C46.5685 60 60 46.5685 60 30C60 13.4315 46.5685 0 30 0C13.4315 0 0 13.4315 0 30C0 46.5685 13.4315 60 30 60Z" fill="#FFCC4D"/>
     <path d="M45.5583 39.3818C45.2616 39.1135 44.8183 39.0968 44.5 39.3335C44.435 39.3818 37.9633 44.1668 30 44.1668C22.0566 44.1668 15.5633 39.3818 15.5 39.3335C15.1816 39.0968 14.7383 39.1168 14.4416 39.3818C14.1466 39.6485 14.08 40.0885 14.285 40.4285C14.5 40.7868 19.6466 49.1668 30 49.1668C40.3533 49.1668 45.5016 40.7868 45.715 40.4285C45.92 40.0868 45.855 39.6485 45.5583 39.3818Z" fill="#664500"/>
     <path d="M30 44.3184C29.7534 44.3184 29.515 44.3 29.27 44.2917V51.8184H30.7284V44.29C30.4867 44.2984 30.2467 44.3184 30 44.3184Z" fill="#65471B"/>
