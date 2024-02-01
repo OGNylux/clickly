@@ -29,22 +29,23 @@ export function loadLocalStorage() {
  * To switch between local storage and the server, use the isOnline store.
  */
 export function save() {
-    let classic = false;
+    let classic = true;
     const ununscribeIsOnline = isClassic.subscribe(c => {classic = c});
 
     // TODO: add all stores
-    const unscribeEmojis = emojis.subscribe(value => {
-        if (browser && !classic) {
+    emojis.subscribe(value => {
+        if (browser && classic) {
             localStorage.setItem('emojis', JSON.stringify(value));
+            
         }
     });
-    const unscribeScore = score.subscribe(value => {
-        if (browser && !classic) {
+    score.subscribe(value => {
+        if (browser && classic) {
             localStorage.setItem('score', JSON.stringify(value));
         }
     });
-    const unscribeBuildings = buildings.subscribe(value => {
-        if (browser && !classic) {
+    buildings.subscribe(value => {
+        if (browser && classic) {
             console.log(JSON.stringify(value.toString()));
             localStorage.setItem('buildings', JSON.stringify(value.toString()));
         }
