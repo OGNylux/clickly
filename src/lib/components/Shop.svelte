@@ -8,7 +8,7 @@
     let passiveIncome = Array(8).fill(0),
         interval = 0;
     
-    let Sell = false;
+    let buy = true;
 
     onMount(() => {
         interval = setInterval(() => {
@@ -28,7 +28,7 @@
     });
 
     function toggleShop() {
-    Sell = !Sell;
+    buy = !buy;
     }
 </script>
 
@@ -38,7 +38,7 @@
         <button on:click={toggleShop} class="has-[:checked]:bg-slate-300 rounded-full border-slate-200 border-2 buy_button">Buy</button>
         <button on:click={toggleShop} class="bg-slate-300 rounded-full border-slate-200 border-2 sell_button">Sell</button>
     </div>
-    {#if Sell}
+    {#if buy}
         {#each storeItems as storeItem}
             <div class="flex items-center gap-2">
                 <BuyItem storeItem={storeItem} />
