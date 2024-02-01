@@ -4,7 +4,7 @@ export interface storeItem {
 	index: number;
 	name: string;
 	description: string;
-    component: string;
+    component?: string;
 	image: {
 		src: string;
 		alt: string;
@@ -21,9 +21,25 @@ export interface storeItem {
 
 
 export const storeItems: storeItem[] = [
-   {
+    {
         index: 0,
-        name: 'nerd face',
+        name: 'Emoji Upgrade',
+        description: 'Increses the amount of emojis per click',
+        image: {
+            src: 'emojis/heart.svg',
+            alt: 'clicker emoji',
+        },
+        multiplier: 1,
+        operation: 'linEps',
+        initialCost: 30,
+        costMultiplier: 1.2,
+        sell: 5,
+        cropsCost: 0,
+        max: Infinity,
+   },
+   {
+        index: 1,
+        name: 'Nerd Face',
         description: 'nerd face',
         component: 'NerdEmoji',
         image: {
@@ -32,15 +48,15 @@ export const storeItems: storeItem[] = [
         },
         multiplier: 1,
         operation: 'linEps',
-        initialCost: 10,
+        initialCost: 50,
         costMultiplier: 1.2,
         sell: 5,
         cropsCost: 0,
         max: Infinity,
    },
    {
-        index: 1,
-        name: 'blushed face',
+        index: 2,
+        name: 'Blushed Face',
         description: 'blushed face',
         component: 'BlushedEmoji',
         image: {
@@ -49,15 +65,15 @@ export const storeItems: storeItem[] = [
         },
         multiplier: 3,
         operation: 'linEps',
-        initialCost: 100,
+        initialCost: 150,
         costMultiplier: 1.4,
         sell: 50,
         cropsCost: 0,
         max: Infinity,
    },
    {
-        index: 2,
-        name: 'hot face',
+        index: 3,
+        name: 'Hot Face',
         description: 'hot face',
         component: 'HotEmoji',
         image: {
@@ -66,7 +82,7 @@ export const storeItems: storeItem[] = [
         },
         multiplier: 6,  
         operation: 'linEps',
-        initialCost: 300,
+        initialCost: 350,
         costMultiplier: 1.5,
         sell: 50,
         cropsCost: 0,

@@ -10,7 +10,7 @@
 
     onMount(() => {
         interval = setInterval(() => {
-            for (let i = 0; i < storeItems.length; i++) {
+            for (let i = 1; i < storeItems.length; i++) {
                 const income = $buildings[i] * storeItems[i].multiplier;
                 if (income == 0) break;
 

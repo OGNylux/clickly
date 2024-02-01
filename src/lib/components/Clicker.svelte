@@ -1,16 +1,18 @@
 <script lang="ts">
     import { formatNumber } from '$lib/helper';
-    import { emojis, score } from '$lib/store';
+    import { emojis, score, buildings } from '$lib/store';
     import { onMount } from 'svelte';
-    import { get } from 'svelte/store';
+    import ClickerCanvas from '$lib/components/ClickerCanvas.svelte';
 
-    let progressValue = 6,
-        currentLevel = 0,
-        nextLevelScore = 0;
+    let currentLevel = 0,
+        nextLevelScore = 0,
+        currentLevelScore = 0,
+        width = 0;
 
     function incrementCount() {
-        emojis.increment(1);
-        score.increment(1);
+        const value = 1 + $buildings[0];
+        emojis.increment(value);
+        score.increment(value);
     }
 
     function getLevelupScore(level: number) {
@@ -29,22 +31,29 @@
 
     onMount(() => {
         currentLevel = getLevel($score);
+        currentLevelScore = getLevelupScore(currentLevel);
         nextLevelScore = getLevelupScore(currentLevel + 1);
     });
 
     $ : if ($score >= nextLevelScore) {
             currentLevel++;
+            currentLevelScore = nextLevelScore;
             nextLevelScore = getLevelupScore(currentLevel + 1);
         }
+    
+    $: fillPercent = $score ? (100 * ($score - currentLevel)) / (nextLevelScore - currentLevel) : 0;
 </script>
 
-<div class="w-full bg-slate-200 rounded-xl grid place-content-center justify-items-center gap-2">
+<div class="bg-slate-200 rounded-xl grid place-content-center justify-items-center gap-2" id="clicker" bind:offsetWidth={width}>
     <h1 class="text-5xl font-bold flex items-center gap-2 p-2">
         <span>{formatNumber($emojis)}</span>
         <img src="emojis/e.svg" alt="E" class="size-8">
     </h1>
-    <div>
-        <progress max={nextLevelScore} value={$score}></progress>
+    <div class="w-2/3 flex flex-col justify-center">
+        <div class="rounded-xl bg-slate-400 w-full h-5 overflow-hidden">
+            <div style={`width:${fillPercent}%`} class="bg-yellow-400 h-full rounded-xl"></div>
+            <!-- <progress max={nextLevelScore - getLevelupScore(currentLevel)} value={$score}></progress> -->
+        </div>
         <div class="flex justify-between">
             <span>{formatNumber(getLevelupScore(currentLevel))}</span>
             <p>LVL {currentLevel}</p>
@@ -54,23 +63,26 @@
     <button on:click={incrementCount} class="transform active:scale-75 transition-transform ">
         <img src="emojis/heart.svg" alt="" class="size-80 p-2">
     </button>
+    <ClickerCanvas bind:width />
 </div>
 
 <style lang="postcss">
     progress[value] {
-        @apply border-none appearance-none rounded-xl shadow;
-        width: 40rem;
+        @apply border-none appearance-none shadow w-full;
     }
-    progress[value]::-webkit-progress-bar {
-        border-radius: 10em;
-        background: theme('colors.slate.300');
+    progress::-webkit-progress-bar {
+        background: theme('colors.slate.400');
+        /* @apply rounded-xl; */
     }
-    progress[value]::-webkit-progress-value {
-        border-radius: 10em;
+    progress::-webkit-progress-value {
         background: theme('colors.yellow.400');
     }
-    progress[value]::-moz-progress-bar {
-        border-radius: 10em;
-        background: theme('colors.yellow.200');
+    progress::-moz-progress-bar {
+        background: theme('colors.yellow.400');
+        @apply rounded-xl;
+    }
+    #clicker {
+        /* because a custom tailwind class does not work, this is the workaround. */ 
+        width: calc(100% - 40rem); 
     }
 </style>

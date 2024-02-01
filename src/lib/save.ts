@@ -46,7 +46,6 @@ export function save() {
     });
     buildings.subscribe(value => {
         if (browser && classic) {
-            console.log(JSON.stringify(value.toString()));
             localStorage.setItem('buildings', JSON.stringify(value.toString()));
         }
     });

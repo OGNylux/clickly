@@ -7,6 +7,10 @@
 </script>
 
 <div class="flex w-80 bg-slate-200 rounded-xl p-2">
-    <Emoji emoji={storeItem.component} animated={true}/>
+    {#if storeItem.component}
+        <Emoji emoji={storeItem.component} animated={true}/>
+    {:else}
+        <img src={storeItem.image.src} alt="">
+    {/if}
     <p class="text-5xl">{$buildings[storeItem.index]}</p>
 </div>
