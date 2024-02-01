@@ -1,23 +1,22 @@
 <script lang="ts">
     import { storeItems } from "$lib/data";
-    import { buildings, emojis } from "$lib/store";
+    import { buildings, emojis, score } from "$lib/store";
     import { onDestroy, onMount } from "svelte";
     import ShopItem from "./ShopItem.svelte";
     
-    let buildingsLocal = Array(8).fill(0),
-        passiveIncome = Array(8).fill(0),
+    let passiveIncome = Array(8).fill(0),
         interval = 0;
     
-    const unsubscribeBuildings = buildings.subscribe(v => buildingsLocal = v);
 
     onMount(() => {
         interval = setInterval(() => {
             for (let i = 0; i < storeItems.length; i++) {
-                const income = buildingsLocal[i] * storeItems[i].multiplier;
+                const income = $buildings[i] * storeItems[i].multiplier;
                 if (income == 0) break;
 
                 passiveIncome[i] = income;
                 emojis.increment(income);
+                score.increment(income);
             }
         }, 1000);
     });

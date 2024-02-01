@@ -4,27 +4,22 @@
 
     export let storeItem: storeItem;
     
-    let emojisLocal = 0,
-        buildingsLocal = Array(8).fill(0),
-        storePrice = storeItem.initialCost;
-    
-    const unsubscribeEmojis = emojis.subscribe(v => emojisLocal = v);
-    const unsubscribeBuildings = buildings.subscribe(v => buildingsLocal = v);
+    let storePrice = storeItem.initialCost;
 
     function getCost() {
-        const costMultiplier = storeItem.costMultiplier * buildingsLocal[storeItem.index];
+        const costMultiplier = storeItem.costMultiplier * $buildings[storeItem.index];
         return Math.round(storeItem.initialCost * (costMultiplier == 0 ? 1 : costMultiplier));
     }
 
     function buy(amount = 1) {
         const cost = getCost();
-        if (emojisLocal < cost * amount) return;
+        if ($emojis < cost * amount) return;
         
         emojis.decrement(cost * amount);
         buildings.increment(amount, storeItem.index);
     }
 
-    $ : if (buildingsLocal){
+    $ : if ($buildings){
             storePrice = getCost();
         }
 </script>
