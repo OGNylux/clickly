@@ -70,7 +70,7 @@
         </div>
     </div>
     <button on:click={incrementCount} class="transform active:scale-75 transition-transform ">
-        <img src="emojis/heart.svg" alt="" class="size-80 p-2">
+        <img src="emojis/heart.svg" alt="" class="size-80 p-2 drop-shadow">
     </button>
     <ClickerCanvas bind:width />
 </div>

@@ -19,6 +19,8 @@
 
         context = canvas.getContext('2d');
         for(let i = 0; i < imageCount; i++) {
+            if (images.length == 150) break;
+            
             let img = new Image();
             img.src = 'emojis/heart.svg';
             images.push({
