@@ -9,7 +9,10 @@
         images: any[] = [],
         imageCount = $buildings[0],
         gravity = 0.5,
-        friction = 0.9; 
+        friction = 0.9,
+        fps = 60,
+        now = performance.now(),
+        then = performance.now(); 
   
     onMount(() => {
         if (!canvas) return;
@@ -34,24 +37,13 @@
     function draw() {
         if (!context || !canvas) return;
 
-        if (imageCount < $buildings[0]) {
-            imageCount = $buildings[0];
-            for(let i = 0; i < imageCount; i++) {
-                let img = new Image();
-                img.src = 'emojis/heart.svg';
-                images.push({
-                    img,
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    dx: (Math.random() - 0.5) * 10,
-                    dy: (Math.random() - 0.5) * 10
-                });
-            }
-        } else if (imageCount > $buildings[0]) {
-            imageCount = $buildings[0];
-            images = images.slice(0, imageCount);
-        }
+        now = performance.now();
+        const elapsed = now - then;
+        requestAnimationFrame(draw);
 
+        if (elapsed < 1000 / fps) return; 
+
+        then = now - (elapsed % (1000 / fps));
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         for (let i = 0; i < imageCount; i++) {
@@ -78,7 +70,26 @@
                 image.dx = -image.dx;
             }
         }
-        requestAnimationFrame(draw);
+    }
+
+    $ : if ($buildings && canvas) {
+        if (imageCount < $buildings[0]) {
+            imageCount = $buildings[0];
+            for(let i = 0; i < imageCount; i++) {
+                let img = new Image();
+                img.src = 'emojis/heart.svg';
+                images.push({
+                    img,
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    dx: (Math.random() - 0.5) * 10,
+                    dy: (Math.random() - 0.5) * 10
+                });
+            }
+        } else if (imageCount > $buildings[0]) {
+            imageCount = $buildings[0];
+            images = images.slice(0, imageCount);
+        }
     }
 </script>
   

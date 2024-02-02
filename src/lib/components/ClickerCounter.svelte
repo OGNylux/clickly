@@ -14,7 +14,6 @@
     }
   
     $: if (value > current) {
-        console.log('value > current');
         step = Math.max(1, Math.floor((value - current) / 100));
         countUp();
     } else if (value < current) {
