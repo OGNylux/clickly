@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { formatNumber } from '$lib/helper';
+
     export let value = 0;
   
     let current = 0;
@@ -21,5 +23,5 @@
     }
   </script>
   
-  <span>{current}</span>
+  <span>{formatNumber(current)}</span>
   
