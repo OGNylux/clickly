@@ -73,7 +73,7 @@
     }
 
     $ : if ($buildings && canvas) {
-        if (imageCount < $buildings[0]) {
+        if (imageCount < $buildings[0] && images.length < 150) {
             imageCount = $buildings[0];
             for(let i = 0; i < imageCount; i++) {
                 let img = new Image();
