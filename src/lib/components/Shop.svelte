@@ -41,14 +41,14 @@
 <div class="flex flex-col gap-2">
     <p>passive income: {passiveIncome.reduce((p,a) => p+a, 0)}E/s</p>
     <div class="grid grid-flow-col grid-cols-1">
-        <div class="grid grid-cols-2 rounded-xl w-28 font-medium">
-            <button on:click={toggleBuy} class={`rounded-xl buy_button ${buy ? 'bg-slate-100' : 'bg-slate-300'}`}>Buy</button>
-            <button on:click={toggleSell} class={`rounded-xl sell_button ${sell ? 'bg-slate-100' : 'bg-slate-300'}`}>Sell</button>
+        <div class="grid grid-cols-2 w-28 font-medium border-slate-200 border-2 rounded-xl">
+            <button on:click={toggleBuy} class={`button1 ${buy ? 'bg-slate-100' : 'bg-slate-300'}`}>Buy</button>
+            <button on:click={toggleSell} class={`button2 ${sell ? 'bg-slate-100' : 'bg-slate-300'}`}>Sell</button>
         </div>
-        <div class="grid grid-cols-3 bg-slate-100 rounded-xl w-32 font-medium">
-            <button class="has-[:checked]:bg-slate-300 rounded-xl buy_button">1</button>
+        <div class="grid grid-cols-3 w-32 font-medium border-slate-200 border-2 rounded-xl">
+            <button class="bg-slate-300 button1">1</button>
             <button class="bg-slate-300">10</button>
-            <button class="bg-slate-300 rounded-xl sell_button">100</button>
+            <button class="bg-slate-300 button2">100</button>
         </div>
     </div>
     {#if buy}
@@ -68,10 +68,10 @@
 </div>
 
 <style>
-    .sell_button {
-        border-radius: 0px 12px 12px 0px;
+    .button1 {
+        border-radius: 10px 0px 0px 10px;
     }
-    .buy_button {
-        border-radius: 12px 0px 0px 12px;
+    .button2 {
+        border-radius: 0px 10px 10px 0px;
     }
 </style>
