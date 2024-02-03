@@ -4,8 +4,10 @@
     import { beforeUpdate, onMount } from 'svelte';
     import { tweened } from 'svelte/motion';
     import { cubicOut } from 'svelte/easing';
+    import { Info } from 'lucide-svelte';
     import ClickerCanvas from '$lib/components/clicker/ClickerCanvas.svelte';
     import ClickerCounter from '$lib/components/clicker/ClickerCounter.svelte';
+    import Tooltip from '$lib/components/Tooltip.svelte';
 
     const fillPercent = tweened(0, {
         duration: 400,
@@ -65,12 +67,17 @@
         </div>
         <div class="flex justify-between">
             <span>{formatNumber(getLevelupScore(currentLevel))}</span>
-            <p>LVL {currentLevel}</p>
+            <Tooltip title={`dein aktueller Score: <span class="text-yellow-400">${$score}</span>`}>
+                <p class="flex items-center">
+                    <Info size="15" />
+                    LVL {currentLevel}
+                </p>
+            </Tooltip>
             <span>{formatNumber(nextLevelScore)}</span>
         </div>
     </div>
     <button on:click={incrementCount} class="transform active:scale-75 transition-transform z-10">
-        <img src="emojis/heart.svg" alt="" class="size-72 p-2 filter drop-shadow-2xl">
+        <img src="emojis/heart.svg" alt="" class="size-64 p-2 filter drop-shadow-2xl">
     </button>
     <ClickerCanvas bind:width />
 </div>

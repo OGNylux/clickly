@@ -24,6 +24,7 @@
 	"type": "module",
 	"dependencies": {
 		"@heroiclabs/nakama-js": "^2.7.1",
+		"lucide-svelte": "^0.321.0",
 		"motion": "^10.17.0"
 	}
 }
