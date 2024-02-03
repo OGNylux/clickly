@@ -41,9 +41,9 @@
 <div class="flex flex-col gap-2">
     <p>passive income: {passiveIncome.reduce((p,a) => p+a, 0)}E/s</p>
     <div class="grid grid-flow-col grid-cols-1">
-        <div class="grid grid-cols-2 bg-slate-100 rounded-xl w-28 font-medium">
-            <button on:click={toggleBuy} class="has-[:checked]:bg-slate-300 rounded-xl buy_button">Buy</button>
-            <button on:click={toggleSell} class="bg-slate-300 rounded-xl sell_button">Sell</button>
+        <div class="grid grid-cols-2 rounded-xl w-28 font-medium">
+            <button on:click={toggleBuy} class={`rounded-xl buy_button ${buy ? 'bg-slate-100' : 'bg-slate-300'}`}>Buy</button>
+            <button on:click={toggleSell} class={`rounded-xl sell_button ${sell ? 'bg-slate-100' : 'bg-slate-300'}`}>Sell</button>
         </div>
         <div class="grid grid-cols-3 bg-slate-100 rounded-xl w-32 font-medium">
             <button class="has-[:checked]:bg-slate-300 rounded-xl buy_button">1</button>
