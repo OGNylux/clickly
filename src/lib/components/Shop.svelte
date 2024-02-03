@@ -1,33 +1,11 @@
 <script lang="ts">
     import { storeItems } from "$lib/data";
-    import { buildings, emojis, score } from "$lib/store";
-    import { onDestroy, onMount } from "svelte";
     import BuyItem from "./BuyItem.svelte";
     import SellItem from "./SellItem.svelte";
-    
-    let passiveIncome = Array(8).fill(0),
-        interval = 0;
     
     let buy = true;
     let sell = false;
     let numberOfItems = 1;
-
-    onMount(() => {
-        interval = setInterval(() => {
-            for (let i = 0; i < storeItems.length; i++) {
-                const income = $buildings[i] * storeItems[i].incomeMultiplier;
-                if (income == 0) break;
-
-                passiveIncome[i] = income;
-                emojis.increment(income);
-                score.increment(income);
-            }
-        }, 1000);
-    });
-
-    onDestroy(() => {
-        clearInterval(interval);
-    });
 
     function toggleBuy() {
         buy = true;
@@ -43,7 +21,6 @@
 </script>
 
 <div class="flex flex-col gap-2">
-    <p>passive income: {passiveIncome.reduce((p,a) => p+a, 0)}E/s</p>
     <div class="grid grid-flow-col grid-cols-1">
         <div class="grid grid-cols-2 w-28 font-medium border-slate-200 border-2 rounded-xl">
             <button on:click={toggleBuy} class={`button1 ${buy ? 'bg-slate-100' : 'bg-slate-300'}`}>Buy</button>

@@ -1,12 +1,16 @@
 <script lang="ts">
     import { formatNumber } from '$lib/helper';
-    import { emojis, score } from '$lib/store';
-    import { onMount } from 'svelte';
+    import { buildings, emojis, score } from '$lib/store';
+    import { onMount, onDestroy } from 'svelte';
     import { get } from 'svelte/store';
+    import { storeItems } from "$lib/data";
 
     let progressValue = 6,
         currentLevel = 0,
         nextLevelScore = 0;
+
+    let passiveIncome = Array(8).fill(0),
+        interval = 0;
 
     function incrementCount() {
         emojis.increment(1);
@@ -30,6 +34,21 @@
     onMount(() => {
         currentLevel = getLevel($score);
         nextLevelScore = getLevelupScore(currentLevel + 1);
+
+        interval = setInterval(() => {
+            for (let i = 0; i < storeItems.length; i++) {
+                const income = $buildings[i] * storeItems[i].incomeMultiplier;
+                if (income == 0) break;
+
+                passiveIncome[i] = income;
+                emojis.increment(income);
+                score.increment(income);
+            }
+        }, 1000);
+    });
+
+    onDestroy(() => {
+        clearInterval(interval);
     });
 
     $ : if ($score >= nextLevelScore) {
@@ -39,6 +58,7 @@
 </script>
 
 <div class="w-full bg-slate-200 rounded-xl grid place-content-center justify-items-center gap-2">
+    <p>passive income: {passiveIncome.reduce((p,a) => p+a, 0)}E/s</p>
     <h1 class="text-5xl font-bold flex items-center gap-2 p-2">
         <span>{formatNumber($emojis)}</span>
         <img src="emojis/e.svg" alt="E" class="size-8">
