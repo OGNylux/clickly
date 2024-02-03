@@ -97,6 +97,8 @@
   
 <canvas 
     bind:this={canvas} 
+    class="absolute bottom-0"
     style={`width: ${width}px;`}
+    height="200"
     width={width}
 />

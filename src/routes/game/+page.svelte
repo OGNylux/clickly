@@ -1,7 +1,7 @@
 <script lang="ts">
     import Shop from '$lib/components/Shop.svelte';
     import Buildings from '$lib/components/BuildingsWrapper.svelte';
-    import Clicker from '$lib/components/Clicker.svelte';
+    import Clicker from '$lib/components/clicker/Clicker.svelte';
 </script>
 
 

@@ -4,8 +4,8 @@
     import { beforeUpdate, onMount } from 'svelte';
     import { tweened } from 'svelte/motion';
     import { cubicOut } from 'svelte/easing';
-    import ClickerCanvas from '$lib/components/ClickerCanvas.svelte';
-    import ClickerCounter from './ClickerCounter.svelte';
+    import ClickerCanvas from '$lib/components/clicker/ClickerCanvas.svelte';
+    import ClickerCounter from '$lib/components/clicker/ClickerCounter.svelte';
 
     const fillPercent = tweened(0, {
         duration: 400,
@@ -54,7 +54,7 @@
         }
 </script>
 
-<div class="bg-slate-200 rounded-xl grid place-content-center justify-items-center gap-2" id="clicker" bind:offsetWidth={width}>
+<div class="bg-slate-200 rounded-xl grid place-items-center justify-items-center gap-2" id="clicker" bind:offsetWidth={width}>
     <h1 class="text-5xl font-bold flex items-center gap-2 p-2">
         <ClickerCounter bind:value={$emojis} />
         <img src="emojis/e.svg" alt="E" class="size-8">
@@ -69,15 +69,19 @@
             <span>{formatNumber(nextLevelScore)}</span>
         </div>
     </div>
-    <button on:click={incrementCount} class="transform active:scale-75 transition-transform ">
-        <img src="emojis/heart.svg" alt="" class="size-80 p-2 drop-shadow">
+    <button on:click={incrementCount} class="transform active:scale-75 transition-transform z-10">
+        <img src="emojis/heart.svg" alt="" class="size-72 p-2 filter drop-shadow-2xl">
     </button>
     <ClickerCanvas bind:width />
 </div>
 
 <style lang="postcss">
     #clicker {
-        /* because a custom tailwind class does not work, this is the workaround. */ 
+        /*  
+            because a custom tailwind class does not work, this is the workaround. 
+            IMPORTANT: when the width of the the buildings or shop changes, this value has to be adjusted.
+            (20rem * 2 = w-80 * 2)
+        */ 
         width: calc(100% - 40rem); 
     }
 </style>
