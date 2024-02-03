@@ -9,6 +9,7 @@
         interval = 0;
     
     let buy = true;
+    let sell = false;
 
     onMount(() => {
         interval = setInterval(() => {
@@ -27,22 +28,27 @@
         clearInterval(interval);
     });
 
-    function toggleShop() {
-    buy = !buy;
+    function toggleBuy() {
+        buy = true;
+        sell = false;
+    }
+    function toggleSell() {
+        buy = false;
+        sell = true;
     }
 </script>
 
 <div class="flex flex-col gap-2">
     <p>passive income: {passiveIncome.reduce((p,a) => p+a, 0)}E/s</p>
     <div class="grid grid-flow-col grid-cols-1">
-        <div class="grid grid-cols-2 bg-slate-100 rounded-xl w-24 font-medium">
-            <button on:click={toggleShop} class="has-[:checked]:bg-slate-300 rounded-full buy_button">Buy</button>
-            <button on:click={toggleShop} class="bg-slate-300 rounded-full sell_button">Sell</button>
+        <div class="grid grid-cols-2 bg-slate-100 rounded-xl w-28 font-medium">
+            <button on:click={toggleBuy} class="has-[:checked]:bg-slate-300 rounded-xl buy_button">Buy</button>
+            <button on:click={toggleSell} class="bg-slate-300 rounded-xl sell_button">Sell</button>
         </div>
-        <div class="grid grid-cols-3 bg-slate-100 rounded-xl w-24 font-medium">
-            <button class="has-[:checked]:bg-slate-300 rounded-full buy_button">1</button>
+        <div class="grid grid-cols-3 bg-slate-100 rounded-xl w-32 font-medium">
+            <button class="has-[:checked]:bg-slate-300 rounded-xl buy_button">1</button>
             <button class="bg-slate-300">10</button>
-            <button class="bg-slate-300 rounded-full sell_button">100</button>
+            <button class="bg-slate-300 rounded-xl sell_button">100</button>
         </div>
     </div>
     {#if buy}
@@ -51,7 +57,8 @@
                 <BuyItem storeItem={storeItem} />
             </div>
         {/each}
-    {:else}
+    {/if}
+    {#if sell}
         {#each storeItems as storeItem}
             <div class="flex items-center gap-2">
                 <SellItem storeItem={storeItem} />
