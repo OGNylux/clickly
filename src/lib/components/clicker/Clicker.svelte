@@ -79,7 +79,7 @@
             <img src="emojis/e.svg" alt="E" class="size-8">
         </h1>
         <div slot="tip">
-            <p>dein passives Einkommen: <span class="text-yellow-400">${passiveIncome.reduce((p,a) => p+a, 0)} E/s</span></p>
+            <p>dein passives Einkommen: <span class="text-yellow-400">{passiveIncome.reduce((p,a) => p+a, 0)} E/s</span></p>
         </div>
     </Tooltip>
     <div class="w-2/3 flex flex-col justify-center">
@@ -94,7 +94,7 @@
                     LVL {currentLevel}
                 </p>
                 <div slot="tip">
-                    <p>dein aktueller Score: <span class="text-yellow-400">${$score}</span></p>
+                    <p>dein aktueller Score: <span class="text-yellow-400">{$score}</span></p>
                 </div>
             </Tooltip>
             <span>{formatNumber(nextLevelScore)}</span>
