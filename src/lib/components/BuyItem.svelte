@@ -28,6 +28,7 @@
     <img src={storeItem.image.src} alt="" class="size-16 p-2">
     <div class="flex flex-col justify-between p-2 col-span-2">
         <p>{storeItem.name}</p>
+        <p class="text-sm italic">{storeItem.description}</p>
         <p>${storePrice}E</p>
     </div>
         
