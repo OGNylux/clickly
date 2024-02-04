@@ -6,7 +6,7 @@
     export let storeItem: storeItem;
 </script>
 
-<div class="flex w-80 bg-slate-200 rounded-xl p-2">
+<div class="flex w-96 bg-slate-200 rounded-xl p-2">
     {#if storeItem.component}
         <Emoji emoji={storeItem.component} animated={true}/>
     {:else}

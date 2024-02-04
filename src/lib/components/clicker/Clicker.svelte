@@ -67,11 +67,14 @@
         </div>
         <div class="flex justify-between">
             <span>{formatNumber(getLevelupScore(currentLevel))}</span>
-            <Tooltip title={`dein aktueller Score: <span class="text-yellow-400">${$score}</span>`}>
+            <Tooltip>
                 <p class="flex items-center">
                     <Info size="15" />
                     LVL {currentLevel}
                 </p>
+                <div slot="tip">
+                    <p>dein aktueller Score: <span class="text-yellow-400">${$score}</span></p>
+                </div>
             </Tooltip>
             <span>{formatNumber(nextLevelScore)}</span>
         </div>

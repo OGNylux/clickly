@@ -2,9 +2,14 @@
     /**
      * Tooltip component is used to display a tooltip on hover or focus.
      * Note that the title prop can receive HTML (e.g. for complex information).
-     * <Tooltip title="This is a tooltip"> ... </Tooltip>
+     * <Tooltip> 
+     *      ... 
+     *      <div slot="tip">
+     *         <p>tip content</p>
+     *     </div>
+     * </Tooltip>
      */
-	export let title: string;
+    export let backgroundColor = "bg-slate-700";
 
     const offset = 10;
 
@@ -48,7 +53,9 @@
 {#if isHovered}
 	<div 
         style="top: {y}px; left: {x}px;" 
-        class="fixed z-20 bg-slate-700 text-white shadow-lg p-2 rounded ">
-        {@html title}
+        class="fixed z-20 {backgroundColor} text-white shadow-lg p-2 rounded ">
+        <slot name="tip">
+            <p>Content-Slot is empty!</p>
+        </slot>
     </div>
 {/if}
