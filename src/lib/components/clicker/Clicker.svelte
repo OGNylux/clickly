@@ -83,7 +83,7 @@
         </div>
     </Tooltip>
     <div class="w-2/3 flex flex-col justify-center">
-        <div class="rounded-xl bg-slate-400 w-full h-5 overflow-hidden">
+        <div class="rounded-xl bg-slate-400 w-full h-5 overflow-hidden shadow-xl">
             <div style={`width:${$fillPercent}%`} class="bg-yellow-400 h-full rounded-xl"></div>
         </div>
         <div class="flex justify-between">
@@ -113,6 +113,6 @@
             IMPORTANT: when the width of the the buildings or shop changes, this value has to be adjusted.
             (20rem * 2 = w-80 * 2)
         */ 
-        width: calc(100% - 40rem); 
+        width: calc(100% - 48rem); 
     }
 </style>
