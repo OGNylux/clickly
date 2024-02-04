@@ -72,7 +72,7 @@
         }
 </script>
 
-<div class="bg-slate-200 rounded-xl grid place-items-center justify-items-center gap-2" id="clicker" bind:offsetWidth={width}>
+<div class="bg-slate-100 border-2 border-slate-200 rounded-xl grid place-items-center justify-items-center gap-2" id="clicker" bind:offsetWidth={width}>
     <Tooltip>
         <h1 class="text-5xl font-bold flex items-center gap-2 p-2">
             <ClickerCounter bind:value={$emojis} />
