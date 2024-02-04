@@ -1,7 +1,8 @@
 <script lang="ts">
     import { formatNumber } from '$lib/helper';
     import { emojis, score, buildings } from '$lib/store';
-    import { beforeUpdate, onMount } from 'svelte';
+    import { storeItems } from '$lib/data';
+    import { beforeUpdate, onDestroy, onMount } from 'svelte';
     import { tweened } from 'svelte/motion';
     import { cubicOut } from 'svelte/easing';
     import { Info } from 'lucide-svelte';
@@ -17,7 +18,9 @@
     let currentLevel = 0,
         nextLevelScore = 0,
         currentLevelScore = 0,
-        width = 0;
+        width = 0,
+        passiveIncome = Array(8).fill(0),
+        interval = 0;
 
     function incrementCount() {
         const value = 1 + $buildings[0];
@@ -32,17 +35,30 @@
     }
 
     function getLevel(score: number) {
-        if (score === 0) {
-            return 0;
-        } else {
-            return Math.floor(Math.log10(score) / 4);
-        }
+        if (score === 0) return 0;
+            
+        return Math.floor(Math.log10(score) / 4);
     }
 
     onMount(() => {
         currentLevel = getLevel($score);
         currentLevelScore = getLevelupScore(currentLevel);
         nextLevelScore = getLevelupScore(currentLevel + 1);
+
+        interval = setInterval(() => {
+            for (let i = 1; i < storeItems.length; i++) {
+                const income = $buildings[i] * storeItems[i].multiplier;
+                if (income == 0) break;
+
+                passiveIncome[i] = income;
+                emojis.increment(income);
+                score.increment(income);
+            }
+        }, 1000);
+    });
+
+    onDestroy(() => {
+        clearInterval(interval);
     });
 
     beforeUpdate(() => {
@@ -57,10 +73,15 @@
 </script>
 
 <div class="bg-slate-200 rounded-xl grid place-items-center justify-items-center gap-2" id="clicker" bind:offsetWidth={width}>
-    <h1 class="text-5xl font-bold flex items-center gap-2 p-2">
-        <ClickerCounter bind:value={$emojis} />
-        <img src="emojis/e.svg" alt="E" class="size-8">
-    </h1>
+    <Tooltip>
+        <h1 class="text-5xl font-bold flex items-center gap-2 p-2">
+            <ClickerCounter bind:value={$emojis} />
+            <img src="emojis/e.svg" alt="E" class="size-8">
+        </h1>
+        <div slot="tip">
+            <p>dein passives Einkommen: <span class="text-yellow-400">${passiveIncome.reduce((p,a) => p+a, 0)} E/s</span></p>
+        </div>
+    </Tooltip>
     <div class="w-2/3 flex flex-col justify-center">
         <div class="rounded-xl bg-slate-400 w-full h-5 overflow-hidden">
             <div style={`width:${$fillPercent}%`} class="bg-yellow-400 h-full rounded-xl"></div>
