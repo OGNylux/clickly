@@ -36,7 +36,7 @@ const clicker: StoreItem = {
 }
 
 const nerd: StoreItem = {
-    index: 0,
+    index: 1,
     component: 'NerdEmoji',
     name: 'Nerd Face',
     description: 'your mother',
@@ -53,7 +53,7 @@ const nerd: StoreItem = {
 }
 
 const blushed: StoreItem = {
-    index: 1,
+    index: 2,
     component: 'BlushedEmoji',
     name: 'blushed face',
     description: 'blushed face',
@@ -70,7 +70,7 @@ const blushed: StoreItem = {
 }
 
 const hot: StoreItem = {
-    index: 2,
+    index: 3,
     component: 'HotEmoji',
     name: 'hot face',
     description: 'hot face',
