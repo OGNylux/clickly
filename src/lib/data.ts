@@ -89,3 +89,10 @@ export const storeItems: storeItem[] = [
         max: Infinity,
     }
 ]
+
+/**
+ * This array contains the scores needed to level up.
+ * The first element is the score needed to reach level 1. 
+ * If the player reaches a level that is not in the array it is calculated.
+ */
+export const levelScores = [2000, 5000, 10000, 50000];

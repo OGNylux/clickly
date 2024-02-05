@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { formatNumber } from '$lib/helper';
+    import { formatNumber, getLevel, getLevelupScore } from '$lib/helper';
     import { emojis, score, buildings } from '$lib/store';
     import { storeItems } from '$lib/data';
     import { beforeUpdate, onDestroy, onMount } from 'svelte';
@@ -28,18 +28,6 @@
         score.increment(value);
     }
 
-    function getLevelupScore(level: number) {
-        if (level === 0) return 0;
-
-        return Math.pow(10, level + 3);
-    }
-
-    function getLevel(score: number) {
-        if (score === 0) return 0;
-            
-        return Math.floor(Math.log10(score) / 4);
-    }
-
     onMount(() => {
         currentLevel = getLevel($score);
         currentLevelScore = getLevelupScore(currentLevel);
@@ -48,7 +36,7 @@
         interval = setInterval(() => {
             for (let i = 1; i < storeItems.length; i++) {
                 const income = $buildings[i] * storeItems[i].multiplier;
-                if (income == 0) break;
+                if (income == 0) continue;
 
                 passiveIncome[i] = income;
                 emojis.increment(income);
@@ -86,18 +74,18 @@
         <div class="rounded-xl bg-slate-400 w-full h-5 overflow-hidden shadow-xl">
             <div style={`width:${$fillPercent}%`} class="bg-yellow-400 h-full rounded-xl"></div>
         </div>
-        <div class="flex justify-between">
+        <div class="grid grid-flow-col">
             <span>{formatNumber(getLevelupScore(currentLevel))}</span>
             <Tooltip>
-                <p class="flex items-center">
+                <p class="place-content-center flex items-center">
                     <Info size="15" />
-                    LVL {currentLevel}
+                    <span>LVL {currentLevel}</span>
                 </p>
                 <div slot="tip">
                     <p>dein aktueller Score: <span class="text-yellow-400">{$score}</span></p>
                 </div>
             </Tooltip>
-            <span>{formatNumber(nextLevelScore)}</span>
+            <span class="justify-self-end">{formatNumber(nextLevelScore)}</span>
         </div>
     </div>
     <button on:click={incrementCount} class="transform active:scale-75 transition-transform z-10">

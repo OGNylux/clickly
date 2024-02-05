@@ -5,10 +5,8 @@
     import { dev } from "$app/environment";
     import { loadLocalStorage, save } from "$lib/save";
 
-    onMount(() => {
-        loadLocalStorage();
-        save();
-    });
+    loadLocalStorage();
+    save();
 </script>
 
 {#if dev}
