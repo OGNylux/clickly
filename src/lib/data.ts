@@ -1,6 +1,6 @@
 // all static lookup tables
 
-export interface storeItem {
+export interface StoreItem {
 	index: number;
 	name: string;
 	description: string;
@@ -10,8 +10,8 @@ export interface storeItem {
 		alt: string;
 	};
 	multiplier: number;
-    // describes how the storeItem affects the emojis per second or crops per second (linear and exponential)
-	operation: 'linEps' | 'expEps' | 'linCps' | 'expCps';
+    // The operation takes can perform the scaling of the profit
+	operation?: (n: number, m: number) => number;
 	initialCost: number;
 	costMultiplier: number;
 	sell: number;
@@ -19,76 +19,74 @@ export interface storeItem {
 	max: number;
 }
 
+const clicker: StoreItem = {
+    index: 0,
+    name: 'Emoji Upgrade',
+    description: 'Increses the amount of emojis per click',
+    image: {
+        src: 'emojis/heart.svg',
+        alt: 'clicker emoji',
+    },
+    multiplier: 1,
+    initialCost: 30,
+    costMultiplier: 1.2,
+    sell: 5,
+    cropsCost: 0,
+    max: Infinity,
+}
 
-export const storeItems: storeItem[] = [
-    {
-        index: 0,
-        name: 'Emoji Upgrade',
-        description: 'Increses the amount of emojis per click',
-        image: {
-            src: 'emojis/heart.svg',
-            alt: 'clicker emoji',
-        },
-        multiplier: 1,
-        operation: 'linEps',
-        initialCost: 30,
-        costMultiplier: 1.2,
-        sell: 5,
-        cropsCost: 0,
-        max: Infinity,
-   },
-   {
-        index: 1,
-        name: 'Nerd Face',
-        description: 'nerd face',
-        component: 'NerdEmoji',
-        image: {
-            src: 'emojis/nerd.svg',
-            alt: 'nerd face',
-        },
-        multiplier: 1,
-        operation: 'linEps',
-        initialCost: 50,
-        costMultiplier: 1.2,
-        sell: 5,
-        cropsCost: 0,
-        max: Infinity,
-   },
-   {
-        index: 2,
-        name: 'Blushed Face',
-        description: 'blushed face',
-        component: 'BlushedEmoji',
-        image: {
-            src: 'emojis/blushed.svg',
-            alt: 'blushed face',
-        },
-        multiplier: 3,
-        operation: 'linEps',
-        initialCost: 150,
-        costMultiplier: 1.4,
-        sell: 50,
-        cropsCost: 0,
-        max: Infinity,
-   },
-   {
-        index: 3,
-        name: 'Hot Face',
-        description: 'hot face',
-        component: 'HotEmoji',
-        image: {
-            src: 'emojis/hot.svg',
-            alt: 'hot face',
-        },
-        multiplier: 6,  
-        operation: 'linEps',
-        initialCost: 350,
-        costMultiplier: 1.5,
-        sell: 50,
-        cropsCost: 0,
-        max: Infinity,
-    }
-]
+const nerd: StoreItem = {
+    index: 0,
+    component: 'NerdEmoji',
+    name: 'Nerd Face',
+    description: 'your mother',
+    image: {
+        src: 'emojis/nerd.svg',
+        alt: 'nerd face',
+    },
+    multiplier: 1,
+    initialCost: 10,
+    costMultiplier: 1.2,
+    sell: 5,
+    cropsCost: 0,
+    max: Infinity,
+}
+
+const blushed: StoreItem = {
+    index: 1,
+    component: 'BlushedEmoji',
+    name: 'blushed face',
+    description: 'blushed face',
+    image: {
+        src: 'emojis/blushed.svg',
+        alt: 'blushed face',
+    },
+    multiplier: 3,
+    initialCost: 100,
+    costMultiplier: 1.4,
+    sell: 50,
+    cropsCost: 0,
+    max: Infinity,
+}
+
+const hot: StoreItem = {
+    index: 2,
+    component: 'HotEmoji',
+    name: 'hot face',
+    description: 'hot face',
+    image: {
+        src: 'emojis/hot.svg',
+        alt: 'hot face',
+    },
+    multiplier: 6,  
+    initialCost: 300,
+    costMultiplier: 1.5,
+    sell: 50,
+    cropsCost: 0,
+    max: Infinity,
+}
+
+// export const storeItems: StoreItem[] = [nerd, blushed, hot];
 
 /**
  * This array contains the scores needed to level up.
@@ -96,3 +94,15 @@ export const storeItems: storeItem[] = [
  * If the player reaches a level that is not in the array it is calculated.
  */
 export const levelScores = [2000, 5000, 10000, 50000];
+
+/**
+ * This object contains the rewards for each level up.
+ * The key is the level and the value is an array of StoreItems that get unlocked at that level.
+ * The key t0 is he initial rewards starting items. 
+ * Note that you can also skip levels, e.g. level 2 has no rewards, but level 3 and 1 has.
+ */
+export const levelUpRewards: Record<number, StoreItem[]> = {
+    0: [clicker, nerd],
+    1: [blushed],
+    3: [hot],
+}

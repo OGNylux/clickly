@@ -1,7 +1,6 @@
 <script lang="ts">
-    import { formatNumber, getLevel, getLevelupScore } from '$lib/helper';
-    import { emojis, score, buildings } from '$lib/store';
-    import { storeItems } from '$lib/data';
+    import { formatNumber, getLevel, getLevelupScore, unlockLevelUpReward } from '$lib/helper';
+    import { emojis, score, buildings, unlocked } from '$lib/store';
     import { beforeUpdate, onDestroy, onMount } from 'svelte';
     import { tweened } from 'svelte/motion';
     import { cubicOut } from 'svelte/easing';
@@ -16,7 +15,7 @@
     });
 
     let currentLevel = 0,
-        nextLevelScore = 0,
+        nextLevelScore = 1,
         currentLevelScore = 0,
         width = 0,
         passiveIncome = Array(8).fill(0),
@@ -34,8 +33,8 @@
         nextLevelScore = getLevelupScore(currentLevel + 1);
 
         interval = setInterval(() => {
-            for (let i = 1; i < storeItems.length; i++) {
-                const income = $buildings[i] * storeItems[i].multiplier;
+            for (let i = 1; i < $unlocked.length; i++) {
+                const income = $buildings[i] * $unlocked[i].multiplier;
                 if (income == 0) continue;
 
                 passiveIncome[i] = income;
@@ -50,14 +49,14 @@
     });
 
     beforeUpdate(() => {
-        fillPercent.set($score ? (100 * ($score - currentLevelScore)) / (nextLevelScore - currentLevelScore) : 0);
-    });
-
-    $ : if ($score >= nextLevelScore) {
+        if ($score >= nextLevelScore) {
             currentLevel++;
+            unlockLevelUpReward(currentLevel);
             currentLevelScore = nextLevelScore;
             nextLevelScore = getLevelupScore(currentLevel + 1);
         }
+        fillPercent.set($score ? (100 * ($score - currentLevelScore)) / (nextLevelScore - currentLevelScore) : 0);
+    });
 </script>
 
 <div class="bg-slate-100 border-2 border-slate-200 rounded-xl grid place-items-center justify-items-center gap-2" id="clicker" bind:offsetWidth={width}>

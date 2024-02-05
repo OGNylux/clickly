@@ -1,7 +1,21 @@
 import { writable } from "svelte/store";
+import type { StoreItem } from "$lib/data";
 
 // enable server communication and certain features
 export const isClassic = writable(true);
+
+
+function unlockedStore() {
+    const { subscribe, set, update } = writable<StoreItem[]>([]);
+    return {
+        subscribe,
+        add: (item: StoreItem) => update(n => [...n, item]),
+        remove: (item: StoreItem) => update(n => n.filter(i => i !== item)),
+        reset: () => set([]),
+    };
+}
+
+export const unlocked = unlockedStore();
 
 function cropStore() {
     const { subscribe, set, update } = writable(0);

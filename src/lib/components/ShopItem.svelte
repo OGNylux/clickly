@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { storeItem } from "$lib/data";
+    import type { StoreItem } from "$lib/data";
     import { buildings, emojis } from "$lib/store";
 
-    export let storeItem: storeItem;
+    export let storeItem: StoreItem;
     
     let storePrice = storeItem.initialCost;
 

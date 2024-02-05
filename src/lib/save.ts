@@ -1,5 +1,6 @@
 import { browser } from "$app/environment";
-import { emojis, score, isClassic, buildings} from "$lib/store";
+import { emojis, score, isClassic, buildings, unlocked} from "$lib/store";
+import { unlockAllUnlockedItems } from "./helper";
 
 /**
  * Load the state from local storage and overwrite the store.
@@ -58,6 +59,8 @@ export function reset() {
     emojis.reset();
     score.reset();
     buildings.reset();
+    unlocked.reset();
+    unlockAllUnlockedItems(0);
     if (browser) {
         localStorage.removeItem('emojis');
         localStorage.removeItem('score');

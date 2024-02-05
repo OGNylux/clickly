@@ -1,9 +1,9 @@
 <script lang="ts">
-    import type { storeItem } from "$lib/data";
+    import type { StoreItem } from "$lib/data";
     import { buildings } from "$lib/store";
     import Emoji from "./Emoji.svelte";
 
-    export let storeItem: storeItem;
+    export let storeItem: StoreItem;
 </script>
 
 <div class="flex w-96 bg-slate-200 rounded-xl p-2">

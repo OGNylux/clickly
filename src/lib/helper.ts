@@ -1,4 +1,5 @@
-import { levelScores } from "./data";
+import { levelScores, levelUpRewards } from "$lib/data";
+import { unlocked } from "$lib/store";
 
 export function formatNumber(num: number) {
     return num.toLocaleString('de-DE');
@@ -22,4 +23,23 @@ export function getLevel(score: number) {
         level++;
     }
     return level - 1;
+}
+
+export function unlockAllUnlockedItems(level: number) {
+    unlocked.reset();
+    for (let i = 0; i <= level; i++) {
+        if (levelUpRewards[i]) {
+            levelUpRewards[i].forEach(item => {
+                unlocked.add(item);
+            });
+        }
+    }
+}
+
+export function unlockLevelUpReward(level: number) {
+    if (levelUpRewards[level]) {
+        levelUpRewards[level].forEach(item => {
+            unlocked.add(item);
+        });
+    }
 }
