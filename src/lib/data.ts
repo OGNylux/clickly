@@ -86,8 +86,6 @@ const hot: StoreItem = {
     max: Infinity,
 }
 
-// export const storeItems: StoreItem[] = [nerd, blushed, hot];
-
 /**
  * This array contains the scores needed to level up.
  * The first element is the score needed to reach level 1. 
