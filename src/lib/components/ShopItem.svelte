@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { storeItem } from "$lib/data";
+    import type { StoreItem } from "$lib/data";
     import { buildings, emojis } from "$lib/store";
 
     export let storeItem: storeItem;
@@ -44,7 +44,7 @@
         }
 </script>
 
-<div class="grid grid-flow-col grid-cols-4 place-content-start bg-slate-200 w-80 rounded-xl">
+<div class="grid grid-flow-col grid-cols-4 place-content-start bg-slate-200 w-96 rounded-xl">
     <img src={storeItem.image.src} alt="" class="size-16 p-2">
     <div class="flex flex-col justify-between p-2 col-span-2">
         <p>{storeItem.name}</p>
