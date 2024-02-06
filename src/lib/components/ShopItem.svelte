@@ -43,8 +43,12 @@
     <img src={storeItem.image.src} alt="" class="size-16 p-2">
     <div class="flex flex-col justify-between p-2 col-span-2">
         <p>{storeItem.name}</p>
-        <p class="text-sm italic">{storeItem.description}</p>
-        <p>${storePrice}E</p>
+        <div class="grid grid-flow-col grid-cols-2">
+            <p>${storePrice}E</p>
+            {#if action}
+                <p>{storeItem.description}</p>
+            {/if}
+        </div>
     </div>
 
     <button on:click={() => action ? buy() : sell()} class="p-2 bg-slate-100 buy_button hover:bg-slate-300 transition font-bold border-slate-200 border-2">

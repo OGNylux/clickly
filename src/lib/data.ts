@@ -25,7 +25,7 @@ export const storeItems: storeItem[] = [
    {
         index: 0,
         name: 'nerd face',
-        description: '+1 E pro Sekunde',
+        description: '1 E/s',
         component: 'NerdEmoji',
         image: {
             src: 'emojis/nerd.svg',
@@ -42,7 +42,7 @@ export const storeItems: storeItem[] = [
    {
         index: 1,
         name: 'blushed face',
-        description: '+3 E pro Sekunde',
+        description: '3 E/s',
         component: 'BlushedEmoji',
         image: {
             src: 'emojis/blushed.svg',
@@ -59,7 +59,7 @@ export const storeItems: storeItem[] = [
    {
         index: 2,
         name: 'hot face',
-        description: '+6 E pro Sekunde',
+        description: '6 E/s',
         component: 'HotEmoji',
         image: {
             src: 'emojis/hot.svg',
