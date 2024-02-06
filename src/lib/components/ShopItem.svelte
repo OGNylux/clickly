@@ -49,10 +49,11 @@
     <div class="flex flex-col justify-between p-2 col-span-2">
         <p>{storeItem.name}</p>
         <div class="grid grid-flow-col grid-cols-2">
-            <p>${storePrice}E</p>
-            {#if action}
-                <p>{storeItem.incomeMultiplier}E/s</p>
-            {/if}
+            <p>${storePrice}E
+                {#if action}
+                    | {storeItem.incomeMultiplier}E/s
+                {/if}
+            </p>
         </div>
     </div>
 
