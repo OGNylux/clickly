@@ -4,6 +4,7 @@
 
     export let storeItem: storeItem;
     export let action: boolean;
+    export let numberOfItems: number;
 
     let calculatePrice: number;
     let storePrice: number;
@@ -14,19 +15,23 @@
     }
 
     function buy(amount = 1) {
-        const cost = getPrice();
-        if ($emojis < cost * amount) return;
-        
-        emojis.decrement(cost * amount);
-        buildings.increment(amount, storeItem.index);
+        for (let i = 1; i <= numberOfItems; i++) {
+            const cost = getPrice();
+            if ($emojis < cost * amount) return;
+            
+            emojis.decrement(cost * amount);
+            buildings.increment(amount, storeItem.index);
+        }
     }
 
     function sell(amount = 1) {
-        const sell = getPrice();
-        if ($buildings[storeItem.index] <= 0) return;
-        
-        emojis.increment(sell * amount);
-        buildings.decrement(amount, storeItem.index);
+        for (let i = 1; i <= numberOfItems; i++) {
+            const sell = getPrice();
+            if ($buildings[storeItem.index] <= 0) return;
+            
+            emojis.increment(sell * amount);
+            buildings.decrement(amount, storeItem.index);
+        }
     }
 
     $ : if ($buildings){

@@ -32,16 +32,16 @@
         </div>
     </div>
     {#if buy}
-        {#each storeItems.slice(0, numberOfItems) as storeItem}
+        {#each storeItems as storeItem}
             <div class="flex items-center gap-2">
-                <ShopItem storeItem={storeItem} bind:action={buy} />
+                <ShopItem storeItem={storeItem} bind:action={buy} bind:numberOfItems={numberOfItems} />
             </div>
         {/each}
     {/if}
     {#if sell}
-        {#each storeItems.slice(0, numberOfItems) as storeItem}
+        {#each storeItems as storeItem}
             <div class="flex items-center gap-2">
-                <ShopItem storeItem={storeItem} bind:action={buy} />
+                <ShopItem storeItem={storeItem} bind:action={buy} bind:numberOfItems={numberOfItems} />
             </div>
         {/each}
     {/if}
