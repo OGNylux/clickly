@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { storeItems } from "$lib/data";
+    import { unlocked } from "$lib/store";
     import ShopItem from "./ShopItem.svelte";
     
     let buy = true;
@@ -22,7 +22,7 @@
             <button on:click={() => toggleItems(100)} class={`button2 ${numberOfItems == 100 ? 'bg-slate-100' : 'bg-slate-300'}`}>100</button>
         </div>
     </div>
-    {#each storeItems as storeItem}
+    {#each $unlocked as storeItem}
         <div class="flex items-center gap-2">
             <ShopItem storeItem={storeItem} bind:action={buy} bind:numberOfItems={numberOfItems} />
         </div>

@@ -34,7 +34,7 @@
 
         interval = setInterval(() => {
             for (let i = 1; i < $unlocked.length; i++) {
-                const income = $buildings[i] * $unlocked[i].multiplier;
+                const income = $buildings[i] * $unlocked[i].incomeMultiplier;
                 if (income == 0) continue;
 
                 passiveIncome[i] = income;

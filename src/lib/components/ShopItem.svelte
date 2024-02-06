@@ -2,7 +2,7 @@
     import type { StoreItem } from "$lib/data";
     import { buildings, emojis } from "$lib/store";
 
-    export let storeItem: storeItem;
+    export let storeItem: StoreItem;
     export let action: boolean;
     export let numberOfItems: number;
 
@@ -51,7 +51,7 @@
         <div class="grid grid-flow-col grid-cols-2">
             <p>${storePrice}E</p>
             {#if action}
-                <p>{storeItem.description}</p>
+                <p>{storeItem.incomeMultiplier}E/s</p>
             {/if}
         </div>
     </div>
