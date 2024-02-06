@@ -73,7 +73,7 @@
         <div class="rounded-xl bg-slate-400 w-full h-5 overflow-hidden shadow-xl">
             <div style={`width:${$fillPercent}%`} class="bg-yellow-400 h-full rounded-xl"></div>
         </div>
-        <div class="grid grid-flow-col">
+        <div class="grid grid-cols-3 g">
             <span>{formatNumber(getLevelupScore(currentLevel))}</span>
             <Tooltip>
                 <p class="place-content-center flex items-center">
