@@ -11,6 +11,7 @@ function unlockedStore() {
         subscribe,
         add: (item: StoreItem) => update(n => [...n, item]),
         remove: (item: StoreItem) => update(n => n.filter(i => i !== item)),
+        contains: (item: StoreItem) => subscribe(n => n.includes(item)),
         reset: () => set([]),
     };
 }

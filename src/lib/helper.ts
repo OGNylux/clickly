@@ -39,7 +39,9 @@ export function unlockAllUnlockedItems(level: number) {
 export function unlockLevelUpReward(level: number) {
     if (levelUpRewards[level]) {
         levelUpRewards[level].forEach(item => {
-            unlocked.add(item);
+            if (!unlocked.contains(item)) {
+                unlocked.add(item);
+            }
         });
     }
 }
