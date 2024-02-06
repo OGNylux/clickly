@@ -6,7 +6,7 @@
     export let action: boolean;
     export let numberOfItems: number;
 
-    let calculatePrice: number;
+    let calculatePrice = action ? storeItem.initialCost : storeItem.sell;
     let storePrice: number;
 
     function getPrice() {
@@ -36,11 +36,6 @@
 
     $ : if ($buildings){
             storePrice = getPrice();
-        }
-        if (action){
-            calculatePrice = storeItem.initialCost;
-        } else {
-            calculatePrice = storeItem.sell;
         }
 </script>
 
