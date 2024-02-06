@@ -87,7 +87,7 @@
             <span class="justify-self-end">{formatNumber(nextLevelScore)}</span>
         </div>
     </div>
-    <button on:click={incrementCount} class="transform active:scale-75 transition-transform z-10">
+    <button on:click={incrementCount} class="transform active:scale-75 transition-transform z-10 select-none">
         <img src="emojis/heart.svg" alt="" class="size-64 p-2 filter drop-shadow-2xl">
     </button>
     <ClickerCanvas bind:width />
