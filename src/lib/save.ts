@@ -1,5 +1,6 @@
 import { browser } from "$app/environment";
-import { emojis, score, isClassic, buildings} from "$lib/store";
+import { emojis, score, isClassic, buildings, unlocked} from "$lib/store";
+import { unlockAllUnlockedItems } from "./helper";
 
 /**
  * Load the state from local storage and overwrite the store.
@@ -46,7 +47,6 @@ export function save() {
     });
     buildings.subscribe(value => {
         if (browser && classic) {
-            console.log(JSON.stringify(value.toString()));
             localStorage.setItem('buildings', JSON.stringify(value.toString()));
         }
     });
@@ -59,6 +59,8 @@ export function reset() {
     emojis.reset();
     score.reset();
     buildings.reset();
+    unlocked.reset();
+    unlockAllUnlockedItems(0);
     if (browser) {
         localStorage.removeItem('emojis');
         localStorage.removeItem('score');
