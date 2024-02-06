@@ -32,20 +32,11 @@
             <button on:click={() => toggleItems(100)} class={`button2 ${numberOfItems == 100 ? 'bg-slate-100' : 'bg-slate-300'}`}>100</button>
         </div>
     </div>
-    {#if buy}
-        {#each storeItems as storeItem}
-            <div class="flex items-center gap-2">
-                <ShopItem storeItem={storeItem} bind:action={buy} bind:numberOfItems={numberOfItems} />
-            </div>
-        {/each}
-    {/if}
-    {#if !buy}
-        {#each storeItems as storeItem}
-            <div class="flex items-center gap-2">
-                <ShopItem storeItem={storeItem} bind:action={buy} bind:numberOfItems={numberOfItems} />
-            </div>
-        {/each}
-    {/if}
+    {#each storeItems as storeItem}
+        <div class="flex items-center gap-2">
+            <ShopItem storeItem={storeItem} bind:action={buy} bind:numberOfItems={numberOfItems} />
+        </div>
+    {/each}
 </div>
 
 <style>
