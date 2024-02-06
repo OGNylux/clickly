@@ -3,16 +3,17 @@
     import ShopItem from "./ShopItem.svelte";
     
     let buy = true;
-    let sell = false;
     let numberOfItems = 1;
 
     function toggleBuy() {
-        buy = true;
-        sell = false;
+        if (!buy) {
+            buy = true;
+        }
     }
     function toggleSell() {
-        buy = false;
-        sell = true;
+        if (buy) {
+            buy = false;
+        }
     }
     function toggleItems(n: number) {
         numberOfItems = n;
@@ -23,7 +24,7 @@
     <div class="grid grid-flow-col grid-cols-1">
         <div class="grid grid-cols-2 w-28 font-medium border-slate-200 border-2 rounded-xl">
             <button on:click={toggleBuy} class={`button1 ${buy ? 'bg-slate-100' : 'bg-slate-300'}`}>Buy</button>
-            <button on:click={toggleSell} class={`button2 ${sell ? 'bg-slate-100' : 'bg-slate-300'}`}>Sell</button>
+            <button on:click={toggleSell} class={`button2 ${!buy ? 'bg-slate-100' : 'bg-slate-300'}`}>Sell</button>
         </div>
         <div class="grid grid-cols-3 w-32 font-medium border-slate-200 border-2 rounded-xl">
             <button on:click={() => toggleItems(1)} class={`button1 ${numberOfItems == 1 ? 'bg-slate-100' : 'bg-slate-300'}`}>1</button>
@@ -38,7 +39,7 @@
             </div>
         {/each}
     {/if}
-    {#if sell}
+    {#if !buy}
         {#each storeItems as storeItem}
             <div class="flex items-center gap-2">
                 <ShopItem storeItem={storeItem} bind:action={buy} bind:numberOfItems={numberOfItems} />
