@@ -3,24 +3,39 @@
     import { buildings, emojis } from "$lib/store";
 
     export let storeItem: storeItem;
-    
-    let storePrice = storeItem.initialCost;
+    export let action: boolean;
 
-    function getCost() {
+    let calculatePrice: number;
+    let storePrice: number;
+
+    function getPrice() {
         const valueMultiplier = storeItem.valueMultiplier * $buildings[storeItem.index];
-        return Math.round(storeItem.initialCost * (valueMultiplier == 0 ? 1 : valueMultiplier));
+        return Math.round(calculatePrice * (valueMultiplier == 0 ? 1 : valueMultiplier));
     }
 
     function buy(amount = 1) {
-        const cost = getCost();
+        const cost = getPrice();
         if ($emojis < cost * amount) return;
         
         emojis.decrement(cost * amount);
         buildings.increment(amount, storeItem.index);
     }
 
+    function sell(amount = 1) {
+        const sell = getPrice();
+        if ($buildings[storeItem.index] <= 0) return;
+        
+        emojis.increment(sell * amount);
+        buildings.decrement(amount, storeItem.index);
+    }
+
     $ : if ($buildings){
-            storePrice = getCost();
+            storePrice = getPrice();
+        }
+        if (action){
+            calculatePrice = storeItem.initialCost;
+        } else {
+            calculatePrice = storeItem.sell;
         }
 </script>
 
@@ -31,8 +46,10 @@
         <p class="text-sm italic">{storeItem.description}</p>
         <p>${storePrice}E</p>
     </div>
-        
-    <button on:click={()=> buy()} class="p-2 bg-slate-100 buy_button hover:bg-slate-300 transition font-bold border-slate-200 border-2">BUY</button>
+
+    <button on:click={() => action ? buy() : sell()} class="p-2 bg-slate-100 buy_button hover:bg-slate-300 transition font-bold border-slate-200 border-2">
+        {action ? "BUY" : "SELL"}
+    </button>
 </div>
 
 <style>

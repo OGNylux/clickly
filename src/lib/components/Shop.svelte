@@ -1,7 +1,6 @@
 <script lang="ts">
     import { storeItems } from "$lib/data";
-    import BuyItem from "./BuyItem.svelte";
-    import SellItem from "./SellItem.svelte";
+    import ShopItem from "./ShopItem.svelte";
     
     let buy = true;
     let sell = false;
@@ -35,14 +34,14 @@
     {#if buy}
         {#each storeItems.slice(0, numberOfItems) as storeItem}
             <div class="flex items-center gap-2">
-                <BuyItem storeItem={storeItem} />
+                <ShopItem storeItem={storeItem} bind:action={buy} />
             </div>
         {/each}
     {/if}
     {#if sell}
         {#each storeItems.slice(0, numberOfItems) as storeItem}
             <div class="flex items-center gap-2">
-                <SellItem storeItem={storeItem} />
+                <ShopItem storeItem={storeItem} bind:action={buy} />
             </div>
         {/each}
     {/if}
