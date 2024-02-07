@@ -27,9 +27,9 @@
             <ArrowBigUpDash size={40} class="text-white"/>
         </button>
         <div class="rounded-xl h-full w-32 text-center bg-slate-600 border-2 p-2 border-slate-200 text-white">
-            <p class="text-4xl truncate">{$buildings[storeItem.index]}</p>-
+            <p class="text-4xl truncate">{$buildings[storeItem.index]}</p>
             {#if storeItem.index == 0}
-                <p class="text-sm truncate ---2">{$buildings[storeItem.index]+1} E/c</p>
+                <p class="text-sm truncate -m-2">{$buildings[storeItem.index]+1} E/c</p>
             {:else}
                 <p class="text-sm truncate -m-2">{$buildings[storeItem.index]*storeItem.multiplier} E/s</p>
             {/if}
