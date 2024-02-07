@@ -58,7 +58,7 @@
             <div slot="tip">
                 {#if action}
                     <p>+<span>{storeItem.incomeMultiplier} E/s passives Einkommen</span></p>
-                {:else}
+                {:else if $buildings[storeItem.index] > 0}
                     <p>-<span>{storeItem.incomeMultiplier} E/s passives Einkommen</span></p>
                 {/if}
             </div>
