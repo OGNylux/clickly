@@ -47,7 +47,7 @@
             <p>{storeItem.name}</p>
             <p>${storePrice}E</p>
             <div slot="tip">
-                <p>passives Einkommen:<span>{storeItem.incomeMultiplier}E/s</span></p>
+                <p>passives Einkommen: <span>{storeItem.incomeMultiplier}E/s</span></p>
             </div>
         </Tooltip>
     </div>
