@@ -27,7 +27,7 @@ const clicker: StoreItem = {
         src: 'emojis/heart.svg',
         alt: 'clicker emoji',
     },
-    multiplier: 1,
+    multiplier: 0,
     initialCost: 30,
     costMultiplier: 1.2,
     sell: 5,
