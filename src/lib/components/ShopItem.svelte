@@ -2,7 +2,6 @@
     import type { StoreItem } from "$lib/data";
     import { buildings, emojis } from "$lib/store";
     import Tooltip from "./Tooltip.svelte";
-    import { writable } from 'svelte/store';
 
     export let storeItem: StoreItem;
     export let action: boolean;
@@ -10,7 +9,7 @@
 
     let calculatePrice = action ? storeItem.initialCost : storeItem.sell;
     let storePrice: number;
-    let buyable = writable(true);
+    let buyable: boolean = true
 
     function getPrice() {
         const valueMultiplier = storeItem.valueMultiplier * $buildings[storeItem.index];
@@ -21,28 +20,28 @@
         for (let i = 1; i <= numberOfItems; i++) {
             const cost = getPrice();
             if ($emojis < cost * amount) {
-                buyable.set(false);
+                buyable = false;
                 return;
             }
             
             emojis.decrement(cost * amount);
             buildings.increment(amount, storeItem.index);
         }
-        buyable.set(true);
+        buyable = true;
     }
     
     function sell(amount = 1) {
         for (let i = 1; i <= numberOfItems; i++) {
             const sell = getPrice();
             if ($buildings[storeItem.index] <= 0) {
-                buyable.set(false);
+                buyable = false;
                 return;
             }
 
             emojis.increment(sell * amount);
             buildings.decrement(amount, storeItem.index);
         }
-        buyable.set(true);
+        buyable = true;
     }
 
     $ : if ($buildings){
@@ -66,7 +65,7 @@
         </Tooltip>
     </div>
 
-    <button on:click={() => action ? buy() : sell()} disabled={!$buyable} class={`buy_button ${$buyable ? 'bg-slate-100 hover:bg-slate-300 transition font-bold border-slate-200 border-2' : 'bg-slate-300 font-bold border-slate-200 border-2'}`}>
+    <button on:click={() => action ? buy() : sell()} disabled={!buyable} class={`buy_button ${buyable ? 'bg-slate-100 hover:bg-slate-300 transition font-bold border-slate-200 border-2' : 'bg-slate-300 font-bold border-slate-200 border-2'}`}>
         {action ? "BUY" : "SELL"}
     </button>
 </div>
