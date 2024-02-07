@@ -11,7 +11,11 @@
         <p>{storeItem.name}</p>
         <div class="flex">
             {#each {length: Math.min($buildings[storeItem.index], 10)} as _}
-                <Emoji emoji={storeItem.component} animated={true}/>
+                {#if storeItem.component}
+                    <Emoji emoji={storeItem.component} animated={true}/>
+                {:else}
+                    <img src={storeItem.image.src} alt="">
+                {/if}
             {/each}
         </div>
     </div>
