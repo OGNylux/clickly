@@ -57,15 +57,15 @@
             <p>${storePrice}E</p>
             <div slot="tip">
                 {#if action}
-                    <p>+<span>{storeItem.incomeMultiplier} E/s passives Einkommen</span></p>
+                    <p>+<span>{storeItem.incomeMultiplier * numberOfItems} E/s passives Einkommen</span></p>
                 {:else if $buildings[storeItem.index] > 0}
-                    <p>-<span>{storeItem.incomeMultiplier} E/s passives Einkommen</span></p>
+                    <p>-<span>{storeItem.incomeMultiplier * $buildings[storeItem.index]} E/s passives Einkommen</span></p>
                 {/if}
             </div>
         </Tooltip>
     </div>
 
-    <button on:click={() => action ? buy() : sell()} disabled={!buyable} class={`buy_button ${buyable ? 'bg-slate-100 hover:bg-slate-300 transition font-bold border-slate-200 border-2' : 'bg-slate-300 font-bold border-slate-200 border-2'}`}>
+    <button on:click={() => action ? buy() : sell()} class={`buy_button ${buyable ? 'bg-slate-100 hover:bg-slate-300 transition font-bold border-slate-200 border-2' : 'bg-slate-300 font-bold border-slate-200 border-2'}`}>
         {action ? "BUY" : "SELL"}
     </button>
 </div>
