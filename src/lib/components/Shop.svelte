@@ -22,11 +22,19 @@
             <button on:click={() => toggleItems(100)} class={`button2 ${numberOfItems == 100 ? 'bg-slate-100' : 'bg-slate-300'}`}>100</button>
         </div>
     </div>
-    {#each $unlocked as storeItem}
-        <div class="flex items-center gap-2">
-            <ShopItem storeItem={storeItem} bind:action={buy} bind:numberOfItems={numberOfItems} />
-        </div>
-    {/each}
+    {#if buy}
+        {#each $unlocked as storeItem}
+            <div class="flex items-center gap-2">
+                <ShopItem storeItem={storeItem} bind:action={buy} bind:numberOfItems={numberOfItems} />
+            </div>
+        {/each}
+    {:else}
+        {#each $unlocked as storeItem}
+            <div class="flex items-center gap-2">
+                <ShopItem storeItem={storeItem} bind:action={buy} bind:numberOfItems={numberOfItems} />
+            </div>
+        {/each}
+    {/if}
 </div>
 
 <style>
