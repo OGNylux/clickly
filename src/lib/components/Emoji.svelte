@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { text } from "@sveltejs/kit";
-    import { SvelteComponent, onMount } from "svelte";
+    import { onMount } from "svelte";
 
     export let animated = false;
     export let emoji: String;
