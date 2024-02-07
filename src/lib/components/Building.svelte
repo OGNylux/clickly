@@ -26,7 +26,7 @@
         <button class="ml-2">
             <ArrowBigUpDash size={40} class="text-white"/>
         </button>
-        <div class="rounded-xl h-full w-32 p-2 text-center bg-slate-600 border-l-2 text-white">
+        <div class="rounded-xl h-full w-32 p-2 text-center bg-slate-600 text-white">
             <p class="text-4xl truncate">{$buildings[storeItem.index]}</p>
             {#if storeItem.index == 0}
                 <p class="text-sm truncate -m-2">{$buildings[storeItem.index]+1} E/c</p>
