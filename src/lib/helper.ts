@@ -27,13 +27,17 @@ export function getLevel(score: number) {
 
 export function unlockAllUnlockedItems(level: number) {
     unlocked.reset();
-    for (let i = 0; i <= level; i++) {
-        if (levelUpRewards[i]) {
-            levelUpRewards[i].forEach(item => {
-                unlocked.add(item);
-            });
-        }
-    }
+    unlocked.add(levelUpRewards[0][0]);
+    console.log('unlocked', unlocked)
+
+    // for (let i = 0; i <= level; i++) {
+    //     if (levelUpRewards[i]) {
+    //         levelUpRewards[i].forEach(item => {
+    //             unlocked.add(item);
+    //             console.log('unlocked', unlocked)
+    //         });
+    //     }
+    // }
 }
 
 export function unlockLevelUpReward(level: number) {

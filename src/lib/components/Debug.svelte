@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { buildings, crops, emojis, score, isClassic } from "$lib/store";
+    import { crops, emojis, score, isClassic } from "$lib/store";
     import { reset } from "$lib/save";
 
     let isVisible = false;
@@ -19,7 +19,6 @@
             <p>Score: {$score}</p>
             <p>Emoji count: {$emojis}</p>
             <p>Crops count: {$crops}</p>
-            <p>Buildings: {$buildings}</p>
             <p>Classic mode: {$isClassic ? "on" : "off"}</p>
             <div>
                 <button class="bg-sky-500 p-1 rounded" on:click={() => emojis.decrement(value)}>-💩</button>

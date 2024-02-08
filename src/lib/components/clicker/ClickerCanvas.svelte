@@ -1,13 +1,13 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { buildings } from '$lib/store';
+    import { unlocked } from '$lib/store';
 
     export let width = 0;
     
     let canvas: HTMLCanvasElement | null,
         context: CanvasRenderingContext2D | null,
         images: any[] = [],
-        imageCount = $buildings[0],
+        imageCount = 0,
         gravity = 0.5,
         friction = 0.9,
         fps = 60,
@@ -16,7 +16,6 @@
   
     onMount(() => {
         if (!canvas) return;
-
         context = canvas.getContext('2d');
         for(let i = 0; i < imageCount; i++) {
             if (images.length == 150) break;
@@ -74,9 +73,9 @@
         }
     }
 
-    $ : if ($buildings && canvas) {
-        if (imageCount < $buildings[0] && images.length < 150) {
-            imageCount = $buildings[0];
+    $ : if ($unlocked.length && canvas) {
+        if (imageCount < unlocked.get(0).getAmount() && images.length < 150) {
+            imageCount = unlocked.get(0).getAmount();
             for(let i = 0; i < imageCount; i++) {
                 let img = new Image();
                 img.src = 'emojis/heart.svg';
@@ -88,8 +87,8 @@
                     dy: (Math.random() - 0.5) * 10
                 });
             }
-        } else if (imageCount > $buildings[0]) {
-            imageCount = $buildings[0];
+        } else if (imageCount > unlocked.get(0).getAmount()) {
+            imageCount = unlocked.get(0).getAmount();
             images = images.slice(0, imageCount);
         }
     }

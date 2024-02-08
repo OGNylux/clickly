@@ -1,50 +1,35 @@
 <script lang="ts">
-    import type { StoreItem } from "$lib/data";
-    import { buildings, emojis } from "$lib/store";
+    import StoreItem from "$lib/data";
+    import { emojis, unlocked } from "$lib/store";
     import Tooltip from "./Tooltip.svelte";
 
-    export let storeItem: StoreItem;
+    export let indexStoreItem: number;
     export let action: boolean;
     export let numberOfItems: number;
 
-    let calculatePrice = action ? storeItem.initialCost : storeItem.sell;
-    let storePrice: number = getPrice();
+    let storeItem = $unlocked[indexStoreItem];
+    let storePrice: number = storeItem.nextCostFunction(1);
     let buyable: boolean = true
 
-    function getPrice() {
-        const valueMultiplier = storeItem.valueMultiplier * $buildings[storeItem.index];
-        return Math.round(calculatePrice * (valueMultiplier == 0 ? 1 : valueMultiplier));
-    }
-
-    function buy(amount = 1) {
-        for (let i = 1; i <= numberOfItems; i++) {
-            const cost = getPrice();
-            if ($emojis < cost * amount) {
-                return;
+    function buy() {
+        if($emojis >= storeItem.nextCostFunction(numberOfItems)){
+            emojis.decrement(storeItem.nextCostFunction(numberOfItems));
+            for (let i = 1; i <= numberOfItems; i++) {
+                storeItem.buy();
             }
-            
-            emojis.decrement(cost * amount);
-            buildings.increment(amount, storeItem.index);
+            return;
         }
     }
     
-    function sell(amount = 1) {
-        for (let i = 1; i <= numberOfItems; i++) {
-            const sell = getPrice();
-            if ($buildings[storeItem.index] <= 0) {
-                return;
-            }
-
-            emojis.increment(sell * amount);
-            buildings.decrement(amount, storeItem.index);
-        }
+    function sell() {
+        storeItem.sell();
     }
 
-    $ : if ($buildings[storeItem.index]){
-            storePrice = getPrice();
+    $ : if ($unlocked[indexStoreItem]){
+            storePrice = storeItem.nextCostFunction(1);
         }
 
-    $: if ($emojis < storePrice * numberOfItems || $buildings[storeItem.index] == 0) {
+    $: if ($emojis < storePrice * numberOfItems) {
         buyable = false;
     }else{
         buyable = true;
@@ -58,11 +43,7 @@
             <p>{storeItem.name}</p>
             <p>${storePrice}E</p>
             <div slot="tip">
-                {#if action}
-                    <p>+<span>{storeItem.incomeMultiplier * numberOfItems} E/s passives Einkommen</span></p>
-                {:else if $buildings[storeItem.index] > 0}
-                    <p>-<span>{storeItem.incomeMultiplier * $buildings[storeItem.index]} E/s passives Einkommen</span></p>
-                {/if}
+                <p>{storeItem.description}</p>
             </div>
         </Tooltip>
     </div>

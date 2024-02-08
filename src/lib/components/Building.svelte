@@ -1,6 +1,5 @@
 <script lang="ts">
-    import type { StoreItem } from "$lib/data";
-    import { buildings } from "$lib/store";
+    import  StoreItem  from "$lib/data";
     import Emoji from "./Emoji.svelte";
 
     export let storeItem: StoreItem;
@@ -12,5 +11,5 @@
     {:else}
         <img src={storeItem.image.src} alt="">
     {/if}
-    <p class="text-5xl">{$buildings[storeItem.index]}</p>
+    <p class="text-5xl">{storeItem.getAmount()}</p>
 </div>

@@ -24,15 +24,15 @@
     </div>
     <div class="border-slate-100 border-2 bg-slate-50 rounded-xl p-1">
         {#if buy}
-            {#each $unlocked as storeItem}
+            {#each $unlocked as _,i}
                 <div class="flex items-center py-1">
-                    <ShopItem storeItem={storeItem} bind:action={buy} bind:numberOfItems={numberOfItems} />
+                    <ShopItem indexStoreItem={i} bind:action={buy} bind:numberOfItems={numberOfItems} />
                 </div>
             {/each}
         {:else}
-            {#each $unlocked as storeItem}
+            {#each $unlocked as _,i}
                 <div class="flex items-center py-1">
-                    <ShopItem storeItem={storeItem} bind:action={buy} bind:numberOfItems={numberOfItems} />
+                    <ShopItem indexStoreItem={i} bind:action={buy} bind:numberOfItems={numberOfItems} />
                 </div>
             {/each}
         {/if}

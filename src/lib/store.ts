@@ -1,17 +1,18 @@
-import { writable } from "svelte/store";
-import type { StoreItem } from "$lib/data";
+import { writable,get } from "svelte/store";
+import StoreItem  from "$lib/data";
 
 // enable server communication and certain features
 export const isClassic = writable(true);
 
 
 function unlockedStore() {
-    const { subscribe, set, update } = writable<StoreItem[]>([]);
+    const store = writable<StoreItem[]>([]);
+    const { subscribe, set, update } = store;
     return {
         subscribe,
         add: (item: StoreItem) => update(n => [...n, item]),
-        remove: (item: StoreItem) => update(n => n.filter(i => i !== item)),
-        contains: (item: StoreItem) => subscribe(n => n.includes(item)),
+        contains: (item: StoreItem) => get(store).includes(item),
+        get: (index:number) => get(store)[index],
         reset: () => set([]),
     };
 }
@@ -43,19 +44,6 @@ function emojiStore () {
 }
 
 export const emojis = emojiStore();
-
-function buildingStore() {
-    const { subscribe, set, update } = writable<number[]>(Array(8).fill(0));
-    return {
-        subscribe,
-        increment: (incrementValue: number, index: number) => update(n => { n[index] += incrementValue; return n }),
-        decrement: (decrementValue: number, index: number) => update(n => { n[index] -= decrementValue; return n }),
-        set: (arr: number[]) => set(arr),
-        reset: () => set(Array(8).fill(0))
-    };
-}
-
-export const buildings = buildingStore();
 
 function scoreStore() {
     const { subscribe, set, update } = writable(0);

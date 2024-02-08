@@ -1,5 +1,5 @@
 import { browser } from "$app/environment";
-import { emojis, score, isClassic, buildings, unlocked} from "$lib/store";
+import { emojis, score, isClassic, unlocked} from "$lib/store";
 import { unlockAllUnlockedItems } from "./helper";
 
 /**
@@ -17,10 +17,6 @@ export function loadLocalStorage() {
 
             // convert string to array and save to buildings store
             const arr = buildingsLocal.slice(1,-1).split(",");
-            buildings.reset();
-            for (let i = 0; i < arr.length; i++) {
-               buildings.increment(Number(arr[i]),i);
-            }
         }
     }
 }
@@ -45,11 +41,6 @@ export function save() {
             localStorage.setItem('score', JSON.stringify(value));
         }
     });
-    buildings.subscribe(value => {
-        if (browser && classic) {
-            localStorage.setItem('buildings', JSON.stringify(value.toString()));
-        }
-    });
 }
 
 /**
@@ -58,7 +49,6 @@ export function save() {
 export function reset() {
     emojis.reset();
     score.reset();
-    buildings.reset();
     unlocked.reset();
     unlockAllUnlockedItems(0);
     if (browser) {
