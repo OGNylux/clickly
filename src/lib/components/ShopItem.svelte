@@ -20,33 +20,35 @@
         for (let i = 1; i <= numberOfItems; i++) {
             const cost = getPrice();
             if ($emojis < cost * amount) {
-                buyable = false;
                 return;
             }
             
             emojis.decrement(cost * amount);
             buildings.increment(amount, storeItem.index);
         }
-        buyable = true;
     }
     
     function sell(amount = 1) {
         for (let i = 1; i <= numberOfItems; i++) {
             const sell = getPrice();
             if ($buildings[storeItem.index] <= 0) {
-                buyable = false;
                 return;
             }
 
             emojis.increment(sell * amount);
             buildings.decrement(amount, storeItem.index);
         }
-        buyable = true;
     }
 
     $ : if ($buildings){
             storePrice = getPrice();
         }
+
+    $: if ($emojis < storePrice * numberOfItems) {
+        buyable = false;
+    }else{
+        buyable = true;
+    }
 </script>
 
 <div class="grid grid-flow-col grid-cols-4 place-content-start bg-slate-200 w-96 rounded-xl">
