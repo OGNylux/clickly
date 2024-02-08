@@ -22,7 +22,7 @@
         interval = 0;
 
     function incrementCount() {
-        const value = 1 + unlockedClicker.get(0).getInflunce();
+        const value = 1 + unlockedClicker.get(0).getInfluence();
         emojis.increment(value);
         score.increment(value);
     }
