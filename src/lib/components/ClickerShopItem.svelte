@@ -1,14 +1,11 @@
 <script lang="ts">
-    import StoreItem from "$lib/data";
     import { emojis, unlockedClicker } from "$lib/store";
     import Tooltip from "./Tooltip.svelte";
 
-    export let indexStoreItem: number;
     export let action: boolean;
     export let numberOfItems: number;
 
-    let storeItem = $unlockedClicker[indexStoreItem];
-    let storePrice: number = storeItem.nextCostFunction(1);
+    let storeItem = $unlockedClicker;
     let buyable: boolean = true
 
     function buy() {
@@ -17,7 +14,6 @@
             for (let i = 1; i <= numberOfItems; i++) {
                 storeItem.buy();
             }
-            return;
         }
     }
     
@@ -25,15 +21,8 @@
         storeItem.sell();
     }
 
-    $ : if ($unlockedClicker[indexStoreItem]){
-            storePrice = storeItem.nextCostFunction(1);
-        }
-
-    $: if ($emojis < storePrice * numberOfItems) {
-        buyable = false;
-    }else{
-        buyable = true;
-    }
+    $: if ($emojis < $unlockedClicker.nextCostFunction(1) * numberOfItems) buyable = false;
+       else buyable = true;
 </script>
 
 <div class="grid grid-flow-col grid-cols-4 place-content-start bg-slate-200 w-96 rounded-xl">
@@ -41,7 +30,7 @@
     <div class="flex flex-col justify-between p-2 col-span-2">
         <Tooltip>
             <p>{storeItem.name}</p>
-            <p>${storePrice}E</p>
+            <p>${$unlockedClicker.nextCostFunction(1)}E</p>
             <div slot="tip">
                 <p>{storeItem.description}</p>
             </div>

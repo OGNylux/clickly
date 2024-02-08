@@ -73,9 +73,9 @@
         }
     }
 
-    $ : if ($unlockedClicker.length && canvas) {
-        if (imageCount < unlockedClicker.get(0).getAmount() && images.length < 150) {
-            imageCount = unlockedClicker.get(0).getAmount();
+    $ : if ($unlockedClicker.getAmount() && canvas) {
+        if (imageCount < $unlockedClicker.getAmount() && images.length < 150) {
+            imageCount = $unlockedClicker.getAmount();
             for(let i = 0; i < imageCount; i++) {
                 let img = new Image();
                 img.src = 'emojis/heart.svg';
@@ -87,8 +87,8 @@
                     dy: (Math.random() - 0.5) * 10
                 });
             }
-        } else if (imageCount > unlockedClicker.get(0).getAmount()) {
-            imageCount = unlockedClicker.get(0).getAmount();
+        } else if (imageCount > $unlockedClicker.getAmount()) {
+            imageCount = $unlockedClicker.getAmount();
             images = images.slice(0, imageCount);
         }
     }

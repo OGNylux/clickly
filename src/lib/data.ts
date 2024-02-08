@@ -1,4 +1,4 @@
-import { unlockedClicker } from "./store";
+import { unlockedClicker,unlockedPassiveItems } from "./store";
 
 interface Item {
     amount: number;
@@ -44,11 +44,12 @@ abstract class StoreItem {
     }
 
     abstract nextCostFunction(count:number): number;
+    // 
     abstract getInfluence(): number;
 
     buy() {
         this.amount++;
-        unlockedClicker.update(this);
+        unlockedPassiveItems.update(this);
     }
 
     sell() {
@@ -64,20 +65,33 @@ class ClickerItem extends StoreItem {
     multiplier: number;
     costMultiplier: number;
 
-    constructor(item: Item, multiplier: number = 1, costMultiplier: number) {
-        super(item);
-        this.multiplier = multiplier;
-        this.costMultiplier = costMultiplier;
+    constructor() {
+        super({
+            amount: 0,
+            name: "Emoji Upgrade",
+            description: "lol",
+            image: { src: "emojis/heart.svg", alt: "clicker emoji" },
+            initialCost: 30,
+            max: Infinity
+        });
+        this.multiplier = 1;
+        this.costMultiplier = 1.2;
     }
 
     nextCostFunction(count:number): number {
         if (count <=0) return 0;
         if(this.amount == 0) return this.initialCost;
-        return this.initialCost + ((this.amount+count) * this.costMultiplier? this.costMultiplier : 1);
+        return Math.round(this.initialCost + ((this.amount+count) * this.costMultiplier? this.costMultiplier : 1));
     }
+
 
     getInfluence(): number {
         return this.amount * this.multiplier;
+    }
+
+    buy() {
+        this.amount++;
+        unlockedClicker.update(this);
     }
 
     setImage(src: string, alt: string) {
@@ -110,17 +124,7 @@ class NerdEmoji extends StoreItem {
 
 }
 
-export default StoreItem;
-
-
-let clicker = new ClickerItem({
-    amount: 0,
-    name: "Emoji Upgrade",
-    description: "Increses the amount of emojis per click by 2",
-    image: { src: "emojis/heart.svg", alt: "clicker emoji" },
-    initialCost: 30,
-    max: Infinity
-}, 2, 1.2);
+export {StoreItem, ClickerItem, NerdEmoji};
 
 // const clicker: StoreItem = {
 //     index: 0,
@@ -203,5 +207,5 @@ export const levelScores = [2000, 5000, 10000, 50000];
  * Note that you can also skip levels, e.g. level 2 has no rewards, but level 3 and 1 has.
  */
 export const levelUpRewards: Record<number, StoreItem[]> = {
-    0: [clicker],
+    0: [],
 }

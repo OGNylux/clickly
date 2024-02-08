@@ -26,9 +26,9 @@ export function getLevel(score: number) {
 }
 
 export function unlockAllunlockedClickerItems(level: number) {
-    unlockedClicker.reset();
-    unlockedClicker.add(levelUpRewards[0][0]);
-    console.log('unlockedClicker', unlockedClicker)
+    // unlockedClicker.reset();
+    // unlockedClicker.add(levelUpRewards[0][0]);
+    // console.log('unlockedClicker', unlockedClicker)
 
     // for (let i = 0; i <= level; i++) {
     //     if (levelUpRewards[i]) {
@@ -41,11 +41,11 @@ export function unlockAllunlockedClickerItems(level: number) {
 }
 
 export function unlockLevelUpReward(level: number) {
-    if (levelUpRewards[level]) {
-        levelUpRewards[level].forEach(item => {
-            if (!unlockedClicker.contains(item)) {
-                unlockedClicker.add(item);
-            }
-        });
-    }
+    // if (levelUpRewards[level]) {
+    //     levelUpRewards[level].forEach(item => {
+    //         if (!unlockedClicker.contains(item)) {
+    //             unlockedClicker.add(item);
+    //         }
+    //     });
+    // }
 }

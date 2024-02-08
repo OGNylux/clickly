@@ -1,24 +1,34 @@
 import { writable,get } from "svelte/store";
-import StoreItem  from "$lib/data";
+import { ClickerItem, StoreItem } from "$lib/data";
+
 
 // enable server communication and certain features
 export const isClassic = writable(true);
 
 
-function unlockedClickerClickerStore() {
+function clickerStoreFunc() {
+    const store = writable(new ClickerItem());
+    const { subscribe, set, update } = store;
+    return {
+        subscribe,
+        update: (item: ClickerItem) => update(n =>item),
+        get: () => get(store),
+        reset: () => set(new ClickerItem()),
+    };
+}
+export const unlockedClicker = clickerStoreFunc();
+
+function passiveStoreItems() {
     const store = writable<StoreItem[]>([]);
     const { subscribe, set, update } = store;
     return {
         subscribe,
-        add: (item: StoreItem) => update(n => [...n, item]),
-        contains: (item: StoreItem) => get(store).includes(item),
-        update: (item: StoreItem) => update(n => n.filter(x => x.name == item.name )),
-        get: (index:number) => get(store)[index],
+        update: (item: StoreItem) => update(n => n.filter(x => x.name == item.name)),
+        get: () => get(store),
         reset: () => set([]),
     };
 }
-
-export const unlockedClicker = unlockedClickerClickerStore();
+export const unlockedPassiveItems = passiveStoreItems();
 
 function cropStore() {
     const { subscribe, set, update } = writable(0);

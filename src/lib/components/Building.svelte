@@ -1,5 +1,5 @@
 <script lang="ts">
-    import  StoreItem  from "$lib/data";
+    import { StoreItem } from "$lib/data";
     import Emoji from "./Emoji.svelte";
 
     export let storeItem: StoreItem;
