@@ -12,7 +12,7 @@ function unlockedStore() {
         subscribe,
         add: (item: StoreItem) => update(n => [...n, item]),
         contains: (item: StoreItem) => get(store).includes(item),
-        update: (item: StoreItem) => update(n => n.filter(x => x == item )),
+        update: (item: StoreItem) => update(n => n.filter(x => x.name == item.name )),
         get: (index:number) => get(store)[index],
         reset: () => set([]),
     };
