@@ -40,7 +40,7 @@
         }
     }
 
-    $ : if ($buildings){
+    $ : if ($buildings[storeItem.index]){
             storePrice = getPrice();
         }
 
