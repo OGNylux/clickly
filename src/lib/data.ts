@@ -1,3 +1,5 @@
+import { unlocked } from "./store";
+
 interface Item {
     amount: number;
     name: string;
@@ -40,6 +42,7 @@ abstract class StoreItem {
         this.amount++;
         console.log("buyed on");
         console.log(this.amount);
+        unlocked.update(this);
     }
 
     sell() {
@@ -51,7 +54,6 @@ abstract class StoreItem {
     }
 
 }
-export default StoreItem;
 
 class ClickerItem extends StoreItem {
     incomeMultiplier: number;
@@ -81,6 +83,8 @@ class ClickerItem extends StoreItem {
     }
 }
 
+
+export default StoreItem;
 // export interface StoreItem {
 //     index: number;
 //     name: string;
