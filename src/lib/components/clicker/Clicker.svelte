@@ -1,6 +1,6 @@
 <script lang="ts">
     import { formatNumber, getLevel, getLevelupScore, unlockLevelUpReward } from '$lib/helper';
-    import { emojis, score, unlocked } from '$lib/store';
+    import { emojis, score, unlockedClicker } from '$lib/store';
     import { beforeUpdate, onDestroy, onMount } from 'svelte';
     import { tweened } from 'svelte/motion';
     import { cubicOut } from 'svelte/easing';
@@ -22,7 +22,7 @@
         interval = 0;
 
     function incrementCount() {
-        const value = 1 + unlocked.get(0).getInflunce();
+        const value = 1 + unlockedClicker.get(0).getInflunce();
         emojis.increment(value);
         score.increment(value);
     }
@@ -34,8 +34,8 @@
 
         interval = setInterval(() => {
             // TODO
-            // for (let i = 1; i < $unlocked.length; i++) {
-            //     const income = $buildings[i] * $unlocked[i].incomeMultiplier;
+            // for (let i = 1; i < $unlockedClicker.length; i++) {
+            //     const income = $buildings[i] * $unlockedClicker[i].incomeMultiplier;
             //     if (income == 0) continue;
 
             //     passiveIncome[i] = income;

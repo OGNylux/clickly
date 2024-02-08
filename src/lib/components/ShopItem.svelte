@@ -1,13 +1,13 @@
 <script lang="ts">
     import StoreItem from "$lib/data";
-    import { emojis, unlocked } from "$lib/store";
+    import { emojis, unlockedClicker } from "$lib/store";
     import Tooltip from "./Tooltip.svelte";
 
     export let indexStoreItem: number;
     export let action: boolean;
     export let numberOfItems: number;
 
-    let storeItem = $unlocked[indexStoreItem];
+    let storeItem = $unlockedClicker[indexStoreItem];
     let storePrice: number = storeItem.nextCostFunction(1);
     let buyable: boolean = true
 
@@ -25,7 +25,7 @@
         storeItem.sell();
     }
 
-    $ : if ($unlocked[indexStoreItem]){
+    $ : if ($unlockedClicker[indexStoreItem]){
             storePrice = storeItem.nextCostFunction(1);
         }
 

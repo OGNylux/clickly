@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { unlocked } from '$lib/store';
+    import { unlockedClicker } from '$lib/store';
 
     export let width = 0;
     
@@ -73,9 +73,9 @@
         }
     }
 
-    $ : if ($unlocked.length && canvas) {
-        if (imageCount < unlocked.get(0).getAmount() && images.length < 150) {
-            imageCount = unlocked.get(0).getAmount();
+    $ : if ($unlockedClicker.length && canvas) {
+        if (imageCount < unlockedClicker.get(0).getAmount() && images.length < 150) {
+            imageCount = unlockedClicker.get(0).getAmount();
             for(let i = 0; i < imageCount; i++) {
                 let img = new Image();
                 img.src = 'emojis/heart.svg';
@@ -87,8 +87,8 @@
                     dy: (Math.random() - 0.5) * 10
                 });
             }
-        } else if (imageCount > unlocked.get(0).getAmount()) {
-            imageCount = unlocked.get(0).getAmount();
+        } else if (imageCount > unlockedClicker.get(0).getAmount()) {
+            imageCount = unlockedClicker.get(0).getAmount();
             images = images.slice(0, imageCount);
         }
     }

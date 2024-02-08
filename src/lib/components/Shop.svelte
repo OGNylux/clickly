@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { unlocked } from "$lib/store";
+    import { unlockedClicker } from "$lib/store";
     import ShopItem from "./ShopItem.svelte";
     
     let buy = true;
@@ -24,13 +24,13 @@
     </div>
     <div class="border-slate-100 border-2 bg-slate-50 rounded-xl p-1">
         {#if buy}
-            {#each $unlocked as _,i}
+            {#each $unlockedClicker as _,i}
                 <div class="flex items-center py-1">
                     <ShopItem indexStoreItem={i} bind:action={buy} bind:numberOfItems={numberOfItems} />
                 </div>
             {/each}
         {:else}
-            {#each $unlocked as _,i}
+            {#each $unlockedClicker as _,i}
                 <div class="flex items-center py-1">
                     <ShopItem indexStoreItem={i} bind:action={buy} bind:numberOfItems={numberOfItems} />
                 </div>

@@ -1,4 +1,4 @@
-import { unlocked } from "./store";
+import { unlockedClicker } from "./store";
 
 interface Item {
     amount: number;
@@ -42,7 +42,7 @@ abstract class StoreItem {
         this.amount++;
         console.log("buyed on");
         console.log(this.amount);
-        unlocked.update(this);
+        unlockedClicker.update(this);
     }
 
     sell() {
@@ -85,26 +85,6 @@ class ClickerItem extends StoreItem {
 
 
 export default StoreItem;
-// export interface StoreItem {
-//     index: number;
-//     name: string;
-//     description: string;
-//     component?: string;
-//     image: {
-//         src: string;
-//         alt: string;
-//     };
-//     incomeMultiplier: number;
-//     // The operation takes can perform the scaling of the profit
-//     operation?: (n: number, m: number) => number;
-//     initialCost: number;
-//     valueMultiplier: number;
-//     priceFunction?: (amount: number) => number;
-//     // describes the change in the buy/sell value of the emoji (measured in E)
-//     cropsCost: number;
-//     sell: number;
-//     max: number;
-// }
 
 
 let clicker = new ClickerItem({

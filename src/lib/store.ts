@@ -5,7 +5,7 @@ import StoreItem  from "$lib/data";
 export const isClassic = writable(true);
 
 
-function unlockedStore() {
+function unlockedClickerClickerStore() {
     const store = writable<StoreItem[]>([]);
     const { subscribe, set, update } = store;
     return {
@@ -18,7 +18,7 @@ function unlockedStore() {
     };
 }
 
-export const unlocked = unlockedStore();
+export const unlockedClicker = unlockedClickerClickerStore();
 
 function cropStore() {
     const { subscribe, set, update } = writable(0);
