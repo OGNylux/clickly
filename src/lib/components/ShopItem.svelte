@@ -44,7 +44,7 @@
             storePrice = getPrice();
         }
 
-    $: if ($emojis < storePrice * numberOfItems || $buildings[storeItem.index] <= 0) {
+    $: if ($emojis < storePrice * numberOfItems || $buildings[storeItem.index] == 0) {
         buyable = false;
     }else{
         buyable = true;
