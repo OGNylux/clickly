@@ -13,6 +13,12 @@ interface Item {
     max: number;
 }
 
+/*
+ * When do you need a new class?
+ * When you need custom behavior for the nextCostFunction or getInfluence function.
+ * Like an array that contains the specific cost values for each upgrade.
+ */
+
 abstract class StoreItem {
     // contains the amount of items the player has
     protected amount: number = 0;
@@ -44,17 +50,22 @@ abstract class StoreItem {
     }
 
     abstract nextCostFunction(count:number): number;
-    
-    // Is the function that gives the influence on the to influenced value back
+
+    /* When you only want to buy items, you dont need this function.
+     * When you want to INFLUENCE the game then override this function.
+     * In this function you can calculate the influence on a given value (that is defined sonewhere else)
+     * e.g.: Passive income should not be increased by 1 per upgrade, but by 1% of the current income.
+     */
+
     abstract getInfluence(): number;
 
-    buy() {
-        this.amount++;
+    buy(amount: number = 1) {
+        this.amount = this.amount + amount;
         unlockedPassiveItems.update(this);
     }
 
-    sell() {
-        this.amount--;
+    sell(amount: number = 1) {
+        this.amount = this.amount - amount;
     }
 
     getAmount() {
@@ -101,31 +112,7 @@ class ClickerItem extends StoreItem {
     }
 }
 
-class NerdEmoji extends StoreItem {
-    incomeMultiplier: number;
-    valueMultiplier: number;
-    cropsCost: number;
-
-    constructor(item: Item, incomeMultiplier: number, valueMultiplier: number, cropsCost: number) {
-        super(item);
-        this.incomeMultiplier = incomeMultiplier;
-        this.valueMultiplier = valueMultiplier;
-        this.cropsCost = cropsCost;
-    }
-
-    nextCostFunction(count:number): number {
-        if (count <=0) return 0;
-        if(this.amount == 0) return this.initialCost;
-        return this.initialCost + ((this.amount+count) * this.valueMultiplier);
-    }
-
-    getInfluence(): number {
-        return this.amount * this.valueMultiplier;
-    }
-
-}
-
-export {StoreItem, ClickerItem, NerdEmoji};
+export {StoreItem, ClickerItem};
 
 // const clicker: StoreItem = {
 //     index: 0,
