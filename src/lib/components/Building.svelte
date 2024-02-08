@@ -1,10 +1,33 @@
 <script lang="ts">
     import type { StoreItem } from "$lib/data";
-    import { buildings } from "$lib/store";
+    import { buildings, buildingMultipliers } from "$lib/store";
     import Emoji from "./Emoji.svelte";
     import { ArrowBigUpDash } from 'lucide-svelte';
 
     export let storeItem: StoreItem;
+
+    // // this is just a placeholder for now until we refactor the data.ts
+    // const initialUpgradeCost = 1;
+    // const upgradeCostMultiplier = 1.4;
+
+    // const buildingMultiplier = $buildingMultipliers[storeItem.index];
+
+    // function getUpgradeCost() {
+    //     const costMultiplier = upgradeCostMultiplier * buildingMultiplier;
+    //     return Math.round(initialUpgradeCost * (costMultiplier == 0 ? 1 : costMultiplier));
+    // }
+
+    // function buy(amount = 1) {
+    //     const cost = getUpgradeCost();
+    //     if ($buildingMultipliers < cost * amount) return;
+        
+    //     emojis.decrement(cost * amount);
+    //     buildings.increment(amount, storeItem.index);
+    // }
+
+    // $ : if ($buildings){
+    //         storePrice = getCost();
+    //     }
 
 </script>
 

@@ -4,6 +4,9 @@ import type { StoreItem } from "$lib/data";
 // enable server communication and certain features
 export const isClassic = writable(true);
 
+// no magic numbers pls 👉👈
+// maybe dinamically calculate this based on the data.ts file?
+const numberOfBuildings = 8;
 
 function unlockedStore() {
     const { subscribe, set, update } = writable<StoreItem[]>([]);
@@ -45,7 +48,7 @@ function emojiStore () {
 export const emojis = emojiStore();
 
 function buildingStore() {
-    const { subscribe, set, update } = writable<number[]>(Array(8).fill(0));
+    const { subscribe, set, update } = writable<number[]>(Array(numberOfBuildings).fill(0));
     return {
         subscribe,
         increment: (incrementValue: number, index: number) => update(n => { n[index] += incrementValue; return n }),
@@ -56,6 +59,19 @@ function buildingStore() {
 }
 
 export const buildings = buildingStore();
+
+function buildingMultiplierStore() {
+    const { subscribe, set, update } = writable<number[]>(Array(numberOfBuildings).fill(0));
+    return {
+        subscribe,
+        increment: (incrementValue: number, index: number) => update(n => { n[index] += incrementValue; return n }),
+        decrement: (decrementValue: number, index: number) => update(n => { n[index] -= decrementValue; return n }),
+        set: (arr: number[]) => set(arr),
+        reset: () => set(Array(8).fill(0))
+    };
+}
+
+export const buildingMultipliers = buildingMultiplierStore();
 
 function scoreStore() {
     const { subscribe, set, update } = writable(0);

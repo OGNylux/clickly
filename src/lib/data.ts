@@ -22,7 +22,7 @@ export interface StoreItem {
 const clicker: StoreItem = {
     index: 0,
     name: 'Emoji Upgrade',
-    description: 'Increses the amount of emojis per click',
+    description: 'Increases the amount of emojis per click',
     image: {
         src: 'emojis/heart.svg',
         alt: 'clicker emoji',
@@ -39,7 +39,7 @@ const nerd: StoreItem = {
     index: 1,
     component: 'NerdEmoji',
     name: 'Nerd Face',
-    description: 'your mother',
+    description: 'your mother :(',
     image: {
         src: 'emojis/nerd.svg',
         alt: 'nerd face',
