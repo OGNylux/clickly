@@ -44,7 +44,8 @@ abstract class StoreItem {
     }
 
     abstract nextCostFunction(count:number): number;
-    // 
+    
+    // Is the function that gives the influence on the to influenced value back
     abstract getInfluence(): number;
 
     buy() {
