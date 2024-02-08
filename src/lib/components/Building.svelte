@@ -6,14 +6,13 @@
 
     export let storeItem: StoreItem;
 
-    let test = false
 </script>
 
 <div class="flex bg-slate-200 w-96 rounded-xl">
-    <div class="m-2 w-full">
-        <p>{storeItem.name}</p>
+    <div class="m-2 mt-1 w-full">
+        <p class="font-bold">{storeItem.name}</p>
         <div class="flex h-8 -space-x-4 rtl:space-x-reverse">
-            {#each {length: Math.min($buildings[storeItem.index], 10)} as _}
+            {#each {length: Math.min($buildings[storeItem.index]+1, 10)} as _}
                 {#if storeItem.component}
                     <Emoji emoji={storeItem.component} animated={true} />
                 {:else}
@@ -22,11 +21,13 @@
             {/each}
         </div>
     </div>
-    <div class="flex rounded-xl bg-slate-500 justify-self-end justify-center items-center upgrade_button">
-        <button class="ml-2">
-            <ArrowBigUpDash size={40} class="text-white"/>
-        </button>
-        <div class="rounded-xl h-full w-32 p-2 text-center border-slate-200 border-2 bg-slate-600 text-white">
+    <div class="flex -space-x-9 rtl:space-x-reverse">
+        <div class="flex rounded-xl bg-slate-500 upgrade_button border-slate-200 border-2">
+            <button class="ml-2 mr-10">
+                <ArrowBigUpDash size={40} class="text-white"/>
+            </button>
+        </div>
+        <div class="rounded-xl h-full w-32 p-2 text-center border-2 bg-slate-600 text-white">
             <p class="text-4xl truncate">{$buildings[storeItem.index]}</p>
             {#if storeItem.index == 0}
                 <p class="text-sm truncate -m-2">{$buildings[storeItem.index]+1} E/c</p>
