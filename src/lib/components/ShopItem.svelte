@@ -8,7 +8,7 @@
     export let numberOfItems: number;
 
     let calculatePrice = action ? storeItem.initialCost : storeItem.sell;
-    let storePrice: number;
+    let storePrice: number = getPrice();
     let buyable: boolean = true
 
     function getPrice() {
