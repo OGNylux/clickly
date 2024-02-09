@@ -11,7 +11,7 @@ function clickerStoreFunc() {
     const { subscribe, set, update } = store;
     return {
         subscribe,
-        update: (item: ClickerItem) => update(n =>item),
+        update: (item: ClickerItem) => update(_=>item),
         get: () => get(store),
         reset: () => set(new ClickerItem()),
     };

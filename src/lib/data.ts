@@ -1,3 +1,6 @@
+import { unlockedClicker,unlockedPassiveItems } from "./store";
+
+
 interface Item {
     name: string;
     description: string;
@@ -56,13 +59,15 @@ abstract class StoreItem {
 
     addItem(amount: number = 1) {
         if (this.amount + amount > this.max) return;
-        this.amount = this.amount + amount;
+        this.amount = this.amount + amount;  
+        unlockedPassiveItems.update(this);
     }
 
     // sell a given amount of items and get half of the cost back
     removeItem(amount: number = 1) {
         if (this.amount - amount < 0) return;
         this.amount = this.amount - amount;
+        unlockedPassiveItems.update(this);
     }
 
     getAmount() {
@@ -92,6 +97,19 @@ class ClickerItem extends StoreItem {
 
     getInfluence(): number {
         return this.amount * this.multiplier;
+    }
+
+    
+    addItem(amount: number = 1) {
+        this.amount = this.amount + amount;  
+        unlockedClicker.update(this);
+    }
+
+    // sell a given amount of items and get half of the cost back
+    removeItem(amount: number = 1) {
+        if (this.amount - amount < 0) return;
+        this.amount = this.amount - amount;
+        unlockedClicker.update(this);
     }
 
     setImage(src: string, alt: string) {
