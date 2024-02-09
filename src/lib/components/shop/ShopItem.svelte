@@ -9,7 +9,6 @@
     let item: StoreItem = $unlockedPassiveItems[itemIndex];
 
     unlockedPassiveItems.subscribe((value) => {
-        console.log(value);
         item = value[itemIndex];
     });
 
