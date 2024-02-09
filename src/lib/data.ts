@@ -48,13 +48,11 @@ abstract class StoreItem {
     }
 
     abstract nextCost(count: number): number;
-
-    /* When you only want to buy items, you dont need this function.
-     * When you want to INFLUENCE the game then override this function.
-     * In this function you can calculate the influence on a given value (that is defined sonewhere else)
-     * e.g.: Passive income should not be increased by 1 per upgrade, but by 1% of the current income.
+    /**
+     * This function returns the influence of the item.
+     * The influence is the value that the item has on the game.
+     * e.g. the clicker item has an influence of 1, because it increases the amount of emojis per click by 1.
      */
-
     abstract getInfluence(): number;
 
     addItem(amount: number = 1) {
@@ -91,7 +89,7 @@ class ClickerItem extends StoreItem {
     constructor() {
         super({
             name: "Emoji Upgrade",
-            description: "lol",
+            description: "Increses the amount of emojis per click",
             image: { src: "emojis/heart.svg", alt: "clicker emoji" },
             initialCost: 30,
             max: Infinity
@@ -157,7 +155,7 @@ class PassiveIncomeItem extends StoreItem {
     }
 }
 
-// sollte das nicht passiveicome extenden?
+// @Johannes sollte das nicht passiveicome extenden?
 class ExpensivePassiveIncomeItem extends StoreItem {
     costArray: number[];
     incomeArray: number[];
@@ -181,15 +179,6 @@ class ExpensivePassiveIncomeItem extends StoreItem {
     }
 
 }
-let costArray = [300, 500, 1000, 2000, 5000];
-let incomeArray = [0, 6, 12, 30, 33, 96];
-
-let expensiveHot = new ExpensivePassiveIncomeItem(
-    { name: "expensive hot face", 
-    description: "hot face", 
-    image: { src: "emojis/hot.svg", 
-    alt: "hot face" 
-}, initialCost: Infinity, max: costArray.length }, costArray, incomeArray);
 
 // Hier werden die Werte direkt in der Klasse definiert, falls man weiß das Custom verhalten gibt es nur einmal
 class EasyExpensivePassiveIncomeItem extends StoreItem {
@@ -212,83 +201,57 @@ class EasyExpensivePassiveIncomeItem extends StoreItem {
     }
 }
 
+class FarmItem {
+    protected amount: number = 0;
+    planted: number = 0;
+    readonly name: string;
+    readonly description: string;
+    readonly value: number;
+    // how long it takes the FarmItem to grow in ms
+    growthTime: number;
+    image: {
+        src: string;
+        alt: string;
+    };
+
+    constructor(name: string, description: string, value: number, growthTime: number, image: { src: string, alt: string }) {
+        this.name = name;
+        this.description = description;
+        this.value = value;
+        this.growthTime = growthTime;
+        this.image = image;
+    }
+
+    plant() {
+        if (this.planted + 1 > this.amount) return;
+
+        this.planted += 1;
+    }
+
+    harvest() {
+        if (this.planted - 1 < 0) return;
+
+        this.planted -= 1;
+    }
+
+    getAmount() {
+        return this.amount;
+    }
+}
+
+let nerd = new PassiveIncomeItem({ name: "Nerd Face", description: "your mother", image: { src: "emojis/nerd.svg", alt: "nerd face" }, initialCost: 10, max: Infinity }, 1, 1.2, "NerdEmoji");
+let blushed = new PassiveIncomeItem({ name: "blushed face", description: "blushed face", image: { src: "emojis/blushed.svg", alt: "blushed face" }, initialCost: 100, max: Infinity }, 3, 1.4, "BlushedEmoji");
 let easyHot = new EasyExpensivePassiveIncomeItem();
 
+let costArray = [300, 500, 1000, 2000, 5000];
+let incomeArray = [0, 6, 12, 30, 33, 96];
+let expensiveHot = new ExpensivePassiveIncomeItem(
+    { name: "expensive hot face", 
+    description: "hot face", 
+    image: { src: "emojis/hot.svg", 
+    alt: "hot face" 
+}, initialCost: Infinity, max: costArray.length }, costArray, incomeArray);
 
-export { StoreItem, ClickerItem, PassiveIncomeItem };
-
-// Neues Item CHECK
-let nerd = new PassiveIncomeItem({ name: "Nerd Face", description: "your mother", image: { src: "emojis/nerd.svg", alt: "nerd face" }, initialCost: 10, max: Infinity }, 1, 1.2, "NerdEmoji");
-
-// GUCKT UNTEN
-let blushed = new PassiveIncomeItem({ name: "blushed face", description: "blushed face", image: { src: "emojis/blushed.svg", alt: "blushed face" }, initialCost: 100, max: Infinity }, 3, 1.4, "BlushedEmoji");
-
-// const clicker: StoreItem = {
-//     index: 0,
-//     name: 'Emoji Upgrade',
-//     description: 'Increses the amount of emojis per click',
-//     image: {
-//         src: 'emojis/heart.svg',
-//         alt: 'clicker emoji',
-//     },
-//     incomeMultiplier: 1,
-//     initialCost: 30,
-//     valueMultiplier: 1.2,
-//     sell: 5,
-//     cropsCost: 0,
-//     max: Infinity,
-// }
-
-// const nerd: StoreItem = {
-//     index: 1,
-//     component: 'NerdEmoji',
-//     name: 'Nerd Face',
-//     description: 'your mother',
-//     image: {
-//         src: 'emojis/nerd.svg',
-//         alt: 'nerd face',
-//     },
-//     incomeMultiplier: 1,
-//     initialCost: 10,
-//     valueMultiplier: 1.2,
-//     sell: 5,
-//     cropsCost: 0,
-//     max: Infinity,
-// }
-
-// const blushed: StoreItem = {
-//     index: 2,
-//     component: 'BlushedEmoji',
-//     name: 'blushed face',
-//     description: 'blushed face',
-//     image: {
-//         src: 'emojis/blushed.svg',
-//         alt: 'blushed face',
-//     },
-//     incomeMultiplier: 3,
-//     initialCost: 100,
-//     valueMultiplier: 1.4,
-//     sell: 50,
-//     cropsCost: 0,
-//     max: Infinity,
-// }
-
-// const hot: StoreItem = {
-//     index: 3,
-//     component: 'HotEmoji',
-//     name: 'hot face',
-//     description: 'hot face',
-//     image: {
-//         src: 'emojis/hot.svg',
-//         alt: 'hot face',
-//     },
-//     incomeMultiplier: 6,
-//     initialCost: 300,
-//     valueMultiplier: 1.5,
-//     sell: 50,
-//     cropsCost: 0,
-//     max: Infinity,
-// }
 
 /**
  * This array contains the scores needed to level up.
@@ -307,3 +270,5 @@ export const levelUpRewards: Record<number, StoreItem[]> = {
     0: [nerd, blushed, expensiveHot],
     1: [easyHot],
 }
+
+export { StoreItem, ClickerItem, PassiveIncomeItem };
