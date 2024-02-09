@@ -4,8 +4,12 @@
     export let action: boolean;
     export let numberOfItems: number;
 
-    let storeItem = $unlockedClicker;
     let buyable = true;
+    let marketValue: number;
+
+    $: if (!action)
+        marketValue = Math.round($unlockedClicker.nextCost(numberOfItems) * 0.3);
+    else marketValue = $unlockedClicker.nextCost(numberOfItems);
 
     function buyClick() {
         if ($emojis < $unlockedClicker.nextCost(numberOfItems)) return;
@@ -14,6 +18,7 @@
     }
 
     function sellClick() {
+        if ($unlockedClicker.getAmount() == 0) return;
         let sellValue = Math.round(
             $unlockedClicker.nextCost(numberOfItems) * 0.3,
         );
@@ -33,10 +38,14 @@
 <div
     class="grid grid-flow-col grid-cols-4 place-content-start bg-slate-200 w-96 rounded-xl"
 >
-    <img src={storeItem.image.src} alt="" class="size-16 p-2 drop-shadow-xl" />
+    <img
+        src={$unlockedClicker.image.src}
+        alt=""
+        class="size-16 p-2 drop-shadow-xl"
+    />
     <div class="flex flex-col justify-between p-2 col-span-2">
         <p>{$unlockedClicker.name}</p>
-        <p>{$unlockedClicker.nextCost(numberOfItems)}</p>
+        <p>{marketValue}</p>
     </div>
 
     {#if $unlockedClicker.getAmount() == 0 && action == false}
