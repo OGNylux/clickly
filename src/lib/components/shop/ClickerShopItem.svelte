@@ -18,7 +18,7 @@
             $unlockedClicker.nextCost(numberOfItems) * 0.3,
         );
         $unlockedClicker.removeItem(numberOfItems);
-        $emojis -= sellValue;
+        $emojis += sellValue;
     }
 
     //Sellen kann man immer

@@ -170,7 +170,7 @@ let hot = new ExpensivePassiveIncomeItem(
     alt: "hot face" 
 }, initialCost: Infinity, max: costArray.length }, costArray, incomeArray);
 
-
+// Hier werden die Werte direkt in der Klasse definiert, falls man weiß das Custom verhalten gibt es nur einmal
 class EasyExpensivePassiveIncomeItem extends StoreItem {
     costArray: number[] = [300, 500, 1000, 2000, 5000];
     incomeArray: number[] = [0, 6, 12, 30, 33, 96];

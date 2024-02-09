@@ -23,7 +23,7 @@
     function sellClick() {
         let sellValue = Math.round(item.nextCost(numberOfItems) * 0.3);
         item.removeItem(numberOfItems);
-        $emojis -= sellValue;
+        $emojis += sellValue;
     }
 
     //Sellen kann man immer
