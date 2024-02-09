@@ -160,15 +160,6 @@ class ExpensivePassiveIncomeItem extends StoreItem {
     }
 
 }
-
-export { StoreItem, ClickerItem, PassiveIncomeItem };
-
-// Neues Item CHECK
-let nerd = new PassiveIncomeItem({ name: "Nerd Face", description: "your mother", image: { src: "emojis/nerd.svg", alt: "nerd face" }, initialCost: 10, max: Infinity }, 1, 1.2);
-
-// GUCKT UNTEN
-let blushed = new PassiveIncomeItem({ name: "blushed face", description: "blushed face", image: { src: "emojis/blushed.svg", alt: "blushed face" }, initialCost: 100, max: Infinity }, 3, 1.4);
-
 let costArray = [300, 500, 1000, 2000, 5000];
 let incomeArray = [0, 6, 12, 30, 33, 96];
 
@@ -178,6 +169,39 @@ let hot = new ExpensivePassiveIncomeItem(
     image: { src: "emojis/hot.svg", 
     alt: "hot face" 
 }, initialCost: Infinity, max: costArray.length }, costArray, incomeArray);
+
+
+class EasyExpensivePassiveIncomeItem extends StoreItem {
+    costArray: number[] = [300, 500, 1000, 2000, 5000];
+    incomeArray: number[] = [0, 6, 12, 30, 33, 96];
+    constructor(){
+        super({ name: "easy", description: "easy", image: { src: "emojis/hot.svg", alt: "hot face" }, initialCost: 300, max: 5 });
+    }
+
+    nextCost(count: number): number {
+        if(this.amount + count > this.costArray.length) return Infinity;
+        if(this.amount == 0) return this.costArray[0];
+        return this.costArray[this.amount + count-1];
+    }
+
+    getInfluence(): number {
+        console.log(this.amount);
+        console.log(this.incomeArray[this.amount]);
+        return this.incomeArray[this.amount];
+    }
+}
+
+let easyHot = new EasyExpensivePassiveIncomeItem();
+
+
+export { StoreItem, ClickerItem, PassiveIncomeItem };
+
+// Neues Item CHECK
+let nerd = new PassiveIncomeItem({ name: "Nerd Face", description: "your mother", image: { src: "emojis/nerd.svg", alt: "nerd face" }, initialCost: 10, max: Infinity }, 1, 1.2);
+
+// GUCKT UNTEN
+let blushed = new PassiveIncomeItem({ name: "blushed face", description: "blushed face", image: { src: "emojis/blushed.svg", alt: "blushed face" }, initialCost: 100, max: Infinity }, 3, 1.4);
+
 // const clicker: StoreItem = {
 //     index: 0,
 //     name: 'Emoji Upgrade',
