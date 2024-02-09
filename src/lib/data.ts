@@ -1,4 +1,4 @@
-import { unlockedClicker,unlockedPassiveItems } from "./store";
+import { unlockedClicker, unlockedPassiveItems } from "./store";
 
 
 interface Item {
@@ -18,7 +18,7 @@ interface Item {
  * It contains the basic properties and methods that are needed for all items.
  * extend this class to create a new item only when you need custom behavior.
  */
-abstract class StoreItem { 
+abstract class StoreItem {
     // contains the amount of items the player currently has
     protected amount: number = 0;
     // contains the name of the item
@@ -36,7 +36,7 @@ abstract class StoreItem {
     initialCost: number;
     // contains the maximum amount the player can have of this item
     readonly max: number;
-    
+
 
     constructor(item: Item) {
         this.name = item.name;
@@ -47,7 +47,7 @@ abstract class StoreItem {
         this.component = item.component;
     }
 
-    abstract nextCost(count:number): number;
+    abstract nextCost(count: number): number;
 
     /* When you only want to buy items, you dont need this function.
      * When you want to INFLUENCE the game then override this function.
@@ -55,11 +55,11 @@ abstract class StoreItem {
      * e.g.: Passive income should not be increased by 1 per upgrade, but by 1% of the current income.
      */
 
-    abstract getInfluence() : number;
+    abstract getInfluence(): number;
 
     addItem(amount: number = 1) {
         if (this.amount + amount > this.max) return;
-        this.amount = this.amount + amount;  
+        this.amount = this.amount + amount;
         unlockedPassiveItems.update(this);
     }
 
@@ -99,9 +99,9 @@ class ClickerItem extends StoreItem {
         return this.amount * this.multiplier;
     }
 
-    
+
     addItem(amount: number = 1) {
-        this.amount = this.amount + amount;  
+        this.amount = this.amount + amount;
         unlockedClicker.update(this);
     }
 
@@ -137,7 +137,31 @@ class PassiveIncomeItem extends StoreItem {
     }
 }
 
-export {StoreItem, ClickerItem, PassiveIncomeItem};
+class ExpensivePassiveIncomeItem extends StoreItem {
+    costArray: number[];
+    incomeArray: number[];
+
+    constructor(item: Item,costArray: number[], incomeArray: number[]) {
+        super(item);
+        this.costArray = costArray;
+        this.incomeArray = incomeArray;
+    }
+
+    nextCost(count: number): number {
+        if(this.amount + count > this.costArray.length) return Infinity;
+        if(this.amount == 0) return this.costArray[0];
+        return this.costArray[this.amount + count-1];
+    }
+
+    getInfluence(): number {
+        console.log(this.amount);
+        console.log(this.incomeArray[this.amount]);
+        return this.incomeArray[this.amount];
+    }
+
+}
+
+export { StoreItem, ClickerItem, PassiveIncomeItem };
 
 // Neues Item CHECK
 let nerd = new PassiveIncomeItem({ name: "Nerd Face", description: "your mother", image: { src: "emojis/nerd.svg", alt: "nerd face" }, initialCost: 10, max: Infinity }, 1, 1.2);
@@ -145,7 +169,15 @@ let nerd = new PassiveIncomeItem({ name: "Nerd Face", description: "your mother"
 // GUCKT UNTEN
 let blushed = new PassiveIncomeItem({ name: "blushed face", description: "blushed face", image: { src: "emojis/blushed.svg", alt: "blushed face" }, initialCost: 100, max: Infinity }, 3, 1.4);
 
+let costArray = [300, 500, 1000, 2000, 5000];
+let incomeArray = [0, 6, 12, 30, 33, 96];
 
+let hot = new ExpensivePassiveIncomeItem(
+    { name: "hot face", 
+    description: "hot face", 
+    image: { src: "emojis/hot.svg", 
+    alt: "hot face" 
+}, initialCost: Infinity, max: costArray.length }, costArray, incomeArray);
 // const clicker: StoreItem = {
 //     index: 0,
 //     name: 'Emoji Upgrade',
@@ -227,7 +259,8 @@ export const levelScores = [2000, 5000, 10000, 50000];
  * Note that you can also skip levels, e.g. level 2 has no rewards, but level 3 and 1 has.
  */
 export const levelUpRewards: Record<number, StoreItem[]> = {
-    0: [nerd, blushed],
+    0: [nerd, blushed,hot],
+    1: [hot],
     // das müssen wir noch einbauen (helper.ts)
     // Ja aber so fügt man sie easy hinzu
     // true, das ist easy
