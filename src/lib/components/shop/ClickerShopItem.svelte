@@ -41,7 +41,7 @@
     </div>
 
     {#if $unlockedClicker.getAmount() == 0 && action == false}
-        <button disabled class="bg-slate-300 font-bold border-slate-200 border-2 buy-button rounded-xl">
+        <button disabled class="bg-slate-300 font-bold border-slate-200 border-2 buy_button rounded-xl">
             Nothing to sell
         </button>
     {:else}
