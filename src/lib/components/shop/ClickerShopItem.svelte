@@ -19,9 +19,7 @@
 
     function sellClick() {
         if ($unlockedClicker.getAmount() == 0) return;
-        let sellValue = Math.round(
-            $unlockedClicker.nextCost(numberOfItems) * 0.3,
-        );
+        let sellValue = Math.round($unlockedClicker.nextCost(numberOfItems) * 0.3,);
         $unlockedClicker.removeItem(numberOfItems);
         $emojis += sellValue;
     }
@@ -35,32 +33,21 @@
     else buyable = true;
 </script>
 
-<div
-    class="grid grid-flow-col grid-cols-4 place-content-start bg-slate-200 w-96 rounded-xl"
->
-    <img
-        src={$unlockedClicker.image.src}
-        alt=""
-        class="size-16 p-2 drop-shadow-xl"
-    />
+<div class="grid grid-flow-col grid-cols-4 place-content-start bg-slate-200 w-96 rounded-xl">
+    <img src={$unlockedClicker.image.src} alt="" class="size-16 p-2 drop-shadow-xl" />
     <div class="flex flex-col justify-between p-2 col-span-2">
         <p>{$unlockedClicker.name}</p>
         <p>{marketValue}</p>
     </div>
 
     {#if $unlockedClicker.getAmount() == 0 && action == false}
-        <p class="bg-slate-300 font-bold border-slate-200 border-2">
+        <button disabled class="bg-slate-300 font-bold border-slate-200 border-2 buy-button rounded-xl">
             Nothing to sell
-        </p>
+        </button>
     {:else}
         <button
             on:click={() => (action ? buyClick() : sellClick())}
-            class={`buy_button ${
-                buyable
-                    ? "bg-slate-100 hover:bg-slate-300 transition font-bold border-slate-200 border-2"
-                    : "bg-slate-300 font-bold border-slate-200 border-2"
-            }`}
-        >
+            class={`buy_button transition font-bold border-slate-200 border-2 ${buyable ? "bg-slate-100 hover:bg-slate-300 " : "bg-slate-300 border-slate-200"}`}>
             {action ? "BUY" : "SELL"}
         </button>
     {/if}

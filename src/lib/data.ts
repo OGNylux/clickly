@@ -58,16 +58,25 @@ abstract class StoreItem {
     abstract getInfluence(): number;
 
     addItem(amount: number = 1) {
-        if (this.amount + amount > this.max) return;
+        if (this.amount + amount > this.max) return; // fix needed
         this.amount = this.amount + amount;
         unlockedPassiveItems.update(this);
     }
 
     // sell a given amount of items and get half of the cost back
-    removeItem(amount: number = 1) {
-        if (this.amount - amount < 0) return;
-        this.amount = this.amount - amount;
-        unlockedPassiveItems.update(this);
+    removeItem(amount: number) {
+        if (this.amount - amount < 0) {
+            for (let i = amount; i > 0; i--) {
+                if (this.amount === 0) {
+                    break;
+                }
+                this.amount = this.amount - 1;
+                unlockedPassiveItems.update(this);
+            }
+        } else {
+            this.amount = this.amount - amount;
+            unlockedPassiveItems.update(this);
+        }
     }
 
     getAmount() {
@@ -106,10 +115,19 @@ class ClickerItem extends StoreItem {
     }
 
     // sell a given amount of items and get half of the cost back
-    removeItem(amount: number = 1) {
-        if (this.amount - amount < 0) return;
-        this.amount = this.amount - amount;
-        unlockedClicker.update(this);
+    removeItem(amount: number) {
+        if (this.amount - amount < 0) {
+            for (let i = amount; i > 0; i--) {
+                if (this.amount === 0) {
+                    break;
+                }
+                this.amount = this.amount - 1;
+                unlockedClicker.update(this);
+            }
+        } else {
+            this.amount = this.amount - amount;
+            unlockedClicker.update(this);
+        }
     }
 
     setImage(src: string, alt: string) {
