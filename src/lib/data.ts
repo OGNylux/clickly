@@ -13,14 +13,13 @@ interface Item {
     max: number;
 }
 
-/*
- * When do you need a new class?
- * When you need custom behavior for the nextCostFunction or getInfluence function.
- * Like an array that contains the specific cost values for each upgrade.
+/**
+ * This class is the base class for all items in the shop.
+ * It contains the basic properties and methods that are needed for all items.
+ * extend this class to create a new item only when you need custom behavior.
  */
-
 abstract class StoreItem {
-    // contains the amount of items the player has
+    // contains the amount of items the player currently has
     protected amount: number = 0;
     // contains the name of the item
     readonly name: string = "";
@@ -28,7 +27,7 @@ abstract class StoreItem {
     readonly description: string = "";
     // contains the component name of the item that is used for animated emojis
     readonly component?: string;
-    // contains the image of the item with alt text and src
+    // contains the image of the item with alt text and src path
     image: {
         src: string;
         alt: string;
