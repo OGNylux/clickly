@@ -1,5 +1,3 @@
-import { emojis, unlockedClicker,unlockedPassiveItems } from "./store";
-
 interface Item {
     name: string;
     description: string;
@@ -56,21 +54,15 @@ abstract class StoreItem {
 
     abstract getInfluence() : number;
 
-    buy(amount: number = 1) {
+    addItem(amount: number = 1) {
         if (this.amount + amount > this.max) return;
-
-        if (emojis.get() < this.nextCost(amount)) return;
-        
-        this.amount += amount; 
-        emojis.decrement(this.nextCost(amount));
-        unlockedPassiveItems.update(this);
+        this.amount = this.amount + amount;
     }
 
     // sell a given amount of items and get half of the cost back
-    sell(amount: number = 1) {
+    removeItem(amount: number = 1) {
+        if (this.amount - amount < 0) return;
         this.amount = this.amount - amount;
-        emojis.increment(amount * this.initialCost / 2);
-        unlockedPassiveItems.update(this);
     }
 
     getAmount() {
@@ -100,16 +92,6 @@ class ClickerItem extends StoreItem {
 
     getInfluence(): number {
         return this.amount * this.multiplier;
-    }
-
-    buy(amount: number = 1) {
-        if (this.amount + amount > this.max) return;
-
-        if (emojis.get() < this.nextCost(amount)) return;
-
-        emojis.decrement(this.nextCost(amount));
-        this.amount = this.amount + amount;
-        unlockedClicker.update(this);
     }
 
     setImage(src: string, alt: string) {
