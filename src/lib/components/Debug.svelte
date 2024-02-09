@@ -3,7 +3,7 @@
     import { reset } from "$lib/save";
 
     let isVisible = false;
-    let value = 100;
+    let value = 1000;
 </script>
 
 <aside class="fixed bottom-0 left-0 z-20 p-4 bg-sky-200 rounded">

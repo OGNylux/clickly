@@ -47,7 +47,7 @@
     {:else}
         <button
             on:click={() => (action ? buyClick() : sellClick())}
-            class={`buy_button transition font-bold border-slate-200 border-2 ${buyable ? "bg-slate-100 hover:bg-slate-300 " : "bg-slate-300 border-slate-200"}`}>
+            class={`buy_button transition font-bold border-slate-200 border-2 ${buyable ? "bg-slate-100 hover:bg-white " : "bg-slate-300 border-slate-200"}`}>
             {action ? "BUY" : "SELL"}
         </button>
     {/if}

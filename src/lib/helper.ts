@@ -41,11 +41,11 @@ export function unlockAllunlockedClickerItems(level: number) {
 }
 
 export function unlockLevelUpReward(level: number) {
-    // if (levelUpRewards[level]) {
-    //     levelUpRewards[level].forEach(item => {
-    //         if (!unlockedClicker.contains(item)) {
-    //             unlockedClicker.add(item);
-    //         }
-    //     });
-    // }
+    if (levelUpRewards[level]) {
+        levelUpRewards[level].forEach(item => {
+            if (!unlockedPassiveItems.contains(item)) {
+                unlockedPassiveItems.add(item);
+            }
+        });
+    }
 }

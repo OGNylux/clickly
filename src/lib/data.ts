@@ -139,11 +139,13 @@ class ClickerItem extends StoreItem {
 class PassiveIncomeItem extends StoreItem {
     incomeMultiplier: number;
     costMultiplier: number;
+    component: string;
 
-    constructor(item: Item, incomeMultiplier: number, costMultiplier: number) {
+    constructor(item: Item, incomeMultiplier: number, costMultiplier: number, component: string) {
         super(item);
         this.incomeMultiplier = incomeMultiplier;
         this.costMultiplier = costMultiplier;
+        this.component = component;
     }
 
     getInfluence(): number {
@@ -155,6 +157,7 @@ class PassiveIncomeItem extends StoreItem {
     }
 }
 
+// sollte das nicht passiveicome extenden?
 class ExpensivePassiveIncomeItem extends StoreItem {
     costArray: number[];
     incomeArray: number[];
@@ -181,8 +184,8 @@ class ExpensivePassiveIncomeItem extends StoreItem {
 let costArray = [300, 500, 1000, 2000, 5000];
 let incomeArray = [0, 6, 12, 30, 33, 96];
 
-let hot = new ExpensivePassiveIncomeItem(
-    { name: "hot face", 
+let expensiveHot = new ExpensivePassiveIncomeItem(
+    { name: "expensive hot face", 
     description: "hot face", 
     image: { src: "emojis/hot.svg", 
     alt: "hot face" 
@@ -215,10 +218,10 @@ let easyHot = new EasyExpensivePassiveIncomeItem();
 export { StoreItem, ClickerItem, PassiveIncomeItem };
 
 // Neues Item CHECK
-let nerd = new PassiveIncomeItem({ name: "Nerd Face", description: "your mother", image: { src: "emojis/nerd.svg", alt: "nerd face" }, initialCost: 10, max: Infinity }, 1, 1.2);
+let nerd = new PassiveIncomeItem({ name: "Nerd Face", description: "your mother", image: { src: "emojis/nerd.svg", alt: "nerd face" }, initialCost: 10, max: Infinity }, 1, 1.2, "NerdEmoji");
 
 // GUCKT UNTEN
-let blushed = new PassiveIncomeItem({ name: "blushed face", description: "blushed face", image: { src: "emojis/blushed.svg", alt: "blushed face" }, initialCost: 100, max: Infinity }, 3, 1.4);
+let blushed = new PassiveIncomeItem({ name: "blushed face", description: "blushed face", image: { src: "emojis/blushed.svg", alt: "blushed face" }, initialCost: 100, max: Infinity }, 3, 1.4, "BlushedEmoji");
 
 // const clicker: StoreItem = {
 //     index: 0,
@@ -301,10 +304,6 @@ export const levelScores = [2000, 5000, 10000, 50000];
  * Note that you can also skip levels, e.g. level 2 has no rewards, but level 3 and 1 has.
  */
 export const levelUpRewards: Record<number, StoreItem[]> = {
-    0: [nerd, blushed,hot],
-    1: [hot,easyHot],
-    // das müssen wir noch einbauen (helper.ts)
-    // Ja aber so fügt man sie easy hinzu
-    // true, das ist easy
-    // und die eigentlichen Objekten der klassen werden nicht exportet
+    0: [nerd, blushed, expensiveHot],
+    1: [easyHot],
 }
