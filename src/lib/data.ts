@@ -284,7 +284,7 @@ export const levelScores = [2000, 5000, 10000, 50000];
  */
 export const levelUpRewards: Record<number, StoreItem[]> = {
     0: [nerd, blushed,hot],
-    1: [hot],
+    1: [hot,easyHot],
     // das müssen wir noch einbauen (helper.ts)
     // Ja aber so fügt man sie easy hinzu
     // true, das ist easy
