@@ -48,14 +48,17 @@ abstract class StoreItem {
         this.component = item.component;
     }
 
-    abstract nextCostFunction(count:number): number;
-
-    /* When you only want to buy items, you dont need this function.
-     * When you want to INFLUENCE the game then override this function.
-     * In this function you can calculate the influence on a given value (that is defined sonewhere else)
-     * e.g.: Passive income should not be increased by 1 per upgrade, but by 1% of the current income.
+    /**
+     * This function calculates the cost of the next item.
+     * The count parameter is the amount of items the player wants to buy (e.g. 1,10,100).
      */
-
+    abstract nextCostFunction(count:number): number;
+    
+    /**
+     * This function returns the influence of the item.
+     * The influence is the value that the item has on the game.
+     * e.g. the clicker item has an influence of 1, because it increases the amount of emojis per click by 1.
+     */
     abstract getInfluence(): number;
 
     buy(amount: number = 1) {
@@ -89,12 +92,12 @@ class ClickerItem extends StoreItem {
         this.costMultiplier = 1.2;
     }
 
-    nextCostFunction(count:number): number {
-        if (count <=0) return 0;
+    nextCostFunction(count: number): number {
+        if (count <= 0) return 0;
+        
         if(this.amount == 0) return this.initialCost;
         return Math.round(this.initialCost + ((this.amount+count) * this.costMultiplier? this.costMultiplier : 1));
     }
-
 
     getInfluence(): number {
         return this.amount * this.multiplier;
