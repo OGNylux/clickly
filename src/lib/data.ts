@@ -1,7 +1,6 @@
-import { unlockedClicker,unlockedPassiveItems } from "./store";
+import { emojis, unlockedClicker,unlockedPassiveItems } from "./store";
 
 interface Item {
-    amount: number;
     name: string;
     description: string;
     component?: string;
@@ -18,7 +17,7 @@ interface Item {
  * It contains the basic properties and methods that are needed for all items.
  * extend this class to create a new item only when you need custom behavior.
  */
-abstract class StoreItem {
+abstract class StoreItem { 
     // contains the amount of items the player currently has
     protected amount: number = 0;
     // contains the name of the item
@@ -39,7 +38,6 @@ abstract class StoreItem {
     
 
     constructor(item: Item) {
-        this.amount = item.amount;
         this.name = item.name;
         this.description = item.description;
         this.image = item.image;
@@ -48,26 +46,31 @@ abstract class StoreItem {
         this.component = item.component;
     }
 
-    /**
-     * This function calculates the cost of the next item.
-     * The count parameter is the amount of items the player wants to buy (e.g. 1,10,100).
+    abstract nextCost(count:number): number;
+
+    /* When you only want to buy items, you dont need this function.
+     * When you want to INFLUENCE the game then override this function.
+     * In this function you can calculate the influence on a given value (that is defined sonewhere else)
+     * e.g.: Passive income should not be increased by 1 per upgrade, but by 1% of the current income.
      */
-    abstract nextCostFunction(count:number): number;
-    
-    /**
-     * This function returns the influence of the item.
-     * The influence is the value that the item has on the game.
-     * e.g. the clicker item has an influence of 1, because it increases the amount of emojis per click by 1.
-     */
-    abstract getInfluence(): number;
+
+    abstract getInfluence() : number;
 
     buy(amount: number = 1) {
-        this.amount = this.amount + amount;
+        if (this.amount + amount > this.max) return;
+
+        if (emojis.get() < this.nextCost(amount)) return;
+        
+        this.amount += amount; 
+        emojis.decrement(this.nextCost(amount));
         unlockedPassiveItems.update(this);
     }
 
+    // sell a given amount of items and get half of the cost back
     sell(amount: number = 1) {
         this.amount = this.amount - amount;
+        emojis.increment(amount * this.initialCost / 2);
+        unlockedPassiveItems.update(this);
     }
 
     getAmount() {
@@ -81,7 +84,6 @@ class ClickerItem extends StoreItem {
 
     constructor() {
         super({
-            amount: 0,
             name: "Emoji Upgrade",
             description: "lol",
             image: { src: "emojis/heart.svg", alt: "clicker emoji" },
@@ -92,19 +94,21 @@ class ClickerItem extends StoreItem {
         this.costMultiplier = 1.2;
     }
 
-    nextCostFunction(count: number): number {
-        if (count <= 0) return 0;
-        
-        if(this.amount == 0) return this.initialCost;
-        return Math.round(this.initialCost + ((this.amount+count) * this.costMultiplier? this.costMultiplier : 1));
+    nextCost(count: number) {
+        return Math.floor(this.initialCost * Math.pow(this.costMultiplier, this.amount) * count);
     }
 
     getInfluence(): number {
         return this.amount * this.multiplier;
     }
 
-    buy() {
-        this.amount++;
+    buy(amount: number = 1) {
+        if (this.amount + amount > this.max) return;
+
+        if (emojis.get() < this.nextCost(amount)) return;
+
+        emojis.decrement(this.nextCost(amount));
+        this.amount = this.amount + amount;
         unlockedClicker.update(this);
     }
 
@@ -114,7 +118,33 @@ class ClickerItem extends StoreItem {
     }
 }
 
-export {StoreItem, ClickerItem};
+class PassiveIncomeItem extends StoreItem {
+    incomeMultiplier: number;
+    costMultiplier: number;
+
+    constructor(item: Item, incomeMultiplier: number, costMultiplier: number) {
+        super(item);
+        this.incomeMultiplier = incomeMultiplier;
+        this.costMultiplier = costMultiplier;
+    }
+
+    getInfluence(): number {
+        return this.amount * this.incomeMultiplier;
+    }
+
+    nextCost(count: number) {
+        return Math.floor(this.initialCost * Math.pow(this.costMultiplier, this.amount) * count);
+    }
+}
+
+export {StoreItem, ClickerItem, PassiveIncomeItem};
+
+// Neues Item CHECK
+let nerd = new PassiveIncomeItem({ name: "Nerd Face", description: "your mother", image: { src: "emojis/nerd.svg", alt: "nerd face" }, initialCost: 10, max: Infinity }, 1, 1.2);
+
+// GUCKT UNTEN
+let blushed = new PassiveIncomeItem({ name: "blushed face", description: "blushed face", image: { src: "emojis/blushed.svg", alt: "blushed face" }, initialCost: 100, max: Infinity }, 3, 1.4);
+
 
 // const clicker: StoreItem = {
 //     index: 0,
@@ -197,5 +227,9 @@ export const levelScores = [2000, 5000, 10000, 50000];
  * Note that you can also skip levels, e.g. level 2 has no rewards, but level 3 and 1 has.
  */
 export const levelUpRewards: Record<number, StoreItem[]> = {
-    0: [],
+    0: [nerd, blushed],
+    // das müssen wir noch einbauen (helper.ts)
+    // Ja aber so fügt man sie easy hinzu
+    // true, das ist easy
+    // und die eigentlichen Objekten der klassen werden nicht exportet
 }

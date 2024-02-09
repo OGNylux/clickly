@@ -1,4 +1,4 @@
-import { writable,get } from "svelte/store";
+import { writable, get } from "svelte/store";
 import { ClickerItem, StoreItem } from "$lib/data";
 
 
@@ -24,6 +24,8 @@ function passiveStoreItems() {
     return {
         subscribe,
         update: (item: StoreItem) => update(n => n.filter(x => x.name == item.name)),
+        add: (item: StoreItem) => update(n => [...n, item]),
+        contains: (item: StoreItem) => get(store).some(x => x.name == item.name),
         get: () => get(store),
         reset: () => set([]),
     };
@@ -44,11 +46,13 @@ function cropStore() {
 export const crops = cropStore();
 
 function emojiStore () {
-    const { subscribe, set, update } = writable(0);
+    const store = writable(0);
+    const { subscribe, set, update } = store;
     return {
         subscribe,
         increment: (incrementValue: number) => update(n => n + incrementValue),
         decrement: (decrementValue: number) => update(n => n - decrementValue),
+        get: () => get(store),
         set: (value: number) => set(value),
         reset: () => set(0)
     };

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Shop from '$lib/components/Shop.svelte';
+    import Shop from '$lib/components/shop/Shop.svelte';
     import Buildings from '$lib/components/BuildingsWrapper.svelte';
     import Clicker from '$lib/components/clicker/Clicker.svelte';
     import { onMount } from 'svelte';

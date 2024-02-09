@@ -1,5 +1,5 @@
 import { levelScores, levelUpRewards } from "$lib/data";
-import { unlockedClicker } from "$lib/store";
+import { unlockedClicker, unlockedPassiveItems } from "$lib/store";
 
 export function formatNumber(num: number) {
     return num.toLocaleString('de-DE');
@@ -26,18 +26,18 @@ export function getLevel(score: number) {
 }
 
 export function unlockAllunlockedClickerItems(level: number) {
-    // unlockedClicker.reset();
-    // unlockedClicker.add(levelUpRewards[0][0]);
-    // console.log('unlockedClicker', unlockedClicker)
+    unlockedClicker.reset();
+    unlockedPassiveItems.reset();
 
-    // for (let i = 0; i <= level; i++) {
-    //     if (levelUpRewards[i]) {
-    //         levelUpRewards[i].forEach(item => {
-    //             unlocked.add(item);
-    //             console.log('unlocked', unlocked)
-    //         });
-    //     }
-    // }
+    for (let i = 0; i <= level; i++) {
+        if (levelUpRewards[i]) {
+            levelUpRewards[i].forEach(item => {
+                if (!unlockedPassiveItems.contains(item)) {
+                    unlockedPassiveItems.add(item);
+                }
+            });
+        }
+    }
 }
 
 export function unlockLevelUpReward(level: number) {
