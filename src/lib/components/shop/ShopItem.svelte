@@ -1,26 +1,58 @@
 <script lang="ts">
     import type { StoreItem } from "$lib/data";
-    import { emojis } from "$lib/store";
+    import { emojis, unlockedPassiveItems } from "$lib/store";
 
     export let action: boolean;
     export let numberOfItems: number;
-    export let item: StoreItem;
+    export let itemIndex: number;
 
-    let buyable = true
+    let item: StoreItem = $unlockedPassiveItems[itemIndex];
 
-    $: if ($emojis < item.nextCost(numberOfItems)) buyable = false;
-       else buyable = true;
+    unlockedPassiveItems.subscribe((value) => {
+        console.log(value);
+        item = value[itemIndex];
+    });
+
+    let buyable = true;
+
+    function buyClick() {
+        if ($emojis < item.nextCost(numberOfItems)) return;
+        $emojis -= item.nextCost(numberOfItems);
+        item.addItem(numberOfItems);
+    }
+
+    function sellClick() {
+        let sellValue = Math.round(item.nextCost(numberOfItems) * 0.3);
+        item.removeItem(numberOfItems);
+        $emojis -= sellValue;
+    }
+
+    //Sellen kann man immer
+    $: if (action == false) buyable = true;
+    //Wenn genügend Emojis vorhanden dann kann man es buyen
+    else if ($emojis < item.nextCost(numberOfItems))
+        buyable = false;
+    //Sonst halt nicht
+    else buyable = true;
 </script>
 
-<div class="grid grid-flow-col grid-cols-4 place-content-start bg-slate-200 w-96 rounded-xl">
-    <img src={item.image.src} alt="" class="size-16 p-2 drop-shadow-xl">
+<div
+    class="grid grid-flow-col grid-cols-4 place-content-start bg-slate-200 w-96 rounded-xl"
+>
+    <img src={item.image.src} alt="" class="size-16 p-2 drop-shadow-xl" />
     <div class="flex flex-col justify-between p-2 col-span-2">
         <p>{item.name}</p>
         <p>{item.nextCost(numberOfItems)}</p>
     </div>
 
-    <button on:click={() => action ? item.addItem(numberOfItems) : item.removeItem(numberOfItems)} 
-        class={`buy_button transition font-bold border-slate-200 border-2 ${buyable ? 'bg-slate-100 hover:bg-slate-300 ' : 'bg-slate-300 border-slate-200'}`}>
+    <button
+        on:click={() => (action ? buyClick() : sellClick())}
+        class={`buy_button transition font-bold border-slate-200 border-2 ${
+            buyable
+                ? "bg-slate-100 hover:bg-slate-300 "
+                : "bg-slate-300 border-slate-200"
+        }`}
+    >
         {action ? "BUY" : "SELL"}
     </button>
 </div>

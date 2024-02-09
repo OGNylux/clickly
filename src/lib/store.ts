@@ -23,7 +23,7 @@ function passiveStoreItems() {
     const { subscribe, set, update } = store;
     return {
         subscribe,
-        update: (item: StoreItem) => update(n => n.filter(x => x.name == item.name)),
+        update: (item: StoreItem) => update(n => n.map(i=>i.name == item.name?item:i)), // if the item is already in the store, update it, otherwise add it
         add: (item: StoreItem) => update(n => [...n, item]),
         contains: (item: StoreItem) => get(store).some(x => x.name == item.name),
         get: () => get(store),

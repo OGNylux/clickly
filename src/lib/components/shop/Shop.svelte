@@ -41,8 +41,8 @@
     <div class="border-slate-100 border-2 bg-slate-50 rounded-xl p-1">
         <div class="flex flex-col gap-2 items-center py-1">
             <ClickerShopItem bind:action={buy} bind:numberOfItems />
-            {#each $unlockedPassiveItems as item}
-                <ShopItem bind:action={buy} bind:numberOfItems item={item} />
+            {#each $unlockedPassiveItems as _,i}
+                <ShopItem bind:action={buy} bind:numberOfItems itemIndex={i} />
             {/each}
         </div>
     </div>
