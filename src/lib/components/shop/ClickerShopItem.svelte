@@ -15,7 +15,7 @@
 
     function buyClick() {
         if ($emojis < $unlockedClicker.nextCost(numberOfItems)) return;
-        $emojis -= marketValue;
+        emojis.decrement(marketValue);
         $unlockedClicker.addItem(numberOfItems);
     }
 
@@ -23,7 +23,7 @@
         if ($unlockedClicker.getAmount() == 0) return;
         let sellValue = marketValue;
         $unlockedClicker.removeItem(numberOfItems);
-        $emojis += sellValue;
+        emojis.increment(sellValue);
     }
 
     //Sellen kann man immer
