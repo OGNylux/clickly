@@ -7,19 +7,21 @@
     let buyable = true;
     let marketValue: number;
 
-    $: if (!action)
-        marketValue = Math.round($unlockedClicker.nextCost(numberOfItems) * 0.3);
+    $: if (!action && numberOfItems){
+        if (numberOfItems == 1) marketValue = Math.round($unlockedClicker.nextCost(0) * 0.3);
+        else marketValue = Math.round($unlockedClicker.nextCost(numberOfItems) * 0.3);
+    }
     else marketValue = $unlockedClicker.nextCost(numberOfItems);
 
     function buyClick() {
         if ($emojis < $unlockedClicker.nextCost(numberOfItems)) return;
-        $emojis -= $unlockedClicker.nextCost(numberOfItems);
+        $emojis -= marketValue;
         $unlockedClicker.addItem(numberOfItems);
     }
 
     function sellClick() {
         if ($unlockedClicker.getAmount() == 0) return;
-        let sellValue = Math.round($unlockedClicker.nextCost(numberOfItems) * 0.3,);
+        let sellValue = marketValue;
         $unlockedClicker.removeItem(numberOfItems);
         $emojis += sellValue;
     }
@@ -40,7 +42,7 @@
         <p>{marketValue}</p>
     </div>
 
-    {#if $unlockedClicker.getAmount() == 0 && action == false}
+    {#if !$unlockedClicker.checkRemoveAmount(numberOfItems) && !action}
         <button disabled class="bg-slate-300 font-bold border-slate-200 border-2 buy_button rounded-xl">
             Nothing to sell
         </button>

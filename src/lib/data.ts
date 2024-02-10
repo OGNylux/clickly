@@ -61,24 +61,24 @@ abstract class StoreItem {
         unlockedPassiveItems.update(this);
     }
 
-    // sell a given amount of items and get half of the cost back
+    // Remove a given amount of items
+    // If you want to remove more Items when there is left, the function will not remove any items
     removeItem(amount: number) {
-        if (this.amount - amount < 0) {
-            for (let i = amount; i > 0; i--) {
-                if (this.amount === 0) {
-                    break;
-                }
-                this.amount = this.amount - 1;
-                unlockedPassiveItems.update(this);
-            }
-        } else {
-            this.amount = this.amount - amount;
-            unlockedPassiveItems.update(this);
-        }
+        if (this.amount - amount < 0) return;
+        this.amount = this.amount - amount;
+        unlockedPassiveItems.update(this);
     }
 
     getAmount() {
         return this.amount;
+    }
+
+    checkAddAmount(count: number) {
+        return this.amount + count <= this.max;
+    }
+
+    checkRemoveAmount(count: number) {
+        return this.amount - count >= 0;
     }
 }
 
@@ -99,6 +99,7 @@ class ClickerItem extends StoreItem {
     }
 
     nextCost(count: number) {
+        if (count == 0) return this.initialCost * Math.pow(this.costMultiplier, this.amount);
         return Math.floor(this.initialCost * Math.pow(this.costMultiplier, this.amount) * count);
     }
 
@@ -112,20 +113,11 @@ class ClickerItem extends StoreItem {
         unlockedClicker.update(this);
     }
 
-    // sell a given amount of items and get half of the cost back
+    // sell a given amount of items
     removeItem(amount: number) {
-        if (this.amount - amount < 0) {
-            for (let i = amount; i > 0; i--) {
-                if (this.amount === 0) {
-                    break;
-                }
-                this.amount = this.amount - 1;
-                unlockedClicker.update(this);
-            }
-        } else {
-            this.amount = this.amount - amount;
-            unlockedClicker.update(this);
-        }
+        if (this.amount - amount < 0) return;
+        this.amount = this.amount - amount;
+        unlockedClicker.update(this);
     }
 
     setImage(src: string, alt: string) {
