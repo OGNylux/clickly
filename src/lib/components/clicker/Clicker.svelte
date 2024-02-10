@@ -1,23 +1,14 @@
 <script lang="ts">
-    import {
-        formatNumber,
-        getLevel,
-        getLevelupScore,
-        unlockLevelUpReward,
-    } from "$lib/helper";
-    import {
-        emojis,
-        score,
-        unlockedClicker,
-        unlockedPassiveItems,
-    } from "$lib/store";
+    import { formatNumber, getLevel, getLevelupScore, unlockLevelUpReward } from "$lib/helper";
+    import { emojis, score, unlockedClicker, unlockedPassiveItems } from "$lib/store";
     import { beforeUpdate, onDestroy, onMount } from "svelte";
     import { tweened } from "svelte/motion";
     import { cubicOut } from "svelte/easing";
     import { Info } from "lucide-svelte";
     import ClickerCanvas from "$lib/components/clicker/ClickerCanvas.svelte";
     import ClickerCounter from "$lib/components/clicker/ClickerCounter.svelte";
-    import Tooltip from "$lib/components/Tooltip.svelte";
+    import { Tooltip } from "bits-ui";
+    import { flyAndScale } from "$lib/transition";
 
     const fillPercent = tweened(0, {
         duration: 400,
@@ -78,30 +69,52 @@
     id="clicker"
     bind:offsetWidth={width}
 >
-    <Tooltip>
-        <h1 class="text-5xl font-bold flex items-center gap-2 p-2">
-            <ClickerCounter bind:value={$emojis} />
-            <img src="emojis/e.svg" alt="E" class="size-8" />
-        </h1>
-        <div slot="tip">
-            <p> dein passives Einkommen: <span class="text-yellow-400">{passiveIncome} E/s</span></p>
-        </div>
-    </Tooltip>
+    <Tooltip.Root>
+        <Tooltip.Trigger> 
+            <h1 class="text-5xl font-bold flex items-center gap-2 p-2">
+                <ClickerCounter bind:value={$emojis} />
+                <img src="emojis/e.svg" alt="E" class="size-8" />
+            </h1>
+        </Tooltip.Trigger>
+        <Tooltip.Content
+            transition={flyAndScale}
+            transitionConfig={{ y: 8, duration: 150 }}
+            sideOffset={-5}
+            side={'bottom'}>
+            <div class="bg-slate-200">
+                <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-300" />
+            </div>
+            <div class="text-center border-slate-300 bg-slate-200 p-2 font-medium shadow-2xl outline-none rounded-xl">
+                <p> dein passives Einkommen: <span class="text-yellow-400">{passiveIncome} E/s</span></p>
+            </div>
+        </Tooltip.Content>  
+    </Tooltip.Root>
     <div class="w-2/3 flex flex-col justify-center">
         <div class="rounded-xl bg-slate-400 w-full h-5 overflow-hidden shadow-xl">
             <div style={`width:${$fillPercent}%`} class="bg-yellow-400 h-full rounded-xl"></div>
         </div>
         <div class="grid grid-cols-3 g">
             <span>{formatNumber(getLevelupScore(currentLevel))}</span>
-            <Tooltip>
-                <p class="place-content-center flex items-center">
-                    <Info size="15" />
-                    <span>LVL {currentLevel}</span>
-                </p>
-                <div slot="tip">
-                    <p> dein aktueller Score: <span class="text-yellow-400">{$score}</span></p>
-                </div>
-            </Tooltip>
+            <Tooltip.Root>
+                <Tooltip.Trigger> 
+                    <p class="place-content-center flex items-center">
+                        <Info size="15" />
+                        <span>LVL {currentLevel}</span>
+                    </p>
+                </Tooltip.Trigger>
+                <Tooltip.Content
+                    transition={flyAndScale}
+                    transitionConfig={{ y: 8, duration: 150 }}
+                    sideOffset={-5}
+                    side={'bottom'}>
+                    <div class="bg-slate-200">
+                        <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-300" />
+                    </div>
+                    <div class="text-center border-slate-300 bg-slate-200 p-2 font-medium shadow-2xl outline-none rounded-xl">
+                        <p> dein aktueller Score: <span class="text-yellow-400">{$score}</span></p>
+                    </div>
+                </Tooltip.Content>  
+            </Tooltip.Root>
             <span class="justify-self-end">{formatNumber(nextLevelScore)}</span>
         </div>
     </div>
