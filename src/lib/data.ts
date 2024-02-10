@@ -239,8 +239,25 @@ class FarmItem {
     }
 }
 
-let nerd = new PassiveIncomeItem({ name: "Nerd Face", description: "your mother", image: { src: "emojis/nerd.svg", alt: "nerd face" }, initialCost: 10, max: Infinity }, 1, 1.2, "NerdEmoji");
-let blushed = new PassiveIncomeItem({ name: "blushed face", description: "blushed face", image: { src: "emojis/blushed.svg", alt: "blushed face" }, initialCost: 100, max: Infinity }, 3, 1.4, "BlushedEmoji");
+/**
+ * StoreItem Definitions
+ */
+let nerd = new PassiveIncomeItem({
+    name: "Nerd Face",
+    description: "your mother",
+    image: { src: "emojis/nerd.svg", alt: "nerd face" },
+    initialCost: 10,
+    max: Infinity
+}, 1, 1.2, "NerdEmoji");
+
+let blushed = new PassiveIncomeItem({
+    name: "blushed face",
+    description: "blushed face",
+    image: { src: "emojis/blushed.svg", alt: "blushed face" },
+    initialCost: 100,
+    max: Infinity
+}, 3, 1.4, "BlushedEmoji");
+
 let easyHot = new EasyExpensivePassiveIncomeItem();
 
 let costArray = [300, 500, 1000, 2000, 5000];
@@ -251,6 +268,12 @@ let expensiveHot = new ExpensivePassiveIncomeItem(
     image: { src: "emojis/hot.svg", 
     alt: "hot face" 
 }, initialCost: Infinity, max: costArray.length }, costArray, incomeArray);
+
+
+/**
+ * FarmItems Definitions
+ */
+let peach = new FarmItem("Peach", "A juicy peach", 5, 10000, { src: "emojis/peach.svg", alt: "peach" });
 
 
 /**
@@ -266,9 +289,10 @@ export const levelScores = [2000, 5000, 10000, 50000];
  * The key t0 is he initial rewards starting items.
  * Note that you can also skip levels, e.g. level 2 has no rewards, but level 3 and 1 has.
  */
-export const levelUpRewards: Record<number, StoreItem[]> = {
+export const levelUpRewards: Record<number, Array<StoreItem|FarmItem>> = {
     0: [nerd, blushed, expensiveHot],
     1: [easyHot],
+    3: [peach]
 }
 
-export { StoreItem, ClickerItem, PassiveIncomeItem };
+export { StoreItem, ClickerItem, PassiveIncomeItem, FarmItem };

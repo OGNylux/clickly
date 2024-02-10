@@ -1,5 +1,5 @@
 import { writable, get } from "svelte/store";
-import { ClickerItem, StoreItem } from "$lib/data";
+import { ClickerItem, FarmItem, StoreItem } from "$lib/data";
 
 
 // enable server communication and certain features
@@ -23,7 +23,7 @@ function passiveStoreItems() {
     const { subscribe, set, update } = store;
     return {
         subscribe,
-        update: (item: StoreItem) => update(n => n.map(i=>i.name == item.name?item:i)), // if the item is already in the store, update it, otherwise add it
+        update: (item: StoreItem) => update(n => n.map(i => i.name == item.name ? item : i)), // if the item is already in the store, update it, otherwise add it
         add: (item: StoreItem) => update(n => [...n, item]),
         contains: (item: StoreItem) => get(store).some(x => x.name == item.name),
         get: () => get(store),
@@ -31,6 +31,20 @@ function passiveStoreItems() {
     };
 }
 export const unlockedPassiveItems = passiveStoreItems();
+
+function unlockedFarmItemsFunc() {
+    const store = writable<FarmItem[]>([]);
+    const { subscribe, set, update } = store;
+    return {
+        subscribe,
+        update: (item: FarmItem) => update(n => n.map(i => i.name == item.name ? item : i)), // if the item is already in the store, update it, otherwise add it
+        add: (item: FarmItem) => update(n => [...n, item]),
+        contains: (item: FarmItem) => get(store).some(x => x.name == item.name),
+        get: () => get(store),
+        reset: () => set([]),
+    };
+}
+export const unlockedFarmItems = unlockedFarmItemsFunc();
 
 function cropStore() {
     const { subscribe, set, update } = writable(0);
@@ -42,7 +56,6 @@ function cropStore() {
         reset: () => set(0)
     };
 }
-
 export const crops = cropStore();
 
 function emojiStore () {
@@ -57,7 +70,6 @@ function emojiStore () {
         reset: () => set(0)
     };
 }
-
 export const emojis = emojiStore();
 
 function scoreStore() {
@@ -70,6 +82,5 @@ function scoreStore() {
         reset: () => set(0)
     };
 }
-
 export const score = scoreStore(); 
 

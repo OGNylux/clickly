@@ -1,5 +1,5 @@
 import { browser } from "$app/environment";
-import { emojis, score, isClassic, unlockedClicker} from "$lib/store";
+import { emojis, score, isClassic, unlockedClicker, unlockedPassiveItems, unlockedFarmItems} from "$lib/store";
 import { unlockAllunlockedClickerItems } from "./helper";
 
 /**
@@ -50,6 +50,8 @@ export function reset() {
     emojis.reset();
     score.reset();
     unlockedClicker.reset();
+    unlockedPassiveItems.reset();
+    unlockedFarmItems.reset();
     unlockAllunlockedClickerItems(0);
     if (browser) {
         localStorage.removeItem('emojis');

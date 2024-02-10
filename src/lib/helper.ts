@@ -1,5 +1,5 @@
-import { levelScores, levelUpRewards } from "$lib/data";
-import { unlockedClicker, unlockedPassiveItems } from "$lib/store";
+import { FarmItem, levelScores, levelUpRewards } from "$lib/data";
+import { unlockedClicker, unlockedFarmItems, unlockedPassiveItems } from "$lib/store";
 
 export function formatNumber(num: number) {
     return num.toLocaleString('de-DE');
@@ -32,8 +32,14 @@ export function unlockAllunlockedClickerItems(level: number) {
     for (let i = 0; i <= level; i++) {
         if (levelUpRewards[i]) {
             levelUpRewards[i].forEach(item => {
-                if (!unlockedPassiveItems.contains(item)) {
-                    unlockedPassiveItems.add(item);
+                if (item instanceof FarmItem) {
+                    if (!unlockedFarmItems.contains(item)) {
+                        unlockedFarmItems.add(item);
+                    }
+                } else {
+                    if (!unlockedPassiveItems.contains(item)) {
+                        unlockedPassiveItems.add(item);
+                    }
                 }
             });
         }
@@ -43,8 +49,14 @@ export function unlockAllunlockedClickerItems(level: number) {
 export function unlockLevelUpReward(level: number) {
     if (levelUpRewards[level]) {
         levelUpRewards[level].forEach(item => {
-            if (!unlockedPassiveItems.contains(item)) {
-                unlockedPassiveItems.add(item);
+            if (item instanceof FarmItem) {
+                if (!unlockedFarmItems.contains(item)) {
+                    unlockedFarmItems.add(item);
+                }
+            } else {
+                if (!unlockedPassiveItems.contains(item)) {
+                    unlockedPassiveItems.add(item);
+                }
             }
         });
     }

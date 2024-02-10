@@ -68,10 +68,7 @@
             nextLevelScore = getLevelupScore(currentLevel + 1);
         }
         fillPercent.set(
-            $score
-                ? (100 * ($score - currentLevelScore)) /
-                      (nextLevelScore - currentLevelScore)
-                : 0,
+            $score ? (100 * ($score - currentLevelScore)) / (nextLevelScore - currentLevelScore) : 0,
         );
     });
 </script>
@@ -87,21 +84,12 @@
             <img src="emojis/e.svg" alt="E" class="size-8" />
         </h1>
         <div slot="tip">
-            <p>
-                dein passives Einkommen: <span class="text-yellow-400"
-                    >{passiveIncome} E/s</span
-                >
-            </p>
+            <p> dein passives Einkommen: <span class="text-yellow-400">{passiveIncome} E/s</span></p>
         </div>
     </Tooltip>
     <div class="w-2/3 flex flex-col justify-center">
-        <div
-            class="rounded-xl bg-slate-400 w-full h-5 overflow-hidden shadow-xl"
-        >
-            <div
-                style={`width:${$fillPercent}%`}
-                class="bg-yellow-400 h-full rounded-xl"
-            ></div>
+        <div class="rounded-xl bg-slate-400 w-full h-5 overflow-hidden shadow-xl">
+            <div style={`width:${$fillPercent}%`} class="bg-yellow-400 h-full rounded-xl"></div>
         </div>
         <div class="grid grid-cols-3 g">
             <span>{formatNumber(getLevelupScore(currentLevel))}</span>
@@ -111,11 +99,7 @@
                     <span>LVL {currentLevel}</span>
                 </p>
                 <div slot="tip">
-                    <p>
-                        dein aktueller Score: <span class="text-yellow-400"
-                            >{$score}</span
-                        >
-                    </p>
+                    <p> dein aktueller Score: <span class="text-yellow-400">{$score}</span></p>
                 </div>
             </Tooltip>
             <span class="justify-self-end">{formatNumber(nextLevelScore)}</span>
@@ -125,11 +109,7 @@
         on:click={incrementCount}
         class="transform active:scale-75 transition-transform z-10 select-none"
     >
-        <img
-            src="emojis/heart.svg"
-            alt=""
-            class="size-64 p-2 filter drop-shadow-2xl"
-        />
+        <img src="emojis/heart.svg" alt="" class="size-64 p-2 filter drop-shadow-2xl" />
     </button>
     <ClickerCanvas bind:width />
 </div>
