@@ -48,6 +48,7 @@ abstract class StoreItem {
     }
 
     abstract nextCost(count: number): number;
+    abstract nextSell(count: number): number;
     /**
      * This function returns the influence of the item.
      * The influence is the value that the item has on the game.
@@ -61,8 +62,10 @@ abstract class StoreItem {
         unlockedPassiveItems.update(this);
     }
 
-    // Remove a given amount of items
-    // If you want to remove more Items when there is left, the function will not remove any items
+    /**
+     * Remove (sell) a given amount of items
+     * If you want to remove more items than there are left, the function will not remove any items
+     */
     removeItem(amount: number) {
         if (this.amount - amount < 0) return;
         this.amount = this.amount - amount;
@@ -71,10 +74,6 @@ abstract class StoreItem {
 
     getAmount() {
         return this.amount;
-    }
-
-    setAmount(amount: number) {
-        this.amount = amount;
     }
 
     checkAddAmount(count: number) {
@@ -107,10 +106,13 @@ class ClickerItem extends StoreItem {
         return Math.floor(this.initialCost * Math.pow(this.costMultiplier, this.amount) * count);
     }
 
+    nextSell(count: number): number {
+        return Math.floor(this.initialCost * Math.pow(this.costMultiplier, this.amount - count ));
+    }
+
     getInfluence(): number {
         return this.amount * this.multiplier;
     }
-
 
     addItem(amount: number = 1) {
         this.amount = this.amount + amount;
@@ -145,13 +147,16 @@ class PassiveIncomeItem extends StoreItem {
     getInfluence(): number {
         return this.amount * this.incomeMultiplier;
     }
+    nextSell(count: number): number {
+        return Math.floor(this.initialCost * Math.pow(this.costMultiplier, this.amount - count ));
+    }
 
     nextCost(count: number) {
         return Math.floor(this.initialCost * Math.pow(this.costMultiplier, this.amount) * count);
     }
 }
 
-// @Johannes sollte das nicht passiveicome extenden?
+// @Johannes sollte das nicht passiveicum extenden?
 class ExpensivePassiveIncomeItem extends StoreItem {
     costArray: number[];
     incomeArray: number[];
@@ -166,6 +171,9 @@ class ExpensivePassiveIncomeItem extends StoreItem {
         if(this.amount + count > this.costArray.length) return Infinity;
         if(this.amount == 0) return this.costArray[0];
         return this.costArray[this.amount + count-1];
+    }
+    nextSell(count: number): number {
+        return this.costArray[this.amount - count];
     }
 
     getInfluence(): number {
@@ -188,6 +196,10 @@ class EasyExpensivePassiveIncomeItem extends StoreItem {
         if(this.amount + count > this.costArray.length) return Infinity;
         if(this.amount == 0) return this.costArray[0];
         return this.costArray[this.amount + count-1];
+    }
+
+    nextSell(count: number): number {
+        return this.costArray[this.amount - count];
     }
 
     getInfluence(): number {

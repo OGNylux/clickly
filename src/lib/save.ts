@@ -20,12 +20,12 @@ export function loadLocalStorage() {
             crops.set(JSON.parse(cropsLocal));
 
             const clicker = unlockedClicker.get();
-            clicker.setAmount(Number(clickerLocal));
+            clicker.addItem(Number(clickerLocal));
             unlockedClicker.update(clicker)
 
             const arr = passiveLocal.slice(1,-1).split(",");
             unlockedPassiveItems.get().forEach((item: StoreItem, index: number) => {
-                item.setAmount(Number(arr[index]));
+                item.addItem(Number(arr[index]));
                 unlockedPassiveItems.update(item);
             });
         }

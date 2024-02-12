@@ -15,11 +15,8 @@
         item = value[itemIndex];
     });
 
-    $: if (!action)
-        marketValue = Math.round(
-            $unlockedPassiveItems[itemIndex].nextCost(numberOfItems) * 0.3,
-        );
-    else marketValue = $unlockedPassiveItems[itemIndex].nextCost(numberOfItems);
+    $: if (!action && numberOfItems) marketValue = Math.round(item.nextSell(item.getAmount()-numberOfItems) * 0.3);
+       else marketValue = $unlockedPassiveItems[itemIndex].nextCost(numberOfItems);
 
     function buyClick() {
         if ($emojis < item.nextCost(numberOfItems)) return;

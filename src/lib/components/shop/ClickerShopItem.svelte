@@ -9,9 +9,10 @@
 
     $: if (!action && numberOfItems){
         if (numberOfItems == 1) marketValue = Math.round($unlockedClicker.nextCost(0) * 0.3);
-        else marketValue = Math.round($unlockedClicker.nextCost(numberOfItems) * 0.3);
+        else marketValue = Math.round($unlockedClicker.nextSell($unlockedClicker.getAmount()-numberOfItems) * 0.3);
+    } else {
+        marketValue = $unlockedClicker.nextCost(numberOfItems);
     }
-    else marketValue = $unlockedClicker.nextCost(numberOfItems);
 
     function buyClick() {
         if ($emojis < $unlockedClicker.nextCost(numberOfItems)) return;
