@@ -1,5 +1,5 @@
-import { levelScores, levelUpRewards } from "$lib/data";
-import { unlocked } from "$lib/store";
+import { FarmItem, levelScores, levelUpRewards } from "$lib/data";
+import { unlockedClicker, unlockedFarmItems, unlockedPassiveItems } from "$lib/store";
 
 export function formatNumber(num: number) {
     return num.toLocaleString('de-DE');
@@ -25,22 +25,45 @@ export function getLevel(score: number) {
     return level - 1;
 }
 
-export function unlockAllUnlockedItems(level: number) {
-    unlocked.reset();
+/**
+ * This function resets the unlocked items and unlocks all items up to the given level.
+ * Note that this function should only be called when the game is reset or initialized.
+ */
+export function unlockAllunlockedItems(level: number) {
+    unlockedClicker.reset();
+    unlockedPassiveItems.reset();
+
     for (let i = 0; i <= level; i++) {
         if (levelUpRewards[i]) {
             levelUpRewards[i].forEach(item => {
-                unlocked.add(item);
+                if (item instanceof FarmItem) {
+                    if (!unlockedFarmItems.contains(item)) {
+                        unlockedFarmItems.add(item);
+                    }
+                } else {
+                    if (!unlockedPassiveItems.contains(item)) {
+                        unlockedPassiveItems.add(item);
+                    }
+                }
             });
         }
     }
 }
 
+/**
+ * This function unlocks the items that are unlocked at the given level.
+ */
 export function unlockLevelUpReward(level: number) {
     if (levelUpRewards[level]) {
         levelUpRewards[level].forEach(item => {
-            if (!unlocked.contains(item)) {
-                unlocked.add(item);
+            if (item instanceof FarmItem) {
+                if (!unlockedFarmItems.contains(item)) {
+                    unlockedFarmItems.add(item);
+                }
+            } else {
+                if (!unlockedPassiveItems.contains(item)) {
+                    unlockedPassiveItems.add(item);
+                }
             }
         });
     }

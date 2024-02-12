@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { buildings, crops, emojis, score, isClassic } from "$lib/store";
+    import { crops, emojis, score, isClassic, unlockedPassiveItems, unlockedFarmItems } from "$lib/store";
     import { reset } from "$lib/save";
 
     let isVisible = false;
-    let value = 100;
+    let value = 1000;
 </script>
 
 <aside class="fixed bottom-0 left-0 z-20 p-4 bg-sky-200 rounded">
@@ -19,8 +19,17 @@
             <p>Score: {$score}</p>
             <p>Emoji count: {$emojis}</p>
             <p>Crops count: {$crops}</p>
-            <p>Buildings: {$buildings}</p>
             <p>Classic mode: {$isClassic ? "on" : "off"}</p>
+            <p>unlockedPassiveItems: <br>
+                {#each $unlockedPassiveItems as item}
+                   <span class="text-red-400">{item.name}</span> |
+                {/each}
+            </p>
+            <p>unlockedFarmItems: <br>
+                {#each $unlockedFarmItems as item}
+                   <span class="text-red-400">{item.name}</span> |
+                {/each}
+            </p>
             <div>
                 <button class="bg-sky-500 p-1 rounded" on:click={() => emojis.decrement(value)}>-💩</button>
                 <input class="p-1 rounded" type="number" name="debug" bind:value>
