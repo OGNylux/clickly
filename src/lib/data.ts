@@ -268,6 +268,42 @@ class FarmItem {
     }
 }
 
+class FarmUpgradeItem extends StoreItem {
+    costMultiplier: number;
+    growthTimeMultiplier?: number;
+
+    constructor(item: Item, costMultiplier: number, growthTimeMultiplier?: number) {
+        super(item);
+        this.costMultiplier = costMultiplier;
+        this.growthTimeMultiplier = growthTimeMultiplier;
+    }
+
+    nextCost(count: number) {
+        if (this.amount == 0 && count == 1) return this.initialCost;
+        if (count == 1) return Math.floor(this.initialCost * this.costMultiplier ** (this.amount + count - 1));
+        let tmp = 0;
+        for (let i = 0; i < count; i++) {
+            tmp += Math.floor(this.initialCost * this.costMultiplier ** (this.amount + i));
+        }
+        return tmp;
+    }
+
+    nextSell(count: number): number {
+        let tmp = 0;
+        for (let i = 0; i < count; i++) {
+            if (this.amount - i <= 0) break;
+            tmp += Math.floor((this.initialCost * this.costMultiplier ** (this.amount - i))*0.3);
+        }
+        return tmp;
+    }
+
+    getInfluence(): number {
+        if (!this.growthTimeMultiplier) return 0;
+
+        return this.amount * this.growthTimeMultiplier;
+    }
+}
+
 /**
  * StoreItem Definitions
  */
@@ -303,9 +339,26 @@ let expensiveHot = new ExpensivePassiveIncomeItem(
 
 
 /**
- * FarmItems Definitions
+ * Farm Definitions
  */
-let peach = new FarmItem("Peach", "A juicy peach", 5, 10000, { src: "emojis/peach.svg", alt: "peach" });
+let houseUpgrade = new FarmUpgradeItem({
+    name: "House Upgrade",
+    description: "Increases the number of fields you can have at once. ",
+    image: { src: "emojis/house.svg", alt: "house" },
+    initialCost: 5000,
+    max: 8
+}, 2);
+
+let tractorUpgrade = new FarmUpgradeItem({
+    name: "Tractor Upgrade",
+    description: "Increases the speed at which your crops grow.",
+    image: { src: "emojis/tractor.svg", alt: "tractor" },
+    initialCost: 10000,
+    max: Infinity
+}, 2, 0.8);
+
+let strawberry = new FarmItem("Strawberry", "A juicy strawberry", 1, 5000, { src: "emojis/strawberry.svg", alt: "strawberry" });
+let peach = new FarmItem("Peach", "A juicy peach", 2, 10000, { src: "emojis/peach.svg", alt: "peach" });
 
 
 /**
@@ -323,7 +376,7 @@ export const levelScores = [2000, 5000, 10000, 50000];
  */
 export const levelUpRewards: Record<number, Array<StoreItem | FarmItem>> = {
     0: [nerd, blushed],
-    1: [easyHot],
+    1: [easyHot, strawberry],
     3: [peach]
 }
 

@@ -65,8 +65,7 @@
 </script>
 
 <div
-    class="bg-slate-100 border-2 border-slate-200 rounded-xl grid place-items-center justify-items-center gap-2"
-    id="clicker"
+    class="bg-slate-100 border-2 border-slate-200 rounded-xl grid place-items-center justify-items-center gap-2 mb-2"
     bind:offsetWidth={width}
 >
     <Tooltip.Root>
@@ -126,14 +125,3 @@
     </button>
     <ClickerCanvas bind:width />
 </div>
-
-<style lang="postcss">
-    #clicker {
-        /*  
-            because a custom tailwind class does not work, this is the workaround. 
-            IMPORTANT: when the width of the the buildings or shop changes, this value has to be adjusted.
-            (20rem * 2 = w-80 * 2)
-        */
-        width: calc(100% - 48rem);
-    }
-</style>
