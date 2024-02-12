@@ -25,7 +25,11 @@ export function getLevel(score: number) {
     return level - 1;
 }
 
-export function unlockAllunlockedClickerItems(level: number) {
+/**
+ * This function resets the unlocked items and unlocks all items up to the given level.
+ * Note that this function should only be called when the game is reset or initialized.
+ */
+export function unlockAllunlockedItems(level: number) {
     unlockedClicker.reset();
     unlockedPassiveItems.reset();
 
@@ -46,6 +50,9 @@ export function unlockAllunlockedClickerItems(level: number) {
     }
 }
 
+/**
+ * This function unlocks the items that are unlocked at the given level.
+ */
 export function unlockLevelUpReward(level: number) {
     if (levelUpRewards[level]) {
         levelUpRewards[level].forEach(item => {

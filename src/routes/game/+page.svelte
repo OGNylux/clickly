@@ -4,13 +4,13 @@
     import Clicker from '$lib/components/clicker/Clicker.svelte';
     import { onMount } from 'svelte';
     import { loadLocalStorage, save } from '$lib/save';
-    import { getLevel, unlockAllunlockedClickerItems } from '$lib/helper';
+    import { getLevel, unlockAllunlockedItems } from '$lib/helper';
     import { score } from '$lib/store';
 
     onMount(() => {
+        unlockAllunlockedItems(getLevel($score));
         loadLocalStorage();
         save();
-        unlockAllunlockedClickerItems(getLevel($score));
     });
 </script>
 

@@ -73,6 +73,10 @@ abstract class StoreItem {
         return this.amount;
     }
 
+    setAmount(amount: number) {
+        this.amount = amount;
+    }
+
     checkAddAmount(count: number) {
         return this.amount + count <= this.max;
     }
@@ -287,4 +291,4 @@ export const levelUpRewards: Record<number, Array<StoreItem|FarmItem>> = {
     3: [peach]
 }
 
-export { StoreItem, ClickerItem, PassiveIncomeItem, FarmItem };
+export { StoreItem, ClickerItem, PassiveIncomeItem, EasyExpensivePassiveIncomeItem, ExpensivePassiveIncomeItem, FarmItem };

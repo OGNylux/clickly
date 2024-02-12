@@ -44,7 +44,7 @@
 
     {#if !$unlockedClicker.checkRemoveAmount(numberOfItems) && !action}
         <button disabled class="bg-slate-300 font-bold border-slate-200 border-2 buy_button rounded-xl">
-            Nothing to sell
+            <span class="line-through">SELL</span>
         </button>
     {:else}
         <button
