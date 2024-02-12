@@ -1,5 +1,6 @@
 <script lang="ts">
     import { emojis, unlockedClicker } from "$lib/store";
+    import { Lock } from "lucide-svelte";
 
     export let action: boolean;
     export let numberOfItems: number;
@@ -8,8 +9,7 @@
     let marketValue: number;
 
     $: if (!action && numberOfItems){
-        if (numberOfItems == 1) marketValue = Math.round($unlockedClicker.nextCost(0) * 0.3);
-        else marketValue = Math.round($unlockedClicker.nextSell($unlockedClicker.getAmount()-numberOfItems) * 0.3);
+         marketValue = $unlockedClicker.nextSell(numberOfItems);
     } else {
         marketValue = $unlockedClicker.nextCost(numberOfItems);
     }
@@ -27,12 +27,9 @@
         emojis.increment(sellValue);
     }
 
-    //Sellen kann man immer
     $: if (action == false) buyable = true;
-    //Wenn genügend Emojis vorhanden dann kann man es buyen
     else if ($emojis < $unlockedClicker.nextCost(numberOfItems))
         buyable = false;
-    //Sonst halt nicht
     else buyable = true;
 </script>
 
@@ -42,11 +39,10 @@
         <p>{$unlockedClicker.name}</p>
         <p>{marketValue}</p>
     </div>
-
-    {#if !$unlockedClicker.checkRemoveAmount(numberOfItems) && !action}
-        <button disabled class="bg-slate-300 font-bold border-slate-200 border-2 buy_button rounded-xl">
-            <span class="line-through">SELL</span>
-        </button>
+    {#if $unlockedClicker.getAmount() == 0 && !action}
+        <div class="flex justify-center items-center ">
+            <Lock size={32} />
+        </div>
     {:else}
         <button
             on:click={() => (action ? buyClick() : sellClick())}

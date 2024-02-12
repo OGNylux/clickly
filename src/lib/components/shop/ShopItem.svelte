@@ -2,6 +2,7 @@
     import type { StoreItem } from "$lib/data";
     import { formatNumber } from "$lib/helper";
     import { emojis, unlockedPassiveItems } from "$lib/store";
+    import { Lock } from "lucide-svelte";
 
     export let action: boolean;
     export let numberOfItems: number;
@@ -15,13 +16,13 @@
         item = value[itemIndex];
     });
 
-    $: if (!action && numberOfItems) marketValue = Math.round(item.nextSell(item.getAmount()-numberOfItems) * 0.3);
-       else marketValue = $unlockedPassiveItems[itemIndex].nextCost(numberOfItems);
+    $: if (!action && numberOfItems) marketValue = item.nextSell(numberOfItems);
+    else marketValue = $unlockedPassiveItems[itemIndex].nextCost(numberOfItems);
 
     function buyClick() {
         if ($emojis < item.nextCost(numberOfItems)) return;
 
-        $emojis -= item.nextCost(numberOfItems);
+        emojis.decrement(marketValue);
         item.addItem(numberOfItems);
     }
 
@@ -30,14 +31,12 @@
 
         let sellValue = Math.round(item.nextCost(numberOfItems) * 0.3);
         item.removeItem(numberOfItems);
-        $emojis += sellValue;
+        emojis.increment(sellValue);
     }
 
-    //Sellen kann man immer
     $: if (action == false) buyable = true;
-    //Wenn genügend Emojis vorhanden dann kann man es buyen
+    // if you have enough emojis, set buyable to true
     else if ($emojis < item.nextCost(numberOfItems)) buyable = false;
-    //Sonst halt nicht
     else buyable = true;
 </script>
 
@@ -50,23 +49,17 @@
         <p>{formatNumber(marketValue)}</p>
     </div>
 
-    <!-- 
-        Wenn der Verkauf nicht möglich ist, da man dann unter 0 fallen würde
-     -->
-    {#if !item.checkRemoveAmount(numberOfItems) && action==false}
-        <button
-            disabled
-            class="bg-slate-300 font-bold border-slate-200 border-2 buy_button rounded-xl"
-        >
-            <span class="line-through">SELL</span>
-        </button>
-    {:else if !item.checkAddAmount(numberOfItems) && action}
+    {#if !item.checkAddAmount(numberOfItems) && action}
         <button
             disabled
             class="bg-slate-300 font-bold border-slate-200 border-2 buy_button rounded-xl"
         >
             <span class="line-through">BUY</span>
         </button>
+    {:else if !item.checkRemoveAmount(numberOfItems) && !action}
+        <div class="flex justify-center items-center">
+            <Lock size={32} />
+        </div>
     {:else}
         <button
             on:click={() => (action ? buyClick() : sellClick())}

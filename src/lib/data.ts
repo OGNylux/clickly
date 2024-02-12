@@ -102,12 +102,22 @@ class ClickerItem extends StoreItem {
     }
 
     nextCost(count: number) {
-        if (count == 0) return this.initialCost * Math.pow(this.costMultiplier, this.amount);
-        return Math.floor(this.initialCost * Math.pow(this.costMultiplier, this.amount) * count);
+        if (this.amount == 0 && count == 1) return this.initialCost;
+        if (count == 1) return Math.floor(this.initialCost * this.costMultiplier ** (this.amount + count - 1));
+        let tmp = 0;
+        for (let i = 0; i < count; i++) {
+            tmp += Math.floor(this.initialCost * this.costMultiplier ** (this.amount + i));
+        }
+        return tmp;
     }
 
     nextSell(count: number): number {
-        return Math.floor(this.initialCost * Math.pow(this.costMultiplier, this.amount - count ));
+        let tmp = 0;
+        for (let i = 0; i < count; i++) {
+            if (this.amount - i <= 0) break;
+            tmp += Math.floor((this.initialCost * this.costMultiplier ** (this.amount - i))*0.3);
+        }
+        return tmp;
     }
 
     getInfluence(): number {
@@ -147,30 +157,41 @@ class PassiveIncomeItem extends StoreItem {
     getInfluence(): number {
         return this.amount * this.incomeMultiplier;
     }
-    nextSell(count: number): number {
-        return Math.floor(this.initialCost * Math.pow(this.costMultiplier, this.amount - count ));
-    }
 
     nextCost(count: number) {
-        return Math.floor(this.initialCost * Math.pow(this.costMultiplier, this.amount) * count);
+        if (this.amount == 0 && count == 1) return this.initialCost;
+        if (count == 1) return Math.floor(this.initialCost * this.costMultiplier ** (this.amount + count - 1));
+        let tmp = 0;
+        for (let i = 0; i < count; i++) {
+            tmp += Math.floor(this.initialCost * this.costMultiplier ** (this.amount + i));
+        }
+        return tmp;
+    }
+
+    nextSell(count: number): number {
+        let tmp = 0;
+        for (let i = 0; i < count; i++) {
+            if (this.amount - i <= 0) break;
+            tmp += Math.floor((this.initialCost * this.costMultiplier ** (this.amount - i))*0.3);
+        }
+        return tmp;
     }
 }
 
-// @Johannes sollte das nicht passiveicum extenden?
 class ExpensivePassiveIncomeItem extends StoreItem {
     costArray: number[];
     incomeArray: number[];
 
-    constructor(item: Item,costArray: number[], incomeArray: number[]) {
+    constructor(item: Item, costArray: number[], incomeArray: number[]) {
         super(item);
         this.costArray = costArray;
         this.incomeArray = incomeArray;
     }
 
     nextCost(count: number): number {
-        if(this.amount + count > this.costArray.length) return Infinity;
-        if(this.amount == 0) return this.costArray[0];
-        return this.costArray[this.amount + count-1];
+        if (this.amount + count > this.costArray.length) return Infinity;
+        if (this.amount == 0) return this.costArray[0];
+        return this.costArray[this.amount + count - 1];
     }
     nextSell(count: number): number {
         return this.costArray[this.amount - count];
@@ -184,18 +205,18 @@ class ExpensivePassiveIncomeItem extends StoreItem {
 
 }
 
-// Hier werden die Werte direkt in der Klasse definiert, falls man weiß das Custom verhalten gibt es nur einmal
+// values are directly defined in the class here
 class EasyExpensivePassiveIncomeItem extends StoreItem {
     costArray: number[] = [300, 500, 1000, 2000, 5000];
     incomeArray: number[] = [0, 6, 12, 30, 33, 96];
-    constructor(){
+    constructor() {
         super({ name: "easy", description: "easy", image: { src: "emojis/hot.svg", alt: "hot face" }, initialCost: 300, max: 5 });
     }
 
     nextCost(count: number): number {
-        if(this.amount + count > this.costArray.length) return Infinity;
-        if(this.amount == 0) return this.costArray[0];
-        return this.costArray[this.amount + count-1];
+        if (this.amount + count > this.costArray.length) return Infinity;
+        if (this.amount == 0) return this.costArray[0];
+        return this.costArray[this.amount + count - 1];
     }
 
     nextSell(count: number): number {
@@ -271,11 +292,14 @@ let easyHot = new EasyExpensivePassiveIncomeItem();
 let costArray = [300, 500, 1000, 2000, 5000];
 let incomeArray = [0, 6, 12, 30, 33, 96];
 let expensiveHot = new ExpensivePassiveIncomeItem(
-    { name: "expensive hot face", 
-    description: "hot face", 
-    image: { src: "emojis/hot.svg", 
-    alt: "hot face" 
-}, initialCost: Infinity, max: costArray.length }, costArray, incomeArray);
+    {
+        name: "expensive hot face",
+        description: "hot face",
+        image: {
+            src: "emojis/hot.svg",
+            alt: "hot face"
+        }, initialCost: Infinity, max: costArray.length
+    }, costArray, incomeArray);
 
 
 /**
@@ -297,8 +321,8 @@ export const levelScores = [2000, 5000, 10000, 50000];
  * The key t0 is he initial rewards starting items.
  * Note that you can also skip levels, e.g. level 2 has no rewards, but level 3 and 1 has.
  */
-export const levelUpRewards: Record<number, Array<StoreItem|FarmItem>> = {
-    0: [nerd, blushed, expensiveHot],
+export const levelUpRewards: Record<number, Array<StoreItem | FarmItem>> = {
+    0: [nerd, blushed],
     1: [easyHot],
     3: [peach]
 }
