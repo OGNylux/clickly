@@ -22,7 +22,12 @@
 <div class="grid grid-flow-col grid-cols-3 place-content-start bg-amber-800 w-96 rounded-xl text-white shadow_top">
     <div class="flex flex-col justify-between p-2 col-span-2">
         <p class="font-bold">{upgrade.name}</p>
-        <p>{upgrade.nextCost(1)}</p>
+
+        {#if upgrade.checkAddAmount(1)}
+            <p>{upgrade.nextCost(1)}</p>
+        {:else}
+            <p>maxxed out</p>
+        {/if}
     </div>
     <div class="w-full bg-amber-900 border-2 border-amber-800 rounded-xl flex items-center relative">
         <span class="text-xl w-10 grid place-content-center">x {upgrade.getAmount()}</span>
