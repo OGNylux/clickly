@@ -15,7 +15,7 @@
             <path class="fill-amber-800" d="M9.408 98.621a12 12 0 0 1 1.354-4.373L57.694 6.7A12 12 0 0 1 70.418.564l180.734 32.882c1.279.232 2.588.256 3.875.068l169.23-24.62a12 12 0 0 1 13.28 8.628l25.789 91.75c.225.803.534 1.58.921 2.319l23.308 44.526a12 12 0 0 1-2.854 14.704l-101.772 86.62a11.998 11.998 0 0 1-6.886 2.828L258.88 269l-181.39-8.793a12 12 0 0 1-8.017-3.615L3.942 189.278a12 12 0 0 1-3.332-9.667l8.798-80.99Z" fill="#D9D9D9"/>
         </svg>
     </div>
-    <div class="absolute bottom-0 left-0 w-full flex flex-wrap justify-between p-2">
+    <div class="absolute bottom-0 left-0 w-full flex flex-wrap justify-between p-2 gap-2">
         {#each $farmUpgrades as upgrade}
             <FarmUpgrade upgrade={upgrade} />
         {/each}
@@ -23,10 +23,10 @@
     <div class="absolute top-0 left-0 w-full flex justify-center mt-2">
         <h2 class="bg-[#0000005d] text-white p-2 w-fit rounded-xl text-3xl text-center">crops: {$crops}</h2>
     </div>
-    <div class="absolute left-0 bottom-20">
+    <div class="absolute left-0 bottom-20 hidden 2xl:block">
         <img src="/emojis/hut.svg" alt="Hut" class="w-3/4 ml-2">
     </div>
-    <div class="absolute right-0 bottom-20 ">
+    <div class="absolute right-0 bottom-20 hidden 2xl:block">
         <img src="/emojis/tractor.svg" alt="Tractor" class="h-3/4 mr-2">
     </div>
 </div>
@@ -36,4 +36,4 @@
         background: url('grass.svg');
         background-size: cover;
     }
-</style> 
+</style>
