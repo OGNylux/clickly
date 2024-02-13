@@ -56,6 +56,10 @@
         >
             <span class="line-through">BUY</span>
         </button>
+    {:else if item.getAmount() == 0 && !action}
+        <div class="flex justify-center items-center">
+            <Lock size={32} />
+        </div>
     {:else}
         <button
             on:click={() => (action ? buyClick() : sellClick())}
