@@ -30,7 +30,7 @@
             <p class="text-4xl truncate">{storeItem.getAmount()}</p>
             {#if storeItem instanceof ClickerItem}
                 <p class="text-sm truncate -m-2">{storeItem.getInfluence()+1} E/c</p>
-            {:else if storeItem instanceof PassiveIncomeItem}
+            {:else}
                 <p class="text-sm truncate -m-2">{storeItem.getInfluence()} E/s</p>
             {/if}
         </div>

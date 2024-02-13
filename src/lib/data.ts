@@ -210,7 +210,7 @@ class EasyExpensivePassiveIncomeItem extends StoreItem {
     costArray: number[] = [300, 500, 1000, 2000, 5000];
     incomeArray: number[] = [0, 6, 12, 30, 33, 96];
     constructor() {
-        super({ name: "easy", description: "easy", image: { src: "emojis/hot.svg", alt: "hot face" }, initialCost: 300, max: 5 });
+        super({ name: "easy", description: "easy", image: { src: "emojis/hot.svg", alt: "hot face" }, initialCost: 300, max: 5, component: "HotEmoji"});
     }
 
     nextCost(count: number): number {
@@ -224,8 +224,6 @@ class EasyExpensivePassiveIncomeItem extends StoreItem {
     }
 
     getInfluence(): number {
-        console.log(this.amount);
-        console.log(this.incomeArray[this.amount]);
         return this.incomeArray[this.amount];
     }
 }
