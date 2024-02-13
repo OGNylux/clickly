@@ -57,7 +57,7 @@
             <Popover.Trigger>
                 <div class="p-4">
                     {#if farmItem}
-                        <img src={farmItem.image.src} alt={farmItem.image.alt} class="size-16" />
+                        <img src={farmItem.image.src} alt={farmItem.image.alt} class="size-16" style={`transform: scale(${$progress}%); transform-origin: center center`} />
                     {:else}
                         <Plus class="size-10 text-amber-900" />
                     {/if}
@@ -93,18 +93,18 @@
                     <Progress.Root
                         value={$progress}
                         max={100}
-                        class="bg-slate-200 w-full h-3 rounded-xl overflow-hidden">
+                        class="bg-slate-200 w-5/6 mx-auto h-2 rounded-xl overflow-hidden">
                         <div class="bg-yellow-400 rounded-xl h-full" style={`transform: translateX(-${
                             100 - (100 * ($progress ?? 0)) / (100 ?? 1)
-                        }%)`}
-                    ></div>
+                        }%)`}></div>
                     </Progress.Root>
                 </Tooltip.Trigger>
                 <Tooltip.Content
                     transition={flyAndScale}
                     transitionConfig={{ y: 8, duration: 150 }}
                     sideOffset={6}
-                    side={'bottom'}>
+                    side={'bottom'}
+                    class="z-20">
                     <div class="bg-slate-200">
                         <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-300" />
                     </div>
