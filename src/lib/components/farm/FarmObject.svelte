@@ -52,7 +52,7 @@
 </script>
 
 <div class="flex flex-col justify-center gap-1">
-    <button on:click={collect} class="bg-amber-950 rounded-3xl transform active:scale-90 transition z-10 select-none size-20 grid place-content-center">  
+    <button on:click={collect} class="bg-amber-950 rounded-3xl transform active:scale-90 transition z-10 select-none xl:size-20 grid place-content-center">  
         <Popover.Root bind:open={popoverOpen}>
             <Popover.Trigger>
                 <div class="p-4">
@@ -64,7 +64,7 @@
                 </div>
             </Popover.Trigger>
             <Popover.Content
-                class="z-20 w-80 rounded-xl border-2 border-slate-300 bg-slate-200 p-4 shadow-2xl"
+                class="z-20 w-60 rounded-xl border-2 border-slate-300 bg-slate-200 p-4 shadow-2xl"
                 transition={flyAndScale}
                 sideOffset={20}
                 side={'top'}>
@@ -73,14 +73,17 @@
                     <Popover.Close><X /></Popover.Close>
                 </div>
                 <Separator.Root class="-mx-4 my-3 h-px bg-slate-300" />
-                {#each $unlockedFarmItems as item}
-                    <button on:click={() => plant(item)}>
-                        <img src={item.image.src} alt={item.image.alt}>
-                        <span>{item.getAvailable()}</span>
-                    </button>
-                {:else}
-                    noch nischt freigeschaltet
-                {/each}
+                <div class="flex gap-2">
+                    {#each $unlockedFarmItems as item}
+                        <button on:click={() => plant(item)} 
+                            class={`relative text-center bg-slate-300 rounded-xl size-16 p-2 ${item.getAvailable() == 0 ? 'opacity-50' : ''}`}>
+                            <img src={item.image.src} alt={item.image.alt}>
+                            <span class="absolute bottom-0 right-0 p-1">{item.getAvailable()}</span>
+                        </button>
+                    {:else}
+                        noch nischt freigeschaltet
+                    {/each}
+                </div>
                 <Popover.Arrow />
             </Popover.Content>
         </Popover.Root>

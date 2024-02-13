@@ -17,7 +17,7 @@
         else buyable = true;
 </script>
 
-<div class="grid grid-flow-col grid-cols-3 place-content-start bg-amber-800 w-96 rounded-xl text-white">
+<div class="grid grid-flow-col grid-cols-3 place-content-start bg-amber-800 w-96 rounded-xl text-white shadow_top">
     <div class="flex flex-col justify-between p-2 col-span-2">
         <p class="font-bold">{upgrade.name}</p>
         <p>{upgrade.nextCost(1)}</p>
@@ -37,5 +37,8 @@
 <style>
     .buy_button {
         border-radius: 0px 12px 12px 0px;
+    }
+    .shadow_top{
+        box-shadow: 0px -1px 10px 1px rgba(0,0,0,0.2);
     }
 </style>

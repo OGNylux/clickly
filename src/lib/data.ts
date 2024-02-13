@@ -363,7 +363,7 @@ const initialFarmUpgrades = () => {
         description: "Increases the number of fields you can have at once. ",
         image: { src: "emojis/house.svg", alt: "house" },
         initialCost: 5000,
-        max: 8
+        max: 7
     }, 2),
     new FarmUpgrade({
         name: "Tractor Upgrade",

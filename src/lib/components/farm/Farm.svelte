@@ -4,9 +4,9 @@
     import { crops, farmUpgrades } from "$lib/store";
 </script>
 
-<div class="w-full h-full rounded-xl border-2 border-slate-200 relative grid place-content-center bg-[url(grasstile.svg)]" id="farm">
+<div class="w-full h-full overflow-hidden rounded-xl border-2 border-slate-200 relative grid place-content-center bg-[url(grasstile.svg)]" id="farm">
     <div class="grid grid-cols-4 place-content-center gap-4">
-        {#each { length: $farmUpgrades[0].getAmount()} as _}
+        {#each { length: $farmUpgrades[0].getAmount() + 1} as _}
             <FarmObjekt />
         {/each}
     </div>
