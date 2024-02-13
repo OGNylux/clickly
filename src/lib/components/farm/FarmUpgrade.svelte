@@ -1,11 +1,12 @@
 <script lang="ts">
     import type { FarmUpgrade } from "$lib/data";
-    import { emojis, farmUpgrades } from "$lib/store";
+    import { emojis } from "$lib/store";
 
     export let upgrade: FarmUpgrade;
 
     function buy(){
         if ($emojis < upgrade.nextCost(1)) return;
+
         emojis.decrement(upgrade.nextCost(1));
         upgrade.addItem(1);
     }

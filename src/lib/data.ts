@@ -370,8 +370,8 @@ const initialFarmUpgrades = () => {
         description: "Increases the speed at which your crops grow.",
         image: { src: "emojis/tractor.svg", alt: "tractor" },
         initialCost: 10000,
-        max: Infinity
-    }, 2, 1)
+        max: 9 // max 90% speed increase
+    }, 2, 0.1)
 ]};
 
 /**

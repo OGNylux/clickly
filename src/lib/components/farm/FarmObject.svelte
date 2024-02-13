@@ -1,6 +1,6 @@
 <script lang="ts">
     import { tweened } from "svelte/motion";
-    import { crops, unlockedFarmItems } from "$lib/store";
+    import { crops, farmUpgrades, unlockedFarmItems } from "$lib/store";
     import { Tooltip, Popover, Separator, Progress } from "bits-ui";
     import type { FarmItem } from "$lib/data";
     import { Plus, X } from "lucide-svelte";
@@ -15,11 +15,13 @@
     function startProgress() {
         if (farmItem == null) return;
 
+        const time = farmItem.growthTime * (1 - $farmUpgrades[1].getInfluence());
+        console.log(time);
         progress.subscribe((value) => {
             if (farmItem == null) return;
-            remainingTime = Math.ceil((1 - value / 100) * farmItem.growthTime);
+            remainingTime = Math.ceil((1 - value / 100) * time);
         });
-        progress.set(100, { duration: farmItem.growthTime });
+        progress.set(100, { duration: time });
     }
 
     function collect() {
