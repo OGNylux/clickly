@@ -1,4 +1,4 @@
-import { unlockedClicker, unlockedPassiveItems } from "./store";
+import { farmUpgrades, unlockedClicker, unlockedFarmItems, unlockedPassiveItems } from "./store";
 
 
 interface Item {
@@ -198,8 +198,6 @@ class ExpensivePassiveIncomeItem extends StoreItem {
     }
 
     getInfluence(): number {
-        console.log(this.amount);
-        console.log(this.incomeArray[this.amount]);
         return this.incomeArray[this.amount];
     }
 
@@ -224,15 +222,13 @@ class EasyExpensivePassiveIncomeItem extends StoreItem {
     }
 
     getInfluence(): number {
-        console.log(this.amount);
-        console.log(this.incomeArray[this.amount]);
         return this.incomeArray[this.amount];
     }
 }
 
 class FarmItem {
-    protected amount: number = 0;
-    planted: number = 0;
+    protected amount: number = 1;
+    protected planted: number = 0;
     readonly name: string;
     readonly description: string;
     readonly value: number;
@@ -255,20 +251,27 @@ class FarmItem {
         if (this.planted + 1 > this.amount) return;
 
         this.planted += 1;
+        unlockedFarmItems.update(this);
     }
 
     harvest() {
         if (this.planted - 1 < 0) return;
 
         this.planted -= 1;
+        unlockedFarmItems.update(this);
     }
 
     getAmount() {
         return this.amount;
     }
+
+    setAmount(amount: number) {
+        this.amount = amount;
+        unlockedFarmItems.update(this);
+    }
 }
 
-class FarmUpgradeItem extends StoreItem {
+class FarmUpgrade extends StoreItem {
     costMultiplier: number;
     growthTimeMultiplier?: number;
 
@@ -295,6 +298,12 @@ class FarmUpgradeItem extends StoreItem {
             tmp += Math.floor((this.initialCost * this.costMultiplier ** (this.amount - i))*0.3);
         }
         return tmp;
+    }
+
+    addItem(amount: number = 1) {
+        if (this.amount + amount > this.max) return; // fix needed
+        this.amount = this.amount + amount;
+        farmUpgrades.update(this);
     }
 
     getInfluence(): number {
@@ -341,22 +350,6 @@ let expensiveHot = new ExpensivePassiveIncomeItem(
 /**
  * Farm Definitions
  */
-let houseUpgrade = new FarmUpgradeItem({
-    name: "House Upgrade",
-    description: "Increases the number of fields you can have at once. ",
-    image: { src: "emojis/house.svg", alt: "house" },
-    initialCost: 5000,
-    max: 8
-}, 2);
-
-let tractorUpgrade = new FarmUpgradeItem({
-    name: "Tractor Upgrade",
-    description: "Increases the speed at which your crops grow.",
-    image: { src: "emojis/tractor.svg", alt: "tractor" },
-    initialCost: 10000,
-    max: Infinity
-}, 2, 0.8);
-
 let strawberry = new FarmItem("Strawberry", "A juicy strawberry", 1, 5000, { src: "emojis/strawberry.svg", alt: "strawberry" });
 let peach = new FarmItem("Peach", "A juicy peach", 2, 10000, { src: "emojis/peach.svg", alt: "peach" });
 
@@ -376,8 +369,8 @@ export const levelScores = [2000, 5000, 10000, 50000];
  */
 export const levelUpRewards: Record<number, Array<StoreItem | FarmItem>> = {
     0: [nerd, blushed],
-    1: [easyHot, strawberry],
-    3: [peach]
+    1: [strawberry],
+    3: [peach, easyHot]
 }
 
-export { StoreItem, ClickerItem, PassiveIncomeItem, EasyExpensivePassiveIncomeItem, ExpensivePassiveIncomeItem, FarmItem };
+export { StoreItem, ClickerItem, PassiveIncomeItem, EasyExpensivePassiveIncomeItem, FarmItem, FarmUpgrade };

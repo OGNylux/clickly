@@ -72,6 +72,7 @@
                 {#each $unlockedFarmItems as item}
                     <button on:click={() => plant(item)}>
                         <img src={item.image.src} alt={item.image.alt}>
+                        <span>{item.getAmount()}</span>
                     </button>
                 {:else}
                     noch nischt freigeschaltet
