@@ -23,7 +23,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@heroiclabs/nakama-js": "^2.7.1",
+		"bits-ui": "^0.18.0",
 		"lucide-svelte": "^0.321.0",
 		"motion": "^10.17.0"
 	}
