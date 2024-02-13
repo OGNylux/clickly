@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { FarmUpgrade } from "$lib/data";
     import { emojis } from "$lib/store";
+    import { Lock } from "lucide-svelte";
 
     export let upgrade: FarmUpgrade;
 
@@ -28,9 +29,13 @@
         <button
             on:click={() => buy()}
             disabled={!buyable}
-            class={`absolute top-0 right-0 h-full left-10 buy_button transition font-bold border-amber-800 border-l-2 
+            class={`absolute top-0 right-0 h-full left-10 buy_button transition font-bold border-amber-800 border-l-2 flex justify-center items-center 
                 ${buyable ? "bg-amber-950 hover:bg-amber-900 " : "bg-amber-900"}`}>
-            BUY
+            {#if upgrade.checkAddAmount(1)}
+                BUY
+            {:else}
+                <Lock size={32} />
+            {/if}
         </button>
     </div>
 </div>
