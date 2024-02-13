@@ -40,9 +40,7 @@
     else buyable = true;
 </script>
 
-<div
-    class="grid grid-flow-col grid-cols-4 place-content-start bg-slate-200 w-96 rounded-xl"
->
+<div class="grid grid-flow-col grid-cols-4 place-content-start bg-slate-200 w-96 rounded-xl">
     <img src={item.image.src} alt="" class="size-16 p-2 drop-shadow-xl" />
     <div class="flex flex-col justify-between p-2 col-span-2">
         <p>{item.name}</p>
@@ -50,25 +48,16 @@
     </div>
 
     {#if !item.checkAddAmount(numberOfItems) && action}
-        <button
-            disabled
-            class="bg-slate-300 font-bold border-slate-200 border-2 buy_button rounded-xl"
-        >
-            <span class="line-through">BUY</span>
+        <button disabled class="flex justify-center items-center bg-slate-300 font-bold border-slate-200 border-2 buy_button">
+            <Lock size={32} />
         </button>
     {:else if !item.checkRemoveAmount(numberOfItems) && !action}
-        <div class="flex justify-center items-center">
+        <div class="flex justify-center items-center bg-slate-300 font-bold border-slate-200 border-2 buy_button">
             <Lock size={32} />
         </div>
     {:else}
-        <button
-            on:click={() => (action ? buyClick() : sellClick())}
-            class={`buy_button transition font-bold border-slate-200 border-2 ${
-                buyable
-                    ? "bg-slate-100 hover:bg-white "
-                    : "bg-slate-300 border-slate-200"
-            }`}
-        >
+        <button on:click={() => (action ? buyClick() : sellClick())} 
+            class={`buy_button transition font-bold border-slate-200 border-2 ${buyable ? "bg-slate-100 hover:bg-white " : "bg-slate-300 border-slate-200"}`}>
             {action ? "BUY" : "SELL"}
         </button>
     {/if}

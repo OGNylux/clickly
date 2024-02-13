@@ -4,11 +4,12 @@
     import Emoji from "./Emoji.svelte";
 
     export let storeItem: StoreItem;
-</script>
-
-<div class="flex bg-slate-200 w-96 rounded-xl">
+</script>   
+<div class="flex bg-slate-200 z-10 rounded-xl w-96 relative h-[66px]">
     <div class="m-2 mt-1 w-full">
-        <p class="font-bold">{storeItem.name}</p>
+        {#if storeItem.getAmount() > 0}
+            <p class="font-bold">{storeItem.name}</p>
+        {/if}
         <div class="flex h-8 -space-x-4 rtl:space-x-reverse">
             {#each {length: Math.min(storeItem.getAmount(), 10)} as _}
                 {#if storeItem.component}
@@ -34,4 +35,9 @@
             {/if}
         </div>
     </div>
+    {#if storeItem.getAmount() == 0}
+        <div class="absolute flex justify-center items-center w-full h-full bg-slate-200 bg-opacity-90 rounded-xl z-11">
+            <span class="font-bold text-4xl">???</span>
+        </div>
+    {/if}
 </div>
