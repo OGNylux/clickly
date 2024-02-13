@@ -1,7 +1,6 @@
 <script lang="ts">
     import { ClickerItem, PassiveIncomeItem, StoreItem } from "$lib/data";
     import { ArrowBigUpDash } from "lucide-svelte";
-    import { StoreItem } from "$lib/data";
     import Emoji from "./Emoji.svelte";
 
     export let storeItem: StoreItem;
