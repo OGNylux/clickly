@@ -1,6 +1,6 @@
 <script lang="ts">
     import { tweened } from "svelte/motion";
-    import {crops, unlockedFarmItems} from "$lib/store";
+    import { crops, unlockedFarmItems } from "$lib/store";
     import { Tooltip, Popover, Separator, Progress } from "bits-ui";
     import type { FarmItem } from "$lib/data";
     import { Plus, X } from "lucide-svelte";
@@ -23,8 +23,9 @@
     }
 
     function collect() {
-        if (remainingTime == 0) {
-            crops.increment(1);
+        if (remainingTime == 0 && farmItem != null) {
+            crops.increment(farmItem.value);
+            farmItem.harvest();
             farmItem = null;
             progress.set(0);
         }
@@ -33,10 +34,13 @@
     function plant(item: FarmItem) {
         if (remainingTime > 0) return;
 
-        popoverOpen = false;
-        farmItem = item;
-        remainingTime = item.growthTime;
-        startProgress();
+        if (item.getAvailable() > 0){
+            farmItem = item;
+            farmItem.plant();
+            remainingTime = item.growthTime;
+            popoverOpen = false;
+            startProgress();
+        } 
     }
 
     function millisToMinutesAndSeconds(millis: number) {
@@ -72,7 +76,7 @@
                 {#each $unlockedFarmItems as item}
                     <button on:click={() => plant(item)}>
                         <img src={item.image.src} alt={item.image.alt}>
-                        <span>{item.getAmount()}</span>
+                        <span>{item.getAvailable()}</span>
                     </button>
                 {:else}
                     noch nischt freigeschaltet

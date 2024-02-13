@@ -1,5 +1,5 @@
 import { writable, get } from "svelte/store";
-import { ClickerItem, FarmItem, FarmUpgrade, StoreItem } from "$lib/data";
+import { ClickerItem, FarmItem, FarmUpgrade, StoreItem, initialFarmUpgrades } from "$lib/data";
 
 
 // enable server communication and certain features
@@ -45,23 +45,6 @@ function unlockedFarmItemsFunc() {
     };
 }
 export const unlockedFarmItems = unlockedFarmItemsFunc();
-
-const initialFarmUpgrades = () => {
-    return [ new FarmUpgrade({
-        name: "House Upgrade",
-        description: "Increases the number of fields you can have at once. ",
-        image: { src: "emojis/house.svg", alt: "house" },
-        initialCost: 5000,
-        max: 8
-    }, 2),
-    new FarmUpgrade({
-        name: "Tractor Upgrade",
-        description: "Increases the speed at which your crops grow.",
-        image: { src: "emojis/tractor.svg", alt: "tractor" },
-        initialCost: 10000,
-        max: Infinity
-    }, 2, 0.8)
-]};
 
 function farmUpgradeFunc() {
     const store = writable<FarmUpgrade[]>(initialFarmUpgrades())

@@ -261,6 +261,10 @@ class FarmItem {
         unlockedFarmItems.update(this);
     }
 
+    getAvailable() {
+        return this.amount - this.planted;
+    }
+
     getAmount() {
         return this.amount;
     }
@@ -353,6 +357,22 @@ let expensiveHot = new ExpensivePassiveIncomeItem(
 let strawberry = new FarmItem("Strawberry", "A juicy strawberry", 1, 5000, { src: "emojis/strawberry.svg", alt: "strawberry" });
 let peach = new FarmItem("Peach", "A juicy peach", 2, 10000, { src: "emojis/peach.svg", alt: "peach" });
 
+const initialFarmUpgrades = () => {
+    return [ new FarmUpgrade({
+        name: "House Upgrade",
+        description: "Increases the number of fields you can have at once. ",
+        image: { src: "emojis/house.svg", alt: "house" },
+        initialCost: 5000,
+        max: 8
+    }, 2),
+    new FarmUpgrade({
+        name: "Tractor Upgrade",
+        description: "Increases the speed at which your crops grow.",
+        image: { src: "emojis/tractor.svg", alt: "tractor" },
+        initialCost: 10000,
+        max: Infinity
+    }, 2, 1)
+]};
 
 /**
  * This array contains the scores needed to level up.
@@ -373,4 +393,4 @@ export const levelUpRewards: Record<number, Array<StoreItem | FarmItem>> = {
     3: [peach, easyHot]
 }
 
-export { StoreItem, ClickerItem, PassiveIncomeItem, EasyExpensivePassiveIncomeItem, FarmItem, FarmUpgrade };
+export { StoreItem, ClickerItem, PassiveIncomeItem, EasyExpensivePassiveIncomeItem, FarmItem, FarmUpgrade, initialFarmUpgrades };

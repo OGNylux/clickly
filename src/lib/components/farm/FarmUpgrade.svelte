@@ -1,0 +1,41 @@
+<script lang="ts">
+    import type { FarmUpgrade } from "$lib/data";
+    import { emojis, farmUpgrades } from "$lib/store";
+
+    export let upgrade: FarmUpgrade;
+
+    function buy(){
+        if ($emojis < upgrade.nextCost(1)) return;
+        emojis.decrement(upgrade.nextCost(1));
+        upgrade.addItem(1);
+    }
+
+    let buyable = true;
+
+    $ : if ($emojis < upgrade.nextCost(1) || !upgrade.checkAddAmount(1))
+            buyable = false;
+        else buyable = true;
+</script>
+
+<div class="grid grid-flow-col grid-cols-3 place-content-start bg-amber-800 w-96 rounded-xl text-white">
+    <div class="flex flex-col justify-between p-2 col-span-2">
+        <p class="font-bold">{upgrade.name}</p>
+        <p>{upgrade.nextCost(1)}</p>
+    </div>
+    <div class="w-full bg-amber-900 border-2 border-amber-800 rounded-xl flex items-center relative">
+        <span class="text-xl w-10 grid place-content-center">x {upgrade.getAmount()}</span>
+        <button
+            on:click={() => buy()}
+            disabled={!buyable}
+            class={`absolute top-0 right-0 h-full left-10 buy_button transition font-bold border-amber-800 border-l-2 
+                ${buyable ? "bg-amber-950 hover:bg-amber-900 " : "bg-amber-900"}`}>
+            BUY
+        </button>
+    </div>
+</div>
+
+<style>
+    .buy_button {
+        border-radius: 0px 12px 12px 0px;
+    }
+</style>
