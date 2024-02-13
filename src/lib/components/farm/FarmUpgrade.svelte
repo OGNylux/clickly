@@ -29,11 +29,11 @@
         {/if}
     </div>
     <div class="w-full bg-amber-900 border-2 border-amber-800 rounded-xl flex items-center relative">
-        <span class="text-xl w-10 grid place-content-center">x {upgrade.getAmount()}</span>
+        <span class="text-xl w-12 grid place-content-center">x {upgrade.getAmount()}</span>
         <button
             on:click={() => buy()}
             disabled={!buyable}
-            class={`absolute top-0 right-0 h-full left-10 inset-0 buy_button transition font-bold border-amber-800 border-l-2 flex justify-center items-center 
+            class={`absolute top-0 h-full w-20 right-0 buy_button transition font-bold border-amber-800 border-l-2 flex justify-center items-center 
                 ${buyable ? "bg-amber-950 hover:bg-amber-900 " : "bg-amber-900"}`}>
             {#if upgrade.checkAddAmount(1)}
                 BUY
