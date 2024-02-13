@@ -2,6 +2,13 @@
     import FarmObjekt from "$lib/components/farm/FarmObject.svelte";
     import FarmUpgrade from "$lib/components/farm/FarmUpgrade.svelte";
     import { crops, farmUpgrades } from "$lib/store";
+    import { onMount } from 'svelte';
+
+    onMount(() => {
+        const audio = new Audio('/farm/ambience.mp3');
+        audio.loop = true;
+        audio.play();
+    });
 </script>
 
 <div class="w-full h-full overflow-hidden rounded-xl border-2 border-slate-200 relative grid place-content-center" id="farm">
