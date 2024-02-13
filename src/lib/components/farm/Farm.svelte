@@ -3,15 +3,29 @@
     import FarmUpgrade from "$lib/components/farm/FarmUpgrade.svelte";
     import { crops, farmUpgrades } from "$lib/store";
     import { onMount } from 'svelte';
+    import { tweened } from "svelte/motion";
+    import { sineInOut } from "svelte/easing";
+
+    let audio: HTMLAudioElement;
+    let volume = tweened(0, { duration: 750, easing: sineInOut });
 
     onMount(() => {
-        const audio = new Audio('/farm/ambience.mp3');
+        audio = new Audio('/farm/ambience.mp3');
         audio.loop = true;
-        audio.play();
     });
+
+    $ : if (audio) {
+            audio.volume = $volume / 100
+            if ($volume == 0) audio.pause();
+        }
 </script>
 
-<div class="w-full h-full overflow-hidden rounded-xl border-2 border-slate-200 relative grid place-content-center" id="farm">
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div 
+    class="w-full h-full overflow-hidden rounded-xl border-2 border-slate-200 relative grid place-content-center" 
+    id="farm" 
+    on:mouseenter={() => { volume.set(100); audio.play(); }} 
+    on:mouseleave={() => volume.set(0)}>
     <div class="grid grid-cols-4 grid-rows-2 place-content-center gap-4">
         {#each { length: $farmUpgrades[0].getAmount() + 1} as _}
             <FarmObjekt />
