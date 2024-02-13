@@ -80,7 +80,8 @@
             transition={flyAndScale}
             transitionConfig={{ y: 8, duration: 150 }}
             sideOffset={-5}
-            side={'bottom'}>
+            side={'bottom'}
+            class="z-20">
             <div class="bg-slate-200">
                 <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-300" />
             </div>
@@ -106,7 +107,8 @@
                     transition={flyAndScale}
                     transitionConfig={{ y: 8, duration: 150 }}
                     sideOffset={-5}
-                    side={'bottom'}>
+                    side={'bottom'}
+                    class="z-20">
                     <div class="bg-slate-200">
                         <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-300" />
                     </div>
