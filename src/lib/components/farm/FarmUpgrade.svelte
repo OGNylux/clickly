@@ -33,7 +33,7 @@
         <button
             on:click={() => buy()}
             disabled={!buyable}
-            class={`absolute top-0 right-0 h-full w-full left-10 buy_button transition font-bold border-amber-800 border-l-2 flex justify-center items-center 
+            class={`absolute top-0 right-0 h-full left-10 inset-0 buy_button transition font-bold border-amber-800 border-l-2 flex justify-center items-center 
                 ${buyable ? "bg-amber-950 hover:bg-amber-900 " : "bg-amber-900"}`}>
             {#if upgrade.checkAddAmount(1)}
                 BUY
