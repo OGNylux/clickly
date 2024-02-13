@@ -22,7 +22,6 @@
 <div class="grid grid-flow-col grid-cols-3 place-content-start bg-amber-800 w-96 rounded-xl text-white shadow_top">
     <div class="flex flex-col justify-between p-2 col-span-2">
         <p class="font-bold">{upgrade.name}</p>
-
         {#if upgrade.checkAddAmount(1)}
             <p>{upgrade.nextCost(1)}</p>
         {:else}
@@ -34,7 +33,7 @@
         <button
             on:click={() => buy()}
             disabled={!buyable}
-            class={`absolute top-0 right-0 h-full left-10 buy_button transition font-bold border-amber-800 border-l-2 flex justify-center items-center 
+            class={`absolute top-0 right-0 h-full w-full left-10 buy_button transition font-bold border-amber-800 border-l-2 flex justify-center items-center 
                 ${buyable ? "bg-amber-950 hover:bg-amber-900 " : "bg-amber-900"}`}>
             {#if upgrade.checkAddAmount(1)}
                 BUY
