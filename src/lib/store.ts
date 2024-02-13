@@ -1,25 +1,50 @@
-import { writable } from "svelte/store";
-import type { StoreItem } from "$lib/data";
+import { writable, get } from "svelte/store";
+import { ClickerItem, FarmItem, StoreItem } from "$lib/data";
+
 
 // enable server communication and certain features
 export const isClassic = writable(true);
 
-// no magic numbers pls 👉👈
-// maybe dinamically calculate this based on the data.ts file?
-const numberOfBuildings = 8;
 
-function unlockedStore() {
-    const { subscribe, set, update } = writable<StoreItem[]>([]);
+function clickerStoreFunc() {
+    const store = writable(new ClickerItem());
+    const { subscribe, set, update } = store;
     return {
         subscribe,
+        update: (item: ClickerItem) => update(_=>item),
+        get: () => get(store),
+        reset: () => set(new ClickerItem()),
+    };
+}
+export const unlockedClicker = clickerStoreFunc();
+
+function passiveStoreItems() {
+    const store = writable<StoreItem[]>([]);
+    const { subscribe, set, update } = store;
+    return {
+        subscribe,
+        update: (item: StoreItem) => update(n => n.map(i => i.name == item.name ? item : i)), // if the item is already in the store, update it, otherwise add it
         add: (item: StoreItem) => update(n => [...n, item]),
-        remove: (item: StoreItem) => update(n => n.filter(i => i !== item)),
-        contains: (item: StoreItem) => subscribe(n => n.includes(item)),
+        contains: (item: StoreItem) => get(store).some(x => x.name == item.name),
+        get: () => get(store),
         reset: () => set([]),
     };
 }
+export const unlockedPassiveItems = passiveStoreItems();
 
-export const unlocked = unlockedStore();
+function unlockedFarmItemsFunc() {
+    const store = writable<FarmItem[]>([]);
+    const { subscribe, set, update } = store;
+    return {
+        subscribe,
+        update: (item: FarmItem) => update(n => n.map(i => i.name == item.name ? item : i)), // if the item is already in the store, update it, otherwise add it
+        add: (item: FarmItem) => update(n => [...n, item]),
+        contains: (item: FarmItem) => get(store).some(x => x.name == item.name),
+        get: () => get(store),
+        reset: () => set([]),
+    };
+}
+export const unlockedFarmItems = unlockedFarmItemsFunc();
 
 function cropStore() {
     const { subscribe, set, update } = writable(0);
@@ -31,47 +56,21 @@ function cropStore() {
         reset: () => set(0)
     };
 }
-
 export const crops = cropStore();
 
 function emojiStore () {
-    const { subscribe, set, update } = writable(0);
+    const store = writable(0);
+    const { subscribe, set, update } = store;
     return {
         subscribe,
         increment: (incrementValue: number) => update(n => n + incrementValue),
         decrement: (decrementValue: number) => update(n => n - decrementValue),
+        get: () => get(store),
         set: (value: number) => set(value),
         reset: () => set(0)
     };
 }
-
 export const emojis = emojiStore();
-
-function buildingStore() {
-    const { subscribe, set, update } = writable<number[]>(Array(numberOfBuildings).fill(0));
-    return {
-        subscribe,
-        increment: (incrementValue: number, index: number) => update(n => { n[index] += incrementValue; return n }),
-        decrement: (decrementValue: number, index: number) => update(n => { n[index] -= decrementValue; return n }),
-        set: (arr: number[]) => set(arr),
-        reset: () => set(Array(8).fill(0))
-    };
-}
-
-export const buildings = buildingStore();
-
-function buildingMultiplierStore() {
-    const { subscribe, set, update } = writable<number[]>(Array(numberOfBuildings).fill(0));
-    return {
-        subscribe,
-        increment: (incrementValue: number, index: number) => update(n => { n[index] += incrementValue; return n }),
-        decrement: (decrementValue: number, index: number) => update(n => { n[index] -= decrementValue; return n }),
-        set: (arr: number[]) => set(arr),
-        reset: () => set(Array(8).fill(0))
-    };
-}
-
-export const buildingMultipliers = buildingMultiplierStore();
 
 function scoreStore() {
     const { subscribe, set, update } = writable(0);
@@ -83,6 +82,5 @@ function scoreStore() {
         reset: () => set(0)
     };
 }
-
 export const score = scoreStore(); 
 
