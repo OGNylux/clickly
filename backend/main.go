@@ -39,16 +39,16 @@ type ChatMessage struct {
 }
 
 type User struct {
-	UserName string `json:"username" gorm:"primaryKey"`
-	PW	   string `json:"pw"`
-	ChatMessages []ChatMessage `gorm:"ForeignKey:UserID"`
-    GameStates   GameStateFromUser `gorm:"ForeignKey:UserID"`
+	UserName     string            `json:"username" gorm:"primaryKey"`
+	PW           string            `json:"pw"`
+	ChatMessages []ChatMessage     `gorm:"ForeignKey:UserID"`
+	GameStates   GameStateFromUser `gorm:"ForeignKey:UserID"`
 }
 
 type GameStateFromUser struct {
-	Username string `json:"username" gorm:"primaryKey"`
-	Score    int    `json:"score"`
-	Rest     string `json:"rest"`
+	Username string  `json:"username" gorm:"primaryKey"`
+	Score    float64 `json:"score"`
+	Rest     string  `json:"rest"`
 }
 
 var db *gorm.DB
@@ -107,12 +107,56 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(msg)
 
 		switch msg.Type {
+
 		case "setState":
-			gameState := GameStateFromUser{Username: msg.Username, Score: msg.Message.(map[string]interface{})["score"].(int), Rest: msg.Message.(map[string]interface{})["rest"].(string)}
-			db.Create(&gameState)
-			fmt.Println(gameState)
+			// Check if the user already has a saved game state
+			var existingState GameStateFromUser
+
+			result := db.Table("game_state_from_users").Where("username = ?", msg.Username).First(&existingState)
+
+			if result.Error == gorm.ErrRecordNotFound {
+
+				score, err := msg.Message.(map[string]interface{})["score"].(float64)
+
+				if err {
+					conn.WriteJSON(ServerMessage{Type: "error", Message: "Failed to parse score. Wrong Type."})
+					break
+				}
+				rest, err := msg.Message.(map[string]interface{})["rest"].(string)
+
+				if err {
+					conn.WriteJSON(ServerMessage{Type: "error", Message: "Failed to parse rest. Wrong Type."})
+					break
+				}
+				
+				fmt.Println("Score:", score, "Rest:", rest)
+				newGameState := GameStateFromUser{Username: msg.Username, Score: 33, Rest: rest}
+
+				db.Create(&newGameState)
+			} else if result.Error != nil && result.Error != gorm.ErrRecordNotFound {
+				log.Println("Failed to find Gamestateforuser entry:", result.Error)
+				conn.WriteJSON(ServerMessage{Type: "error", Message: result.Error})
+			} else {
+				// Replace the existing game state with the new one
+				existingState.Score = msg.Message.(map[string]interface{})["score"].(float64)
+				existingState.Rest = msg.Message.(map[string]interface{})["rest"].(string)
+				result := db.Save(&existingState)
+				if result.Error != nil {
+					log.Println("Failed to update game state:", result.Error)
+					conn.WriteJSON(ServerMessage{Type: "error", Message: "Failed to update game state"})
+				}
+			}
 		case "getState":
 			username := msg.Username
+			// Find the Gamestateforuser entry that matches the username
+			var gameState GameStateFromUser
+			result := db.Table("game_state_from_users").Where("username = ?", username).First(&gameState)
+			if result.Error != nil {
+				log.Println("Failed to find Gamestateforuser entry:", result.Error)
+			} else {
+				fmt.Println(gameState)
+			}
+			conn.WriteJSON(ServerMessage{Type: "gameState", Message: gameState})
 			fmt.Println(username)
 		case "getLeaderboard":
 			conn.WriteJSON(ServerMessage{Type: "leaderboard", Message: "Hello"})
