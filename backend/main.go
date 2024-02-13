@@ -128,7 +128,7 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 					conn.WriteJSON(ServerMessage{Type: "error", Message: "Failed to parse rest. Wrong Type."})
 					break
 				}
-				
+
 				fmt.Println("Score:", score, "Rest:", rest)
 				newGameState := GameStateFromUser{Username: msg.Username, Score: 33, Rest: rest}
 
@@ -159,7 +159,20 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 			conn.WriteJSON(ServerMessage{Type: "gameState", Message: gameState})
 			fmt.Println(username)
 		case "getLeaderboard":
-			conn.WriteJSON(ServerMessage{Type: "leaderboard", Message: "Hello"})
+			// Retrieve all entries from game_state_from_users table with the fields username and score, sorted by score
+			type tmp struct {
+				Username string  `json:"username"`
+				Score    float64 `json:"score"`
+			}
+			var gameStates []tmp
+			result := db.Table("game_state_from_users").Select("username, score").Order("score desc").Limit(10).Find(&gameStates)
+			if result.Error != nil {
+				log.Println("Failed to retrieve game states:", result.Error)
+			} else {
+				fmt.Println(gameStates)
+			}
+			conn.WriteJSON(ServerMessage{Type: "leaderboard", Message: gameStates})
+
 		case "sendMessage":
 			chatMessage := ChatMessage{Username: msg.Username, Message: msg.Message.(string)}
 			db.Create(&chatMessage)
@@ -191,13 +204,17 @@ func handleChatMessages() {
 /*
 
 Beispiel ClientMessage:
+
+MEASSAGE SEND:
 {"username": "test","type": "sendMessage","message": "Hello"}
-{"username": "test","type": "setState","message": GAMESTATE AS JSON}
 
+SETSTATE
+{"username": "test","type": "setState","message": {"score": 33,"rest": "{....}"}
 
-Game State Formatting:
-{
-	"score": SCORE,
-	"rest": "{....}",
-}
+GETSTATE:
+{"username": "test","type": "getState","message": ""}
+
+LEADERBOARD:
+{"username": "test","type": "getLeaderboard","message": ""}
+
 */
