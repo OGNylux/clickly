@@ -5,7 +5,7 @@
 </script>
 
 <div class="w-full h-full overflow-hidden rounded-xl border-2 border-slate-200 relative grid place-content-center" id="farm">
-    <div class="grid grid-cols-4 place-content-center gap-4">
+    <div class="grid grid-cols-4 grid-rows-2 place-content-center gap-4">
         {#each { length: $farmUpgrades[0].getAmount() + 1} as _}
             <FarmObjekt />
         {/each}
