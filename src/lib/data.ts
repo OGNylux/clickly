@@ -21,6 +21,7 @@ interface Item {
 abstract class StoreItem {
     // contains the amount of items the player currently has
     protected amount: number = 0;
+    // contains the amount of upgrades of a building the player currently has
     protected upgradeAmount: number = 0;
     // contains the name of the item
     readonly name: string = "";

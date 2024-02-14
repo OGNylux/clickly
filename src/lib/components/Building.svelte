@@ -1,28 +1,25 @@
 <script lang="ts">
     import { ClickerItem, PassiveIncomeItem, StoreItem } from "$lib/data";
     import { ArrowBigUpDash } from "lucide-svelte";
-    import { crops, unlockedPassiveItems } from "$lib/store";
+    import { crops, unlockedClicker, unlockedPassiveItems } from "$lib/store";
     import Emoji from "./Emoji.svelte";
     import { formatNumber } from "$lib/helper";
     import { Separator } from "bits-ui";
     import { animate, spring } from "motion";
 
     export let storeItem: StoreItem;
-    export let itemIndex: number;
-    let item: StoreItem = $unlockedPassiveItems[itemIndex];
     let marketValue: number;
     
-    $: if(item instanceof PassiveIncomeItem) marketValue = $unlockedPassiveItems[itemIndex].nextUpgradeCost();
+    $: marketValue = storeItem.nextUpgradeCost();
 
     let upgrade: HTMLElement | null = null;
     
     function upgradeClick() {
         addHTMLClass();
-        if ($crops < item.nextUpgradeCost()) return;
+        if ($crops < storeItem.nextUpgradeCost()) return;
         
-
         crops.decrement(marketValue);
-        item.addUpgrade();
+        storeItem.addUpgrade();
     }
 
     function addHTMLClass() {
@@ -54,7 +51,7 @@
             </div>
         </div>
         <div class="flex relative text-white">
-            <button on:click={()=> upgradeClick()} class="flex absolute right-0 h-full rounded-xl w-40 overflow-hidden bg-slate-500 border-slate-200 border-2 box_transition hover:w-96">
+            <button on:click={()=> upgradeClick()} class="flex absolute right-0 h-full rounded-xl w-40 overflow-hidden bg-slate-500 border-slate-200 border-2 box_transition hover:w-96 active:bg-slate-400">
                 <div bind:this={upgrade} class="flex items-center ml-1 text-center">
                     <ArrowBigUpDash size={40}/>
                 </div>
