@@ -21,7 +21,7 @@ interface Item {
 abstract class StoreItem {
     // contains the amount of items the player currently has
     protected amount: number = 0;
-    upgradeAmount: number = 0;
+    protected upgradeAmount: number = 0;
     // contains the name of the item
     readonly name: string = "";
     // contains the description of the item
@@ -49,7 +49,9 @@ abstract class StoreItem {
     }
 
     abstract nextCost(count: number): number;
-    abstract nextUpgradeCost(): number;
+    nextUpgradeCost() {
+        return 0
+    };
     abstract nextSell(count: number): number;
     /**
      * This function returns the influence of the item.
@@ -92,6 +94,10 @@ abstract class StoreItem {
     addUpgrade(amount: number = 1) {
         this.upgradeAmount = this.upgradeAmount + amount;
         unlockedPassiveItems.update(this);
+    }
+    
+    getUpgradeAmount() {
+        return this.upgradeAmount;
     }
 }
 
@@ -213,11 +219,6 @@ class PassiveIncomeItem extends StoreItem {
             tmp += Math.floor((this.initialCost * this.costMultiplier ** (this.amount - i))*0.3);
         }
         return tmp;
-    }
-
-    addUpgrade(amount: number = 1) {
-        this.upgradeAmount = this.upgradeAmount + amount;
-        unlockedPassiveItems.update(this);
     }
 }
 

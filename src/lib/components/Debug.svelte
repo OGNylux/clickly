@@ -35,6 +35,11 @@
                 <input class="p-1 rounded" type="number" name="debug" bind:value>
                 <button class="bg-sky-500 p-1 rounded" on:click={() => {emojis.increment(value); score.increment(value) }}>+💩</button>
             </div>
+            <div>
+                <button class="bg-sky-500 p-1 rounded" on:click={() => crops.decrement(value)}>-🍆</button>
+                <input class="p-1 rounded" type="number" name="debug" bind:value>
+                <button class="bg-sky-500 p-1 rounded" on:click={() => {crops.increment(value); score.increment(value) }}>+🍆</button>
+            </div>
             <button class="bg-sky-500 p-1 rounded" on:click={() => reset()}>reset</button>
     	</div>
     {/if}

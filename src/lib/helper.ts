@@ -2,7 +2,7 @@ import { FarmItem, levelScores, levelUpRewards } from "$lib/data";
 import { unlockedClicker, unlockedFarmItems, unlockedPassiveItems } from "$lib/store";
 
 export function formatNumber(num: number) {
-    return num.toLocaleString('de-DE');
+    if(num) return num.toLocaleString('de-DE');
 }
 
 export function getLevelupScore(level: number) {
