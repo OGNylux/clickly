@@ -12,11 +12,12 @@ export function loadLocalStorage() {
         let scoreLocal = localStorage.getItem('score');
         let cropsLocal = localStorage.getItem('crops');
         let passiveLocal = localStorage.getItem('passive');
+        let upgradeLocal = localStorage.getItem('upgrade');
         let clickerLocal = localStorage.getItem('clicker');
         let farmLocal = localStorage.getItem('farm');
         let farmUpgradesLocal = localStorage.getItem('farmUpgrades');
 
-        if (emojisLocal && scoreLocal && cropsLocal && passiveLocal && clickerLocal && farmLocal && farmUpgradesLocal) {
+        if (emojisLocal && scoreLocal && cropsLocal && passiveLocal && upgradeLocal && clickerLocal && farmLocal && farmUpgradesLocal) {
             emojis.set(JSON.parse(emojisLocal));
             score.set(JSON.parse(scoreLocal));
             crops.set(JSON.parse(cropsLocal));
@@ -25,9 +26,11 @@ export function loadLocalStorage() {
             clicker.addItem(Number(clickerLocal));
             unlockedClicker.update(clicker)
 
+            const arr2 = upgradeLocal.slice(1,-1).split(",");
             const arr = passiveLocal.slice(1,-1).split(",");
             unlockedPassiveItems.get().forEach((item: StoreItem, index: number) => {
                 item.addItem(Number(arr[index]));
+                item.addUpgrade(Number(arr2[index]));
                 unlockedPassiveItems.update(item);
             });
             
@@ -77,10 +80,13 @@ export function save() {
     unlockedPassiveItems.subscribe(value => {
         if (browser && classic) {
             let arr: number[] = [];
+            let arr2: number[] = [];
             value.forEach(item => {
                 arr.push(item.getAmount());
+                arr2.push(item.getUpgradeAmount());
             });
             localStorage.setItem('passive', JSON.stringify(arr));
+            localStorage.setItem('upgrade', JSON.stringify(arr2));
         }
     });
     unlockedFarmItems.subscribe(value => {
