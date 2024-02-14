@@ -9,55 +9,51 @@
 
     let audio: HTMLAudioElement,
         volume = tweened(0, { duration: 750, easing: sineInOut }),
-        squirrel = false;
+        squirrel = false,
+        interval: number;
 
     onMount(() => {
         audio = new Audio('/farm/ambience.mp3');
         audio.loop = true;
         startRandomSquirrel();
-        // timeline([
-        //         ["#squirrel", {x: 0}],
-        //         // ["#squirrel", {x: Math.random() * 10, y: Math.random() * 10}],
-        //         // ["#squirrel", {x: 20, y: 20}],
-        //         ["#squirrel", {x: 30}],
-        //     ], { duration: 2000 });
-        setInterval(() => {
-            console.log('animate');
-        
-            
-        }, 3000)
     });
 
-    
-
-
     function startRandomSquirrel() {
-        console.log('startRandomSquirrel');
+        const min = 20 * 1000;
+        const max = 50 * 1000;
         
-        const min = 3 * 1000;
-        const max = 5 * 1000;
-
-        setInterval(() => {
+        interval = setInterval(() => {
             squirrel = true;
             timeline([
-                ["#squirrel", {x: 0, y: 0}, { duration: 1 }],
-                ["#squirrel", {x: 200, y: 20}, { duration: 0.3 }],
+            ["#squirrel", {x: -70, y: 20, zIndex: 0}, { duration: 0.8 }],
+            ["#squirrel", {x: -100, y: 170, zIndex: 10}, { duration: 0.6 }],
+            ["#squirrel", {x: 200, y: 130, zIndex: 10}, { duration: 0.9 }],
+            ["#squirrel", {x: 200, y: 50, zIndex: 0}, { duration: 0.5 }],
             ]).finished.then(() => {
                 squirrel = false;
+                animate("#squirrel", {x: 0, y: 0}, { duration: 0 });
             });
         }, Math.floor(Math.random() * (max - min + 1) + min));
+    }
+
+    function stopRandomSquirrel() {
+        clearInterval(interval);
+    }
+
+    function squirrelReward() {
+        alert('You got 10 crops from the squirrel!');
+        crops.increment(10);
     }
 
     $ : if (audio) {
             audio.volume = $volume / 100
             if ($volume == 0) audio.pause();
         }
-
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div 
-    class="w-full h-full overflow-hidden rounded-xl border-2 border-slate-200 relative grid place-content-center" 
+    class="w-full h-full overflow-hidden rounded-xl border-2 border-slate-200 relative grid place-content-center select-none" 
     id="farm" 
     on:mouseenter={() => { volume.set(100); audio.play(); }} 
     on:mouseleave={() => volume.set(0)}>
@@ -79,6 +75,12 @@
     <div class="absolute top-0 left-0 w-full flex justify-center mt-2">
         <h2 class="bg-[#0000005d] text-white p-2 w-fit rounded-xl text-3xl text-center z-10">crops: {$crops}</h2>
     </div>
+    <button 
+        class={`absolute hidden ${squirrel ? '4xl:block' : '4xl:hidden'}`} 
+        id="squirrel"
+        on:click={() => squirrelReward()}>
+        <img src="/farm/squirrel.svg" alt="Squirrel" >
+    </button>
     <div class="absolute right-0 bottom-20 hidden 3xl:block">
         <img src="/farm/tractor.svg" alt="Tractor" class="h-3/4 mr-2">
     </div>
@@ -91,13 +93,15 @@
     <div class="absolute left-0 bottom-20 hidden 3xl:block">
         <img src="/farm/hut.svg" alt="Hut" class="w-3/4 ml-2">
     </div>
-    <div class={`absolute top-0 left-0 z-30 ${squirrel ? '' : 'hidden'}`} id="squirrel">
-        <img src="/farm/squirrel.svg" alt="Squirrel" >
-    </div>
 </div>
 
 <style lang="postcss">
     #farm {
         background: url('/grass.svg') repeat;
+    }
+    #squirrel {
+        right: 250px;
+        top: 90px;
+        pointer-events: all !important;
     }
 </style>
