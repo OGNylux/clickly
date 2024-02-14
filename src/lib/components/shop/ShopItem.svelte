@@ -47,14 +47,10 @@
         <p>{formatNumber(marketValue)}</p>
     </div>
 
-    {#if !item.checkAddAmount(numberOfItems) && action}
+    {#if (!item.checkAddAmount(numberOfItems) && action) || (!item.checkRemoveAmount(numberOfItems) && !action)}
         <button disabled class="flex justify-center items-center w-24 bg-slate-300 font-bold border-slate-200 border-2 buy_button">
             <Lock size={32} />
         </button>
-    {:else if !item.checkRemoveAmount(numberOfItems) && !action}
-        <div class="flex justify-center items-center w-24 bg-slate-300 font-bold border-slate-200 border-2 buy_button">
-            <Lock size={32} />
-        </div>
     {:else}
         <button on:click={() => (action ? buyClick() : sellClick())} 
             class={`buy_button transition font-bold w-24 border-slate-200 border-2 ${buyable ? "bg-slate-100 hover:bg-white " : "bg-slate-300 border-slate-200"}`}>
