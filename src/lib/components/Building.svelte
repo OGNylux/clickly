@@ -55,10 +55,10 @@
         </div>
         <div class="flex relative text-white">
             <button on:click={()=> upgradeClick()} class="flex absolute right-0 h-full rounded-xl w-40 overflow-hidden bg-slate-500 border-slate-200 border-2 box_transition hover:w-96">
-                <div bind:this={upgrade} class="flex items-center ml-1">
+                <div bind:this={upgrade} class="flex items-center ml-1 text-center">
                     <ArrowBigUpDash size={40}/>
                 </div>
-                <Separator.Root orientation="vertical" class="m-1 rounded-xl w-0.5 bg-slate-200" />
+                <Separator.Root orientation="vertical" class="m-1 my-2.5 rounded-xl w-0.5 bg-slate-200" />
                 <div class="flex flex-col justify-center text-left ml-1">
                     <p class="font-bold truncate">{storeItem.name}: 2x E/s</p>
                     <p class="truncate">{formatNumber(marketValue)} Crops</p>
