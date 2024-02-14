@@ -21,8 +21,6 @@ interface Item {
 abstract class StoreItem {
     // contains the amount of items the player currently has
     protected amount: number = 0;
-    // contains the amount of upgrades of a building the player currently has
-    protected upgradeAmount: number = 0;
     // contains the name of the item
     readonly name: string = "";
     // contains the description of the item
@@ -50,9 +48,6 @@ abstract class StoreItem {
     }
 
     abstract nextCost(count: number): number;
-    nextUpgradeCost() {
-        return 0
-    };
     abstract nextSell(count: number): number;
     /**
      * This function returns the influence of the item.
@@ -91,23 +86,11 @@ abstract class StoreItem {
     checkRemoveAmount(count: number) {
         return this.amount - count >= 0;
     }
-
-    addUpgrade(amount: number = 1) {
-        this.upgradeAmount = this.upgradeAmount + amount;
-        unlockedPassiveItems.update(this);
-    }
-    
-    getUpgradeAmount() {
-        return this.upgradeAmount;
-    }
 }
 
 class ClickerItem extends StoreItem {
     multiplier: number;
     costMultiplier: number;
-    upgradeAmount: number = 0;
-    initialUpgradeCost: number;
-    upgradeCostMultiplier: number;
 
     constructor() {
         super({
@@ -119,8 +102,6 @@ class ClickerItem extends StoreItem {
         });
         this.multiplier = 1;
         this.costMultiplier = 1.2;
-        this.initialUpgradeCost = 30;
-        this.upgradeCostMultiplier = 1.2;
     }
 
     nextCost(count: number) {
@@ -133,11 +114,6 @@ class ClickerItem extends StoreItem {
         return tmp;
     }
 
-    nextUpgradeCost() {
-        if (this.upgradeAmount == 0) return this.initialUpgradeCost;
-        return Math.floor(this.initialUpgradeCost * this.upgradeCostMultiplier ** this.upgradeAmount);
-    }
-
     nextSell(count: number): number {
         let tmp = 0;
         for (let i = 0; i < count; i++) {
@@ -148,7 +124,7 @@ class ClickerItem extends StoreItem {
     }
 
     getInfluence(): number {
-        return this.amount * this.multiplier * (2 ** this.upgradeAmount);
+        return this.amount * this.multiplier;
     }
 
     addItem(amount: number = 1) {
@@ -166,11 +142,6 @@ class ClickerItem extends StoreItem {
         unlockedClicker.update(this);
     }
 
-    addUpgrade(amount: number = 1) {
-        this.upgradeAmount = this.upgradeAmount + amount;
-        unlockedClicker.update(this);
-    }
-
     setImage(src: string, alt: string) {
         this.image.src = src;
         this.image.alt = alt;
@@ -180,22 +151,17 @@ class ClickerItem extends StoreItem {
 class PassiveIncomeItem extends StoreItem {
     incomeMultiplier: number;
     costMultiplier: number;
-    upgradeAmount: number = 0;
-    initialUpgradeCost: number;
-    upgradeCostMultiplier: number;
     component: string;
 
-    constructor(item: Item, incomeMultiplier: number, costMultiplier: number, initialUpgradeCost: number, upgradeCostMultiplier: number, component: string) {
+    constructor(item: Item, incomeMultiplier: number, costMultiplier: number, component: string) {
         super(item);
         this.incomeMultiplier = incomeMultiplier;
         this.costMultiplier = costMultiplier;
-        this.initialUpgradeCost = initialUpgradeCost;
-        this.upgradeCostMultiplier = upgradeCostMultiplier;
         this.component = component;
     }
 
     getInfluence(): number {
-        return this.amount * this.incomeMultiplier * (2 ** this.upgradeAmount);
+        return this.amount * this.incomeMultiplier;
     }
 
     nextCost(count: number) {
@@ -206,11 +172,6 @@ class PassiveIncomeItem extends StoreItem {
             tmp += Math.floor(this.initialCost * this.costMultiplier ** (this.amount + i));
         }
         return tmp;
-    }
-
-    nextUpgradeCost() {
-        if (this.upgradeAmount == 0) return this.initialUpgradeCost;
-        return Math.floor(this.initialUpgradeCost * this.upgradeCostMultiplier ** this.upgradeAmount);
     }
 
     nextSell(count: number): number {
@@ -238,13 +199,9 @@ class ExpensivePassiveIncomeItem extends StoreItem {
         if (this.amount == 0) return this.costArray[0];
         return this.costArray[this.amount + count - 1];
     }
-    nextUpgradeCost() {
-        return 2
-    }
     nextSell(count: number): number {
         return this.costArray[this.amount - count];
     }
-    
 
     getInfluence(): number {
         return this.incomeArray[this.amount];
@@ -257,17 +214,13 @@ class EasyExpensivePassiveIncomeItem extends StoreItem {
     costArray: number[] = [300, 500, 1000, 2000, 5000];
     incomeArray: number[] = [0, 6, 12, 30, 33, 96];
     constructor() {
-        super({ name: "easy", description: "easy", image: { src: "emojis/hot.svg", alt: "hot face" }, initialCost: 300, max: 5, component: "HotEmoji"});
+        super({ name: "easy", description: "easy", image: { src: "emojis/hot.svg", alt: "hot face" }, initialCost: 300, max: 5 });
     }
 
     nextCost(count: number): number {
         if (this.amount + count > this.costArray.length) return Infinity;
         if (this.amount == 0) return this.costArray[0];
         return this.costArray[this.amount + count - 1];
-    }
-    
-    nextUpgradeCost() {
-        return 2
     }
 
     nextSell(count: number): number {
@@ -379,7 +332,7 @@ let nerd = new PassiveIncomeItem({
     image: { src: "emojis/nerd.svg", alt: "nerd face" },
     initialCost: 10,
     max: Infinity
-}, 1, 1.2, 30, 1.4, "NerdEmoji");
+}, 1, 1.2, "NerdEmoji");
 
 let blushed = new PassiveIncomeItem({
     name: "blushed face",
@@ -387,7 +340,7 @@ let blushed = new PassiveIncomeItem({
     image: { src: "emojis/blushed.svg", alt: "blushed face" },
     initialCost: 100,
     max: Infinity
-}, 3, 1.4, 30, 1.4, "BlushedEmoji");
+}, 3, 1.4, "BlushedEmoji");
 
 let easyHot = new EasyExpensivePassiveIncomeItem();
 
