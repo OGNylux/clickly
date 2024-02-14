@@ -8,36 +8,20 @@
         step = 0;
 
     // listen to changes in value
-    $: value, lol();
+    $: value, startCount();
   
-    function lol () {
-        console.log('value', value);
-        if (current < value) {
-            // FIXME: when counting up, it doesn't work
-            step = Math.ceil((value - current) / 50);
-            console.log('step c < v', step);
-            
-            interval = setInterval(() => {
-                if (current >= value) {
-                    console.log('stop');
-                    current = value;
-                    clearInterval(interval);
-                }
-                current += step;
-            }, 20);
-        } else if (current > value) {
-            step = Math.ceil((current - value) / 50);
-            console.log('step c > v', step);
-            interval = setInterval(() => {
-                if (current <= value) {
-                    console.log('stop');
-                    current = value;
-                    clearInterval(interval);
-                }
-                current -= step;
-            }, 20);
-        }
+    function startCount() {
+        clearInterval(interval);
+        const diff = value - current;
+        step = Math.ceil(diff / 20);
+        interval = setInterval(() => {
+            current += step;
+            if (Math.abs(current - value) <= Math.abs(step)) {
+                current = value;
+                clearInterval(interval);
+            }
+        }, 20);
     }
 </script>
     
-<span bind:this={a}>{formatNumber(current)}</span>
+<span>{formatNumber(current)}</span>
