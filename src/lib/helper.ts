@@ -3,6 +3,7 @@ import { unlockedClicker, unlockedFarmItems, unlockedPassiveItems } from "$lib/s
 
 export function formatNumber(num: number) {
     if(num) return num.toLocaleString('de-DE');
+    return 0;
 }
 
 export function getLevelupScore(level: number) {

@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { ClickerItem, PassiveIncomeItem, StoreItem } from "$lib/data";
+    import { ClickerItem, StoreItem } from "$lib/data";
     import { ArrowBigUpDash } from "lucide-svelte";
-    import { crops, unlockedClicker, unlockedPassiveItems } from "$lib/store";
+    import { crops } from "$lib/store";
     import Emoji from "./Emoji.svelte";
     import { formatNumber } from "$lib/helper";
     import { Separator } from "bits-ui";
@@ -16,7 +16,7 @@
     
     function upgradeClick() {
         addHTMLClass();
-        if ($crops < storeItem.nextUpgradeCost()) return;
+        if($crops < storeItem.nextUpgradeCost()) return;
         
         crops.decrement(marketValue);
         storeItem.addUpgrade();
@@ -57,7 +57,11 @@
                 </div>
                 <Separator.Root orientation="vertical" class="m-1 my-2.5 rounded-xl w-0.5 bg-slate-200" />
                 <div class="flex flex-col justify-center text-left ml-1">
-                    <p class="font-bold truncate">{storeItem.name}: 2x E/s</p>
+                    {#if storeItem instanceof ClickerItem}
+                        <p class="font-bold truncate">{storeItem.name}: 2x E/c</p>
+                    {:else}
+                        <p class="font-bold truncate">{storeItem.name}: 2x E/s</p>
+                    {/if}
                     <p class="truncate">{formatNumber(marketValue)} Crops</p>
                 </div>
             </button>
