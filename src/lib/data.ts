@@ -403,7 +403,7 @@ export const levelScores = [2000, 5000, 10000, 50000];
 export const levelUpRewards: Record<number, Array<StoreItem | FarmItem>> = {
     0: [nerd, blushed],
     1: [strawberry],
-    2: [peach, easyHot],
+    2: [peach],
     4: [potato],
     5: [banana],
     6: [eggplant],
