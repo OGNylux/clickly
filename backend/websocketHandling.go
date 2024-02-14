@@ -18,9 +18,12 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 
 	// Register our new client
 	clients[conn] = true
-
 	// Listen for new messages
 	for {
+		if _, _, err := conn.NextReader(); err != nil {
+			return
+		}
+
 		var msg ClientMessage
 
 		err := conn.ReadJSON(&msg)
