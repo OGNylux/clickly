@@ -59,7 +59,7 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 
 				if err {
 					conn.WriteJSON(ServerMessage{Type: "error", Message: "Failed to parse score. Wrong Type."})
-					continue
+					break
 				}
 				rest, err := msg.Message.(map[string]interface{})["rest"].(string)
 
