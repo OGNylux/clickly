@@ -5,19 +5,54 @@
     import { onMount } from 'svelte';
     import { tweened } from "svelte/motion";
     import { sineInOut } from "svelte/easing";
+    import { animate, timeline } from "motion";
 
-    let audio: HTMLAudioElement;
-    let volume = tweened(0, { duration: 750, easing: sineInOut });
+    let audio: HTMLAudioElement,
+        volume = tweened(0, { duration: 750, easing: sineInOut }),
+        squirrel = false;
 
     onMount(() => {
         audio = new Audio('/farm/ambience.mp3');
         audio.loop = true;
+        startRandomSquirrel();
+        // timeline([
+        //         ["#squirrel", {x: 0}],
+        //         // ["#squirrel", {x: Math.random() * 10, y: Math.random() * 10}],
+        //         // ["#squirrel", {x: 20, y: 20}],
+        //         ["#squirrel", {x: 30}],
+        //     ], { duration: 2000 });
+        setInterval(() => {
+            console.log('animate');
+        
+            
+        }, 3000)
     });
+
+    
+
+
+    function startRandomSquirrel() {
+        console.log('startRandomSquirrel');
+        
+        const min = 3 * 1000;
+        const max = 5 * 1000;
+
+        setInterval(() => {
+            squirrel = true;
+            timeline([
+                ["#squirrel", {x: 0, y: 0}, { duration: 1 }],
+                ["#squirrel", {x: 200, y: 20}, { duration: 0.3 }],
+            ]).finished.then(() => {
+                squirrel = false;
+            });
+        }, Math.floor(Math.random() * (max - min + 1) + min));
+    }
 
     $ : if (audio) {
             audio.volume = $volume / 100
             if ($volume == 0) audio.pause();
         }
+
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -42,10 +77,7 @@
         </svg>
     </div>
     <div class="absolute top-0 left-0 w-full flex justify-center mt-2">
-        <h2 class="bg-[#0000005d] text-white p-2 w-fit rounded-xl text-3xl text-center">crops: {$crops}</h2>
-    </div>
-    <div class="absolute left-0 bottom-20 hidden 3xl:block">
-        <img src="/farm/hut.svg" alt="Hut" class="w-3/4 ml-2">
+        <h2 class="bg-[#0000005d] text-white p-2 w-fit rounded-xl text-3xl text-center z-10">crops: {$crops}</h2>
     </div>
     <div class="absolute right-0 bottom-20 hidden 3xl:block">
         <img src="/farm/tractor.svg" alt="Tractor" class="h-3/4 mr-2">
@@ -56,11 +88,16 @@
     <div class="absolute -left-8 -top-10 hidden 4xl:block">
         <img src="/farm/cow_bg.svg" alt="Tree" class="h-3/4 mr-2">
     </div>
+    <div class="absolute left-0 bottom-20 hidden 3xl:block">
+        <img src="/farm/hut.svg" alt="Hut" class="w-3/4 ml-2">
+    </div>
+    <div class={`absolute top-0 left-0 z-30 ${squirrel ? '' : 'hidden'}`} id="squirrel">
+        <img src="/farm/squirrel.svg" alt="Squirrel" >
+    </div>
 </div>
 
 <style lang="postcss">
     #farm {
         background: url('/grass.svg') repeat;
-        /* background-size: cover; */
     }
 </style>
