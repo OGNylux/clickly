@@ -21,6 +21,7 @@ interface Item {
 abstract class StoreItem {
     // contains the amount of items the player currently has
     protected amount: number = 0;
+    upgradeAmount: number = 0;
     // contains the name of the item
     readonly name: string = "";
     // contains the description of the item
@@ -48,6 +49,7 @@ abstract class StoreItem {
     }
 
     abstract nextCost(count: number): number;
+    abstract nextUpgradeCost(): number;
     abstract nextSell(count: number): number;
     /**
      * This function returns the influence of the item.
@@ -82,6 +84,11 @@ abstract class StoreItem {
 
     checkRemoveAmount(count: number) {
         return this.amount - count >= 0;
+    }
+
+    addUpgrade(amount: number = 1) {
+        this.upgradeAmount = this.upgradeAmount + amount;
+        unlockedPassiveItems.update(this);
     }
 }
 
@@ -161,6 +168,8 @@ class PassiveIncomeItem extends StoreItem {
     incomeMultiplier: number;
     costMultiplier: number;
     upgradeAmount: number = 0;
+    initialUpgradeCost: number;
+    upgradeCostMultiplier: number;
     component: string;
 
     constructor(item: Item, incomeMultiplier: number, costMultiplier: number, component: string) {
@@ -168,6 +177,8 @@ class PassiveIncomeItem extends StoreItem {
         this.incomeMultiplier = incomeMultiplier;
         this.costMultiplier = costMultiplier;
         this.component = component;
+        this.initialUpgradeCost = 30;
+        this.upgradeCostMultiplier = 1.2;
     }
 
     getInfluence(): number {
@@ -182,6 +193,11 @@ class PassiveIncomeItem extends StoreItem {
             tmp += Math.floor(this.initialCost * this.costMultiplier ** (this.amount + i));
         }
         return tmp;
+    }
+
+    nextUpgradeCost() {
+        if (this.upgradeAmount == 0) return this.initialUpgradeCost;
+        return Math.floor(this.initialUpgradeCost * this.upgradeCostMultiplier ** this.upgradeAmount);
     }
 
     nextSell(count: number): number {
@@ -214,9 +230,13 @@ class ExpensivePassiveIncomeItem extends StoreItem {
         if (this.amount == 0) return this.costArray[0];
         return this.costArray[this.amount + count - 1];
     }
+    nextUpgradeCost() {
+        return 2
+    }
     nextSell(count: number): number {
         return this.costArray[this.amount - count];
     }
+    
 
     getInfluence(): number {
         console.log(this.amount);
@@ -238,6 +258,10 @@ class EasyExpensivePassiveIncomeItem extends StoreItem {
         if (this.amount + count > this.costArray.length) return Infinity;
         if (this.amount == 0) return this.costArray[0];
         return this.costArray[this.amount + count - 1];
+    }
+    
+    nextUpgradeCost() {
+        return 2
     }
 
     nextSell(count: number): number {

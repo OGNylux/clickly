@@ -1,9 +1,22 @@
 <script lang="ts">
     import { ClickerItem, PassiveIncomeItem, StoreItem } from "$lib/data";
     import { ArrowBigUpDash } from "lucide-svelte";
+    import { crops, unlockedPassiveItems } from "$lib/store";
     import Emoji from "./Emoji.svelte";
 
     export let storeItem: StoreItem;
+    export let itemIndex: number;
+    let item: StoreItem = $unlockedPassiveItems[itemIndex];
+    let marketValue: number;
+    
+    $: if(item instanceof PassiveIncomeItem) marketValue = $unlockedPassiveItems[itemIndex].nextUpgradeCost();
+
+    function upgradeClick() {
+        if ($crops < item.nextUpgradeCost()) return;
+
+        crops.decrement(marketValue);
+        item.addUpgrade();
+    }
 </script>   
 <div class="flex bg-slate-200 z-10 rounded-xl w-96 relative h-[66px]">
     <div class="m-2 mt-1 w-full">
@@ -22,7 +35,7 @@
     </div>
     <div class="flex -space-x-9 rtl:space-x-reverse text-white">
         <div class="flex rounded-xl bg-slate-500 border-slate-200 border-2">
-            <button class="ml-2 mr-10">
+            <button on:click={() => upgradeClick()} class="ml-2 mr-10">
                 <ArrowBigUpDash size={40}/>
             </button>
         </div>
