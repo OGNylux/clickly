@@ -1,5 +1,5 @@
 import { writable, get } from "svelte/store";
-import { ClickerItem, FarmItem, StoreItem } from "$lib/data";
+import { ClickerItem, FarmItem, FarmUpgrade, StoreItem, initialFarmUpgrades } from "$lib/data";
 
 
 // enable server communication and certain features
@@ -37,7 +37,7 @@ function unlockedFarmItemsFunc() {
     const { subscribe, set, update } = store;
     return {
         subscribe,
-        update: (item: FarmItem) => update(n => n.map(i => i.name == item.name ? item : i)), // if the item is already in the store, update it, otherwise add it
+        update: (item: FarmItem) => update(n => n.map(i => i.name == item.name ? item : i)),
         add: (item: FarmItem) => update(n => [...n, item]),
         contains: (item: FarmItem) => get(store).some(x => x.name == item.name),
         get: () => get(store),
@@ -45,6 +45,20 @@ function unlockedFarmItemsFunc() {
     };
 }
 export const unlockedFarmItems = unlockedFarmItemsFunc();
+
+function farmUpgradeFunc() {
+    const store = writable<FarmUpgrade[]>(initialFarmUpgrades())
+    const { subscribe, set, update } = store;
+    return {
+        subscribe,
+        update: (item: FarmUpgrade) => update(n => n.map(i => i.name == item.name ? item : i)),
+        add: (item: FarmUpgrade) => update(n => [...n, item]),
+        contains: (item: FarmUpgrade) => get(store).some(x => x.name == item.name),
+        get: () => get(store),
+        reset: () => set(initialFarmUpgrades()),
+    };
+}
+export const farmUpgrades = farmUpgradeFunc();
 
 function cropStore() {
     const { subscribe, set, update } = writable(0);

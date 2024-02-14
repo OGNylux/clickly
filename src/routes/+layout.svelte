@@ -4,7 +4,7 @@
     import { dev } from "$app/environment";
 </script>
 
-{#if dev}
+<!-- {#if dev} -->
     <Debug />
-{/if}
+<!-- {/if} -->
 <slot></slot>

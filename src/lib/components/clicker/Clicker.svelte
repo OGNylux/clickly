@@ -65,8 +65,7 @@
 </script>
 
 <div
-    class="bg-slate-100 border-2 border-slate-200 rounded-xl grid place-items-center justify-items-center gap-2"
-    id="clicker"
+    class="bg-slate-100 border-2 border-slate-200 rounded-xl grid place-items-center justify-items-center gap-2 mb-2"
     bind:offsetWidth={width}
 >
     <Tooltip.Root>
@@ -80,11 +79,12 @@
             transition={flyAndScale}
             transitionConfig={{ y: 8, duration: 150 }}
             sideOffset={-5}
-            side={'bottom'}>
-            <div class="bg-slate-200">
-                <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-300" />
+            side={'bottom'}
+            class="z-20 text-white">
+            <div class="bg-slate-800">
+                <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-950" />
             </div>
-            <div class="text-center border-slate-300 bg-slate-200 p-2 font-medium shadow-2xl outline-none rounded-xl">
+            <div class="text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
                 <p> dein passives Einkommen: <span class="text-yellow-400">{passiveIncome} E/s</span></p>
             </div>
         </Tooltip.Content>  
@@ -106,11 +106,12 @@
                     transition={flyAndScale}
                     transitionConfig={{ y: 8, duration: 150 }}
                     sideOffset={-5}
-                    side={'bottom'}>
-                    <div class="bg-slate-200">
-                        <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-300" />
+                    side={'bottom'}
+                    class="z-20 text-white">
+                    <div class="bg-slate-800">
+                        <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-950" />
                     </div>
-                    <div class="text-center border-slate-300 bg-slate-200 p-2 font-medium shadow-2xl outline-none rounded-xl">
+                    <div class="text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
                         <p> dein aktueller Score: <span class="text-yellow-400">{$score}</span></p>
                     </div>
                 </Tooltip.Content>  
@@ -126,14 +127,3 @@
     </button>
     <ClickerCanvas bind:width />
 </div>
-
-<style lang="postcss">
-    #clicker {
-        /*  
-            because a custom tailwind class does not work, this is the workaround. 
-            IMPORTANT: when the width of the the buildings or shop changes, this value has to be adjusted.
-            (20rem * 2 = w-80 * 2)
-        */
-        width: calc(100% - 48rem);
-    }
-</style>
