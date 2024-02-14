@@ -3,23 +3,41 @@
 
     export let value = 0;
   
-    let current = 0;
-    $: step = Math.max(1, Math.floor((value - current) / 100));
+    let current = 0,
+        interval = 0,
+        step = 0;
+
+    // listen to changes in value
+    $: value, lol();
   
-    function countUp() {
-      if (current !== value) {
-        current += step;
-        setTimeout(countUp, 20);
-      }
+    function lol () {
+        console.log('value', value);
+        if (current < value) {
+            // FIXME: when counting up, it doesn't work
+            step = Math.ceil((value - current) / 50);
+            console.log('step c < v', step);
+            
+            interval = setInterval(() => {
+                if (current >= value) {
+                    console.log('stop');
+                    current = value;
+                    clearInterval(interval);
+                }
+                current += step;
+            }, 20);
+        } else if (current > value) {
+            step = Math.ceil((current - value) / 50);
+            console.log('step c > v', step);
+            interval = setInterval(() => {
+                if (current <= value) {
+                    console.log('stop');
+                    current = value;
+                    clearInterval(interval);
+                }
+                current -= step;
+            }, 20);
+        }
     }
-  
-    $: if (value > current) {
-        countUp();
-    } else if (value < current) {
-        step = -step;
-        countUp();
-    }
-  </script>
-  
-  <span>{formatNumber(current)}</span>
-  
+</script>
+    
+<span bind:this={a}>{formatNumber(current)}</span>
