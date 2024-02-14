@@ -68,3 +68,11 @@ export function unlockLevelUpReward(level: number) {
         });
     }
 }
+
+export function loadScore() {
+    let score = localStorage.getItem('score');
+    if (score) {
+        return JSON.parse(score);
+    }
+    return 0;
+}
