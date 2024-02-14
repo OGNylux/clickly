@@ -54,12 +54,12 @@
 </script>
 
 <div class="flex flex-col justify-center gap-1">
-    <button on:click={collect} class="bg-amber-950 rounded-3xl transform active:scale-90 transition z-10 select-none xl:size-20 grid place-content-center">  
+    <button on:click={collect} class="bg-amber-950 rounded-3xl transform active:scale-90 transition z-10 select-none xl:size-20 grid place-content-center gap-2">  
         <Popover.Root bind:open={popoverOpen}>
             <Popover.Trigger>
-                <div class="p-4">
+                <div class="p-4 grid place-content-center">
                     {#if farmItem}
-                        <img src={farmItem.image.src} alt={farmItem.image.alt} class="size-16" style={`transform: scale(${$progress}%); transform-origin: center center`} />
+                        <img src={farmItem.image.src} alt={farmItem.image.alt} class="size-16 object-contain" style={`transform: scale(${$progress}%); transform-origin: center center`} />
                     {:else}
                         <Plus class="size-10 text-amber-900" />
                     {/if}
@@ -75,7 +75,7 @@
                     <Popover.Close><X /></Popover.Close>
                 </div>
                 <Separator.Root class="-mx-4 my-3 h-px bg-slate-300" />
-                <div class="flex gap-2">
+                <div class="grid grid-cols-3 gap-2">
                     {#each $unlockedFarmItems as item}
                         <button on:click={() => plant(item)} 
                             class={`relative text-center bg-slate-300 rounded-xl size-16 p-2 ${item.getAvailable() == 0 ? 'opacity-50' : ''}`}>

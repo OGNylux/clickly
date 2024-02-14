@@ -19,7 +19,7 @@
         else buyable = true;
 </script>
 
-<div class="grid grid-flow-col grid-cols-3 place-content-start bg-amber-800 w-96 rounded-xl text-white shadow_top">
+<div class="grid grid-flow-col grid-cols-3 place-content-start bg-amber-800 w-96 rounded-xl text-white shadow_top z-10">
     <div class="flex flex-col justify-between p-2 col-span-2">
         <p class="font-bold">{upgrade.name}</p>
         {#if upgrade.checkAddAmount(1)}
