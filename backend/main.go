@@ -1,14 +1,33 @@
+/*
+
+Beispiel ClientMessage:
+AUTH:
+
+{"username":"test2","type":"authentication","message": {"password":"test",}}
+MEASSAGE SEND:
+{"username": "test","type": "sendMessage","message": "Hello"}
+
+SETSTATE
+{"username": "test","type": "setState","message": {"score": 33,"rest": "{....}"}
+
+GETSTATE:
+{"username": "test","type": "getState","message": ""}
+
+LEADERBOARD:
+{"username": "test","type": "getLeaderboard","message": ""}
+
+*/
+
 package main
 
 import (
-	//"encoding/json"
+	"errors"
 	"fmt"
-	"log"
-	"net/http"
-
+	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"log"
 )
 
 var upgrader = websocket.Upgrader{
@@ -16,40 +35,7 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
-var clients = make(map[*websocket.Conn]bool)     // connected clients
-var chatMessageProdcast = make(chan ChatMessage) // broadcast channel
-
-// Types: setState, getLeaderboard, sendMessage
-type ClientMessage struct {
-	Username string      `json:"username"`
-	Type     string      `json:"type"`
-	Message  interface{} `json:"message"`
-}
-
-// Types: chatMessage, gameState, leaderboard, messages
-type ServerMessage struct {
-	Type    string      `json:"type"`
-	Message interface{} `json:"message"`
-}
-
-type ChatMessage struct {
-	gorm.Model `json:"-"`
-	Username   string `json:"username" gorm:"unique"`
-	Message    string `json:"message"`
-}
-
-type User struct {
-	UserName     string            `json:"username" gorm:"primaryKey"`
-	PW           string            `json:"pw"`
-	ChatMessages []ChatMessage     `gorm:"ForeignKey:UserID"`
-	GameStates   GameStateFromUser `gorm:"ForeignKey:UserID"`
-}
-
-type GameStateFromUser struct {
-	Username string  `json:"username" gorm:"primaryKey"`
-	Score    float64 `json:"score"`
-	Rest     string  `json:"rest"`
-}
+var clients = make(map[*websocket.Conn]bool) // connected clients
 
 var db *gorm.DB
 
@@ -62,30 +48,109 @@ func main() {
 		panic("failed to connect database")
 	}
 
-	db.AutoMigrate(&ChatMessage{}, &GameStateFromUser{})
+	err := db.AutoMigrate(&ChatMessage{}, &GameStateFromUser{}, &User{})
+
+	if err != nil {
+		panic("DB MIGRATION FAILED")
+	}
 
 	// Register the WebSocket handler function
-	http.HandleFunc("/ws", handleWebSocket)
+	r := gin.Default()
+
+	r.GET("/ws", handleWebSocketAuth)
+	r.POST("/registerUser", registerUser)
+	r.POST("/usernameCheck", usernameCheck)
 
 	// Broadcast messages to all connected clients
 	go handleChatMessages()
 
 	// Start the HTTP server
-	log.Println("WebSocket server started on http://localhost:8080")
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		log.Fatal("Failed to start server:", err)
-	}
+	log.Println("WebSocket server started on http://localhost:8080/ws")
+
+	_ = r.Run(":8080")
+
 }
 
-func handleWebSocket(w http.ResponseWriter, r *http.Request) {
-
+func handleWebSocketAuth(c *gin.Context) {
 	// Upgrade the HTTP connection to a WebSocket connection
-	conn, err := upgrader.Upgrade(w, r, nil)
+	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
 		log.Println("Failed to upgrade connection:", err)
 		return
 	}
+	tries := 0
+	for {
+		if tries >= 3 {
+			message := ServerMessage{
+				Type:    "error",
+				Message: "Too many tries, closing Connection",
+			}
+			_ = conn.WriteJSON(message)
+			_ = conn.Close()
+			return
+		}
+
+		var msg ClientMessage
+
+		err := conn.ReadJSON(&msg)
+		if err != nil {
+			answer := ServerMessage{
+				Type:    "error",
+				Message: "Authenticate yourself first. Object seems to be broken",
+			}
+			_ = conn.WriteJSON(answer)
+			tries++
+			continue
+		}
+		if msg.Type == "authentication" {
+
+			name := msg.Username
+			password := msg.Message.(map[string]interface{})["password"].(string)
+
+			fmt.Println(name, password)
+
+			var foundUser User
+
+			result := db.Table("users").Where("username = ?", name).First(&foundUser)
+			if result.Error != nil {
+				errorMessage := ServerMessage{
+					Type:    "error",
+					Message: "Database said no. Probably User not found",
+				}
+				_ = conn.WriteJSON(errorMessage)
+				tries++
+				continue
+			}
+
+			if foundUser.Password == password {
+				msg := ServerMessage{
+					Type:    "success",
+					Message: "Authentication completed",
+				}
+				_ = conn.WriteJSON(msg)
+				go handleWebSocket(conn)
+				return
+			} else {
+				message := ServerMessage{
+					Type:    "error",
+					Message: "Password is wrong",
+				}
+				_ = conn.WriteJSON(message)
+				tries++
+				continue
+			}
+		} else {
+			answer := ServerMessage{
+				Type:    "error",
+				Message: "Authenticate yourself first!",
+			}
+			_ = conn.WriteJSON(answer)
+			tries++
+		}
+	}
+}
+
+func handleWebSocket(conn *websocket.Conn) {
 
 	// Make sure we close the connection when the function returns
 	defer conn.Close()
@@ -114,7 +179,7 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 
 			result := db.Table("game_state_from_users").Where("username = ?", msg.Username).First(&existingState)
 
-			if result.Error == gorm.ErrRecordNotFound {
+			if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 
 				score, err := msg.Message.(map[string]interface{})["score"].(float64)
 
@@ -176,7 +241,7 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 		case "sendMessage":
 			chatMessage := ChatMessage{Username: msg.Username, Message: msg.Message.(string)}
 			db.Create(&chatMessage)
-			chatMessageProdcast <- chatMessage
+			chatMessageBroadcast <- chatMessage
 		default:
 			log.Println("Unknown message type:", msg.Type)
 		}
@@ -184,37 +249,3 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 		// Send the newly received message to the broadcast channel
 	}
 }
-
-func handleChatMessages() {
-	for {
-		msg := <-chatMessageProdcast
-		// Write message back to the WebSocket connection
-		for client := range clients {
-			returnMessage := ServerMessage{Type: "chatMessage", Message: msg}
-			err := client.WriteJSON(returnMessage)
-			if err != nil {
-				log.Printf("error: %v", err)
-				client.Close()
-				delete(clients, client)
-			}
-		}
-	}
-}
-
-/*
-
-Beispiel ClientMessage:
-
-MEASSAGE SEND:
-{"username": "test","type": "sendMessage","message": "Hello"}
-
-SETSTATE
-{"username": "test","type": "setState","message": {"score": 33,"rest": "{....}"}
-
-GETSTATE:
-{"username": "test","type": "getState","message": ""}
-
-LEADERBOARD:
-{"username": "test","type": "getLeaderboard","message": ""}
-
-*/
