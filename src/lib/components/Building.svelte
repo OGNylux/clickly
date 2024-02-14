@@ -51,18 +51,19 @@
             </div>
         </div>
         <div class="flex relative text-white">
-            <button on:click={()=> upgradeClick()} class="flex absolute right-0 h-full rounded-xl w-40 overflow-hidden bg-slate-500 border-slate-200 border-2 box_transition hover:w-96 active:bg-slate-400">
-                <div bind:this={upgrade} class="flex items-center ml-1 text-center">
+            <button 
+            on:click={()=> upgradeClick()} class="flex absolute right-0 w-40 h-full rounded-xl overflow-hidden bg-slate-500 border-slate-200 border-2 box_transition hover:w-96 active:bg-slate-400">
+                <div bind:this={upgrade} class="flex my-auto ml-1">
                     <ArrowBigUpDash size={40}/>
                 </div>
-                <Separator.Root orientation="vertical" class="m-1 my-2.5 rounded-xl w-0.5 bg-slate-200" />
-                <div class="flex flex-col justify-center text-left ml-1">
+                <Separator.Root orientation="vertical" class="mx-1 my-auto h-10 rounded-xl w-0.5 bg-slate-200" />
+                <div class="flex flex-col my-auto text-left ml-1">
                     {#if storeItem instanceof ClickerItem}
                         <p class="font-bold truncate">{storeItem.name}: 2x E/c</p>
                     {:else}
                         <p class="font-bold truncate">{storeItem.name}: 2x E/s</p>
                     {/if}
-                    <p class="truncate">{formatNumber(marketValue)} Crops</p>
+                    <p class="truncate text-center">{formatNumber(marketValue)} Crops</p>
                 </div>
             </button>
             <div class="absolute rounded-xl w-28 right-0 h-full text-center p-2 border-2 bg-slate-600">

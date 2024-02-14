@@ -185,13 +185,13 @@ class PassiveIncomeItem extends StoreItem {
     upgradeCostMultiplier: number;
     component: string;
 
-    constructor(item: Item, incomeMultiplier: number, costMultiplier: number, component: string) {
+    constructor(item: Item, incomeMultiplier: number, costMultiplier: number, initialUpgradeCost: number, upgradeCostMultiplier: number, component: string) {
         super(item);
         this.incomeMultiplier = incomeMultiplier;
         this.costMultiplier = costMultiplier;
+        this.initialUpgradeCost = initialUpgradeCost;
+        this.upgradeCostMultiplier = upgradeCostMultiplier;
         this.component = component;
-        this.initialUpgradeCost = 30;
-        this.upgradeCostMultiplier = 1.2;
     }
 
     getInfluence(): number {
@@ -379,7 +379,7 @@ let nerd = new PassiveIncomeItem({
     image: { src: "emojis/nerd.svg", alt: "nerd face" },
     initialCost: 10,
     max: Infinity
-}, 1, 1.2, "NerdEmoji");
+}, 1, 1.2, 30, 1.4, "NerdEmoji");
 
 let blushed = new PassiveIncomeItem({
     name: "blushed face",
@@ -387,7 +387,7 @@ let blushed = new PassiveIncomeItem({
     image: { src: "emojis/blushed.svg", alt: "blushed face" },
     initialCost: 100,
     max: Infinity
-}, 3, 1.4, "BlushedEmoji");
+}, 3, 1.4, 30, 1.4, "BlushedEmoji");
 
 let easyHot = new EasyExpensivePassiveIncomeItem();
 
