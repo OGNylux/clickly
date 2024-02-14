@@ -88,6 +88,9 @@ abstract class StoreItem {
 class ClickerItem extends StoreItem {
     multiplier: number;
     costMultiplier: number;
+    upgradeAmount: number = 0;
+    initialUpgradeCost: number;
+    upgradeCostMultiplier: number;
 
     constructor() {
         super({
@@ -99,6 +102,8 @@ class ClickerItem extends StoreItem {
         });
         this.multiplier = 1;
         this.costMultiplier = 1.2;
+        this.initialUpgradeCost = 30;
+        this.upgradeCostMultiplier = 1.2;
     }
 
     nextCost(count: number) {
@@ -111,6 +116,11 @@ class ClickerItem extends StoreItem {
         return tmp;
     }
 
+    nextUpgradeCost() {
+        if (this.upgradeAmount == 0) return this.initialUpgradeCost;
+        return Math.floor(this.initialUpgradeCost * this.upgradeCostMultiplier ** this.upgradeAmount);
+    }
+
     nextSell(count: number): number {
         let tmp = 0;
         for (let i = 0; i < count; i++) {
@@ -121,7 +131,7 @@ class ClickerItem extends StoreItem {
     }
 
     getInfluence(): number {
-        return this.amount * this.multiplier;
+        return this.amount * this.multiplier * (2 ** this.upgradeAmount);
     }
 
     addItem(amount: number = 1) {
@@ -136,6 +146,11 @@ class ClickerItem extends StoreItem {
         unlockedClicker.update(this);
     }
 
+    addUpgrade(amount: number = 1) {
+        this.upgradeAmount = this.upgradeAmount + amount;
+        unlockedClicker.update(this);
+    }
+
     setImage(src: string, alt: string) {
         this.image.src = src;
         this.image.alt = alt;
@@ -145,6 +160,7 @@ class ClickerItem extends StoreItem {
 class PassiveIncomeItem extends StoreItem {
     incomeMultiplier: number;
     costMultiplier: number;
+    upgradeAmount: number = 0;
     component: string;
 
     constructor(item: Item, incomeMultiplier: number, costMultiplier: number, component: string) {
@@ -155,7 +171,7 @@ class PassiveIncomeItem extends StoreItem {
     }
 
     getInfluence(): number {
-        return this.amount * this.incomeMultiplier;
+        return this.amount * this.incomeMultiplier * (2 ** this.upgradeAmount);
     }
 
     nextCost(count: number) {
@@ -175,6 +191,11 @@ class PassiveIncomeItem extends StoreItem {
             tmp += Math.floor((this.initialCost * this.costMultiplier ** (this.amount - i))*0.3);
         }
         return tmp;
+    }
+
+    addUpgrade(amount: number = 1) {
+        this.upgradeAmount = this.upgradeAmount + amount;
+        unlockedPassiveItems.update(this);
     }
 }
 
