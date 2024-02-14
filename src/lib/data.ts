@@ -67,8 +67,11 @@ abstract class StoreItem {
      * If you want to remove more items than there are left, the function will not remove any items
      */
     removeItem(amount: number) {
-        if (this.amount - amount < 0) return;
-        this.amount = this.amount - amount;
+        if (this.amount - amount < 0) {
+            this.amount = 0;
+        } else {
+            this.amount = this.amount - amount;
+        }
         unlockedPassiveItems.update(this);
     }
 
@@ -131,8 +134,11 @@ class ClickerItem extends StoreItem {
 
     // sell a given amount of items
     removeItem(amount: number) {
-        if (this.amount - amount < 0) return;
-        this.amount = this.amount - amount;
+        if (this.amount - amount < 0) {
+            this.amount = 0;
+        } else {
+            this.amount = this.amount - amount;
+        }
         unlockedClicker.update(this);
     }
 

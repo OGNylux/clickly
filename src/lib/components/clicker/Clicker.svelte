@@ -79,11 +79,12 @@
             transition={flyAndScale}
             transitionConfig={{ y: 8, duration: 150 }}
             sideOffset={-5}
-            side={'bottom'}>
-            <div class="bg-slate-200">
-                <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-300" />
+            side={'bottom'}
+            class="z-20 text-white">
+            <div class="bg-slate-800">
+                <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-950" />
             </div>
-            <div class="text-center border-slate-300 bg-slate-200 p-2 font-medium shadow-2xl outline-none rounded-xl">
+            <div class="text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
                 <p> dein passives Einkommen: <span class="text-yellow-400">{passiveIncome} E/s</span></p>
             </div>
         </Tooltip.Content>  
@@ -105,11 +106,12 @@
                     transition={flyAndScale}
                     transitionConfig={{ y: 8, duration: 150 }}
                     sideOffset={-5}
-                    side={'bottom'}>
-                    <div class="bg-slate-200">
-                        <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-300" />
+                    side={'bottom'}
+                    class="z-20 text-white">
+                    <div class="bg-slate-800">
+                        <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-950" />
                     </div>
-                    <div class="text-center border-slate-300 bg-slate-200 p-2 font-medium shadow-2xl outline-none rounded-xl">
+                    <div class="text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
                         <p> dein aktueller Score: <span class="text-yellow-400">{$score}</span></p>
                     </div>
                 </Tooltip.Content>  
