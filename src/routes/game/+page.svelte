@@ -7,6 +7,7 @@
     import { getLevel, loadScore, unlockAllunlockedItems } from '$lib/helper';
     import { score } from '$lib/store';
     import Farm from '$lib/components/farm/Farm.svelte';
+    import Header from '$lib/components/Header.svelte';
 
     onMount(() => {
         unlockAllunlockedItems(getLevel(loadScore()));
@@ -17,7 +18,7 @@
 
 <div class="w-full h-screen"> 
     <nav class="w-screen h-16">
-        <p>Rank: deine Mudda</p>
+        <Header/>
     </nav>
     <main class="flex justify-around gap-2">
         <Buildings />
