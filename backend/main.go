@@ -22,6 +22,9 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"gorm.io/driver/sqlite"
@@ -49,6 +52,7 @@ func main() {
 
 	// Register the WebSocket handler function
 	r := gin.Default()
+	r.Use(cors.Default())
 
 	r.GET("/ws", handleWebSocketAuth)
 	r.POST("/registerUser", registerUser)
@@ -65,9 +69,14 @@ func main() {
 }
 
 func handleWebSocketAuth(c *gin.Context) {
+
+	// BIG DANGER: CORS IS ALLOWED FOR EVERYONE
 	var upgrade = websocket.Upgrader{
 		ReadBufferSize:  1024,
 		WriteBufferSize: 1024,
+		CheckOrigin: func(r *http.Request) bool {
+			return true
+		},
 	}
 	// Upgrade the HTTP connection to a WebSocket connection
 	conn, err := upgrade.Upgrade(c.Writer, c.Request, nil)

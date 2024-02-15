@@ -1,4 +1,5 @@
 <script>
+	import Lockscreen from './../lib/components/lockscreen/Lockscreen.svelte';
 
 </script>
 
@@ -18,6 +19,9 @@
                 <div class="absolute top-0 right-full w-full h-full bg-slate-800 opacity-20 group-hover:translate-x-full z-0 duration-500"/>
                 <h2 class="relative z-10 text-xl">Info</h2>
             </a>
+            <div class="h-max w-max">
+                <Lockscreen />
+            </div>
         </div>
     </div>
 </main>
