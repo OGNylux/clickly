@@ -3,7 +3,8 @@
     import { reset } from "$lib/save";
 
     let isVisible = false;
-    let value = 1000;
+    let emojiAmount = 1000;
+    let cropAmount = 1000;
 </script>
 
 <aside class="fixed bottom-0 left-0 z-20 p-4 bg-sky-200 rounded">
@@ -31,9 +32,14 @@
                 {/each}
             </p>
             <div>
-                <button class="bg-sky-500 p-1 rounded" on:click={() => emojis.decrement(value)}>-💩</button>
-                <input class="p-1 rounded" type="number" name="debug" bind:value>
-                <button class="bg-sky-500 p-1 rounded" on:click={() => {emojis.increment(value); score.increment(value) }}>+💩</button>
+                <button class="bg-sky-500 p-1 rounded" on:click={() => emojis.decrement(emojiAmount)}>-💩</button>
+                <input class="p-1 rounded" type="number" name="debug" bind:value={emojiAmount}>
+                <button class="bg-sky-500 p-1 rounded" on:click={() => {emojis.increment(emojiAmount); score.increment(emojiAmount) }}>+💩</button>
+            </div>
+            <div>
+                <button class="bg-sky-500 p-1 rounded" on:click={() => crops.decrement(cropAmount)}>-🍆</button>
+                <input class="p-1 rounded" type="number" name="debug" bind:value={cropAmount}>
+                <button class="bg-sky-500 p-1 rounded" on:click={() => {crops.increment(cropAmount); }}>+🍆</button>
             </div>
             <button class="bg-sky-500 p-1 rounded" on:click={() => reset()}>reset</button>
     	</div>
