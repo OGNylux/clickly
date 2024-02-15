@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { StoreItem } from "$lib/data";
+    import { test2 } from "$lib/formatNumber";
     import { formatNumber } from "$lib/helper";
     import { emojis, unlockedPassiveItems } from "$lib/store";
     import { Lock } from "lucide-svelte";
@@ -20,6 +21,7 @@
     else marketValue = $unlockedPassiveItems[itemIndex].nextCost(numberOfItems);
 
     function buyClick() {
+        console.log(test2($emojis))
         if ($emojis < item.nextCost(numberOfItems)) return;
         emojis.decrement(marketValue);
         item.addItem(numberOfItems);
