@@ -8,5 +8,5 @@
 <!-- {#if dev} -->
     <Debug />
 <!-- {/if} -->
-<SvelteToast options={{ reversed: true, intro: { y: 192 } }}/>
+<SvelteToast options={{ pausable: true, intro: { y: 192 }, reversed: true }}/>
 <slot></slot>

@@ -58,7 +58,7 @@ export function unlockAllunlockedItems(level: number) {
 export function unlockLevelUpReward(level: number) {
     if (levelUpRewards[level]) {
         levelUpRewards[level].forEach(item => {
-            toast.push(`Neues Item freigeschaltet: <img src=${item.image.src} alt=""" />`, { pausable: true })
+            toast.push(`Neues Item freigeschaltet: <img src=${item.image.src} alt="" class="size-8" />`)
             if (item instanceof FarmItem) {
                 if (!unlockedFarmItems.contains(item)) {
                     unlockedFarmItems.add(item);
