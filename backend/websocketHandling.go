@@ -9,6 +9,14 @@ import (
 	"reflect"
 )
 
+func sendError(conn *websocket.Conn, msg string) {
+	msgTmp := ServerMessage{
+		Type:    "error",
+		Message: msg,
+	}
+	_ = conn.WriteJSON(msgTmp)
+}
+
 func handleWebSocket(conn *websocket.Conn, username string) {
 
 	// Make sure we close the connection when the function returns
@@ -19,6 +27,7 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 
 	// Register our new client
 	clients[conn] = true
+
 	// Listen for new messages
 	for {
 		var msg ClientMessage
@@ -40,32 +49,9 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 		case "setState":
 			handleSetState(conn, msg)
 		case "getState":
-			username := msg.Username
-			// Find the Gamestateforuser entry that matches the username
-			var gameState GameStateFromUser
-			result := db.Table("game_state_from_users").Where("username = ?", username).First(&gameState)
-			if result.Error != nil {
-				log.Println("Failed to find Gamestateforuser entry:", result.Error)
-			} else {
-				fmt.Println(gameState)
-			}
-			_ = conn.WriteJSON(ServerMessage{Type: "gameState", Message: gameState})
-			fmt.Println(username)
+			handleGetState(conn, msg.Username)
 		case "getLeaderboard":
-			// Retrieve all entries from game_state_from_users table with the fields username and score, sorted by score
-			type tmp struct {
-				Username string  `json:"username"`
-				Score    float64 `json:"score"`
-			}
-			var gameStates []tmp
-			result := db.Table("game_state_from_users").Select("username, score").Order("score desc").Limit(10).Find(&gameStates)
-			if result.Error != nil {
-				log.Println("Failed to retrieve game states:", result.Error)
-			} else {
-				fmt.Println(gameStates)
-			}
-			_ = conn.WriteJSON(ServerMessage{Type: "leaderboard", Message: gameStates})
-
+			handleGetLeaderboard(conn)
 		case "sendMessage":
 			chatMessage := ChatMessage{Username: msg.Username, Message: msg.Message.(string)}
 			db.Create(&chatMessage)
@@ -78,16 +64,7 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 	}
 }
 
-func sendError(conn *websocket.Conn, msg string) {
-	msgTmp := ServerMessage{
-		Type:    "error",
-		Message: msg,
-	}
-	_ = conn.WriteJSON(msgTmp)
-}
-
 func handleSetState(conn *websocket.Conn, msg ClientMessage) {
-
 	score, oks := msg.Message.(map[string]interface{})["score"].(float64)
 	if !oks {
 		sendError(conn, "Failed to parse score. Wrong Type (Needs float64). Had Type: "+reflect.TypeOf(msg.Message.(map[string]interface{})["score"]).String())
@@ -120,4 +97,31 @@ func handleSetState(conn *websocket.Conn, msg ClientMessage) {
 			sendError(conn, result.Error.Error())
 		}
 	}
+}
+
+func handleGetState(conn *websocket.Conn, username string) {
+	// Find the Gamestatefromuser entry that matches the username
+	var gameState GameStateFromUser
+	result := db.Table("game_state_from_users").Where("username = ?", username).First(&gameState)
+	if result.Error != nil {
+		log.Println("Failed to find Gamestateforuser entry:", result.Error)
+	} else {
+		fmt.Println(gameState)
+	}
+	_ = conn.WriteJSON(ServerMessage{Type: "gameState", Message: gameState})
+}
+
+func handleGetLeaderboard(conn *websocket.Conn) {
+	// Retrieve all entries from game_state_from_users table with the fields username and score, sorted by score
+	type tmp struct {
+		Username string  `json:"username"`
+		Score    float64 `json:"score"`
+	}
+	var gameStates []tmp
+	result := db.Table("game_state_from_users").Select("username, score").Order("score desc").Limit(10).Find(&gameStates)
+	if result.Error != nil {
+		sendError(conn, "Error in DB:"+result.Error.Error())
+		return
+	}
+	_ = conn.WriteJSON(ServerMessage{Type: "leaderboard", Message: gameStates})
 }
