@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Button } from "bits-ui";
-    import { onMount } from "svelte";
+    import { onDestroy, onMount } from "svelte";
     import {clientMessageTypes,serverMessageTypes} from "$lib/api";
     import type { ClientMessage,ServerMessage} from "$lib/api";
 
@@ -8,6 +8,7 @@
     let password = "";
     let socket: WebSocket;
     let loggedIn = false;
+    let errorMsg ="";
 
     onMount(() => {
         socket = new WebSocket('ws://localhost:8080/ws');
@@ -19,9 +20,18 @@
             console.log(test);
             if (test.type === serverMessageTypes.Success){
                 loggedIn = true;
+            } else if (test.type === serverMessageTypes.Error){
+                errorMsg = test.message.toString();
             }
             console.log(event.data);
         };
+        socket.onclose = (event) => {
+            console.log("Connection closed");
+        };
+    });
+
+    onDestroy(() => {
+        if (socket) socket.close();
     });
 
     function handleLogin() {
@@ -37,7 +47,7 @@
     }
 </script>
 
-<div class="flex flex-col gap-1 justify-center items-center h-28">
+<div class="flex flex-col gap-1 justify-center items-center">
     <label for="username">Username:</label>
     <input type="text" id="username" bind:value={username} />
 
@@ -54,6 +64,9 @@
         </Button.Root>
         {#if loggedIn}
             <p>Logged in</p>
+        {/if}
+        {#if errorMsg !== ""}
+            <p>{errorMsg}</p>
         {/if}
     </div>
 </div>

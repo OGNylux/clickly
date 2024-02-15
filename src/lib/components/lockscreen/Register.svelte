@@ -1,18 +1,34 @@
-<script>
-	import Register from './Register.svelte';
+<script lang="ts">
     import { Button } from "bits-ui";
+
     let username = "";
     let password = "";
 
     function register() {
-        // Add your registration logic here
-        console.log("Registering...");
-        console.log("Username:", username);
-        console.log("Password:", password);
+        const data = {
+            username: username,
+            password: password
+        };
+
+        fetch('http://localhost:8080/registerUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            // Handle the response here
+        })
+        .catch(error => {
+            // Handle any errors here
+        });
+        
     }
 </script>
 
-<div>
+<div class="flex flex-col gap-1 justify-center items-center">
     <label for="username">Username:</label>
     <input type="text" id="username" bind:value={username} />
 
@@ -23,6 +39,7 @@
         class="inline-flex h-12 items-center justify-center rounded-input bg-dark
                 px-[21px] text-[15px] font-semibold text-background shadow-mini
                 hover:bg-dark/95 active:scale-98 active:transition-all"
+        on:click={register}
     >
         Register
     </Button.Root>
