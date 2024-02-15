@@ -1,18 +1,16 @@
-export function test2(num: number) {
+export function formatNumber(num: number) {
     for (let i = 0; i < stringNumbers.length; i++) {
-        let test;
-        const test3 = (1000 ** i);
-        const test4 = (1000 ** (i+1));
-        if (num >= test3 && num < test4) {
-            test = (num / test3).toFixed(3);
-            return test + " " + stringNumbers[i];
+        const lowerBound = 1000 ** i;
+        const upperBound = 1000 ** (i+1);
+        if (num < 1e+6) return num.toLocaleString("de-DE");
+        if (num < upperBound && num >= lowerBound) {
+            const newNum: string = (Math.round((num / lowerBound)  * 1000) / 1000).toLocaleString("de-DE");
+            return newNum + " " + stringNumbers[i-2];
         }
     }
 }
 
 const stringNumbers = [
-    "",
-    "",
     "Million",
     "Billion",
     "Trillion",
@@ -66,7 +64,53 @@ const stringNumbers = [
     "Unquinquagintillion",
     "Duoquinquagintillion",
     "Trequinquagintillion",
-    "Quattuorquinquagintillion"
+    "Quattuorquinquagintillion",
+    "Quinquinquagintillion",
+    "Sexquinquagintillion",
+    "Septenquinquagintillion",
+    "Octoquinquagintillion",
+    "Novemquinquagintillion",
+    "Sexagintillion",
+    "Unsexagintillion",
+    "Duosexagintillion",
+    "Tresexagintillion",
+    "Quattuorsexagintillion",
+    "Quinsexagintillion",
+    "Sexsexagintillion",
+    "Septensexagintillion",
+    "Octosexagintillion",
+    "Novemsexagintillion",
+    "Septuagintillion",
+    "Unseptuagintillion",
+    "Duoseptuagintillion",
+    "Treseptuagintillion",
+    "Quattuorseptuagintillion",
+    "Quinseptuagintillion",
+    "Sexseptuagintillion",
+    "Septenseptuagintillion",
+    "Octoseptuagintillion",
+    "Novemseptuagintillion",
+    "Octogintillion",
+    "Unoctogintillion",
+    "Duooctogintillion",
+    "Treoctogintillion",
+    "Quattuoroctogintillion",
+    "Quinoctogintillion",
+    "Sexoctogintillion",
+    "Septenoctogintillion",
+    "Octooctogintillion",
+    "Novemoctogintillion",
+    "Nonagintillion",
+    "Unnonagintillion",
+    "Duononagintillion",
+    "Trenonagintillion",
+    "Quattuornonagintillion",
+    "Quinnonagintillion",
+    "Sexnonagintillion",
+    "Septennonagintillion",
+    "Octononagintillion",
+    "Novemnonagintillion",
+    "Centillion"
 ];
 
 

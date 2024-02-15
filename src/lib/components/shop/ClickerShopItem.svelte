@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { formatNumber } from "$lib/formatNumber";
     import { emojis, unlockedClicker } from "$lib/store";
     import { Lock } from "lucide-svelte";
 
@@ -34,7 +35,7 @@
     <img src={$unlockedClicker.image.src} alt="" class="size-16 p-2 drop-shadow" />
     <div class="flex flex-col grow justify-between p-2">
         <p class="font-bold">{$unlockedClicker.name}</p>
-        <p>{marketValue}</p>
+        <p>{formatNumber(marketValue)}</p>
     </div>
     {#if $unlockedClicker.getAmount() == 0 && !action}
         <div class="flex justify-center items-center buy_button transition font-bold text-xl w-24 bg-slate-300 border-slate-200 border-2">

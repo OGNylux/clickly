@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { FarmUpgrade } from "$lib/data";
+    import { formatNumber } from "$lib/formatNumber";
     import { emojis } from "$lib/store";
     import { Lock } from "lucide-svelte";
 
@@ -14,8 +15,7 @@
 
     let buyable = true;
 
-    $ : if ($emojis < upgrade.nextCost(1) || !upgrade.checkAddAmount(1))
-            buyable = false;
+    $ : if ($emojis < upgrade.nextCost(1) || !upgrade.checkAddAmount(1)) buyable = false;
         else buyable = true;
 </script>
 
@@ -23,9 +23,9 @@
     <div class="flex flex-col justify-between p-2 col-span-2">
         <p class="font-bold">{upgrade.name}</p>
         {#if upgrade.checkAddAmount(1)}
-            <p>{upgrade.nextCost(1)}</p>
+            <p>{formatNumber(upgrade.nextCost(1))}</p>
         {:else}
-            <p>maxxed out</p>
+            <Lock size={32} />
         {/if}
     </div>
     <div class="w-full bg-amber-900 border-2 border-amber-800 rounded-xl flex items-center relative">
