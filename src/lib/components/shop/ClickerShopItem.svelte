@@ -8,11 +8,8 @@
     let buyable = true;
     let marketValue: number;
 
-    $: if (!action && numberOfItems){
-         marketValue = $unlockedClicker.nextSell(numberOfItems);
-    } else {
-        marketValue = $unlockedClicker.nextCost(numberOfItems);
-    }
+    $: if (!action && numberOfItems)marketValue = $unlockedClicker.nextSell(numberOfItems);
+    else marketValue = $unlockedClicker.nextCost(numberOfItems);
 
     function buyClick() {
         if ($emojis < $unlockedClicker.nextCost(numberOfItems)) return;

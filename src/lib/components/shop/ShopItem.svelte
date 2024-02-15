@@ -21,15 +21,13 @@
 
     function buyClick() {
         if ($emojis < item.nextCost(numberOfItems)) return;
-
         emojis.decrement(marketValue);
         item.addItem(numberOfItems);
     }
 
     function sellClick() {
         if (item.getAmount() == 0) return;
-
-        let sellValue = Math.round(item.nextCost(numberOfItems) * 0.3);
+        let sellValue = marketValue;
         item.removeItem(numberOfItems);
         emojis.increment(sellValue);
     }
@@ -47,7 +45,7 @@
         <p>{formatNumber(marketValue)}</p>
     </div>
 
-    {#if (!item.checkAddAmount(numberOfItems) && action) || (!item.checkRemoveAmount(numberOfItems) && !action)}
+    {#if item.getAmount() == 0 && !action}
         <button disabled class="flex justify-center items-center w-24 bg-slate-300 font-bold border-slate-200 border-2 buy_button">
             <Lock size={32} />
         </button>
