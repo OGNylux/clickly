@@ -9,6 +9,7 @@
     import ClickerCounter from "$lib/components/clicker/ClickerCounter.svelte";
     import { Tooltip } from "bits-ui";
     import { flyAndScale } from "$lib/transition";
+    import { toast } from "@zerodevx/svelte-toast";
 
     const fillPercent = tweened(0, {
         duration: 400,
@@ -57,6 +58,7 @@
             unlockLevelUpReward(currentLevel);
             currentLevelScore = nextLevelScore;
             nextLevelScore = getLevelupScore(currentLevel + 1);
+            toast.push(`Du hast ${currentLevel} erreicht 🎉!`, { pausable: true });
         }
         fillPercent.set(
             $score ? (100 * ($score - currentLevelScore)) / (nextLevelScore - currentLevelScore) : 0,

@@ -448,8 +448,8 @@ export const levelScores = [2000, 5000, 10000, 50000];
  * Note that you can also skip levels, e.g. level 2 has no rewards, but level 3 and 1 has.
  */
 export const levelUpRewards: Record<number, Array<StoreItem | FarmItem>> = {
-    0: [nerd, blushed],
-    1: [strawberry],
+    0: [nerd],
+    1: [strawberry, blushed],
     2: [peach],
     4: [potato],
     5: [banana],

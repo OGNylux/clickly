@@ -5,3 +5,13 @@
 * {
     font-family: 'Baloo 2', sans-serif;
 }
+
+:root {
+    --toastContainerTop: auto;
+    --toastContainerRight: 1rem;
+    --toastContainerBottom: 1rem;
+    --toastContainerLeft: auto;
+    --toastBorderRadius: 0.75rem;
+    --toastBackground: rgb(203 213 225);
+    --toastColor: #000000;
+}
