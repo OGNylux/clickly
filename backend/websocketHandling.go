@@ -20,10 +20,6 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 	clients[conn] = true
 	// Listen for new messages
 	for {
-		if _, _, err := conn.NextReader(); err != nil {
-			return
-		}
-
 		var msg ClientMessage
 
 		err := conn.ReadJSON(&msg)
@@ -34,7 +30,7 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 				Message: "Message could not be deserialized",
 			}
 			_ = conn.WriteJSON(msgTmp)
-			continue
+			return
 		}
 
 		if msg.Username != username {
