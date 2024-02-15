@@ -15,8 +15,8 @@
     let upgrade: HTMLElement | null = null;
     
     function upgradeClick() {
-        addHTMLClass();
         if($crops < storeItem.nextUpgradeCost()) return;
+        addHTMLClass();
         
         crops.decrement(marketValue);
         storeItem.addUpgrade();
