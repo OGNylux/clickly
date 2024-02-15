@@ -6,7 +6,7 @@
 
     function register() {
         const data = {
-            username: username,
+            name: username,
             password: password
         };
 
@@ -19,7 +19,7 @@
         })
         .then(response => response.json())
         .then(result => {
-            // Handle the response here
+            console.log('Success:', result);
         })
         .catch(error => {
             // Handle any errors here
