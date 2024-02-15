@@ -26,8 +26,7 @@
     }
 
     $: if (action == false) buyable = true;
-    else if ($emojis < $unlockedClicker.nextCost(numberOfItems))
-        buyable = false;
+    else if ($emojis < $unlockedClicker.nextCost(numberOfItems)) buyable = false;
     else buyable = true;
 </script>
 
