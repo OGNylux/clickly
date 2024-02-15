@@ -2,7 +2,7 @@ package main
 
 import "gorm.io/gorm"
 
-// ClientMessage Types: authentication, setState, getLeaderboard, sendMessage
+// ClientMessage Types: authentication, setState,getState, getLeaderboard, sendMessage
 type ClientMessage struct {
 	Username string      `json:"username"`
 	Type     string      `json:"type"`

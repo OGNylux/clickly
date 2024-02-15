@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/websocket"
 	"gorm.io/gorm"
 	"log"
+	"reflect"
 )
 
 func handleWebSocket(conn *websocket.Conn, username string) {
@@ -24,66 +25,20 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 
 		err := conn.ReadJSON(&msg)
 		if err != nil {
-			log.Printf("error: %v", err)
-			msgTmp := ServerMessage{
-				Type:    "error",
-				Message: "Message could not be deserialized",
-			}
-			_ = conn.WriteJSON(msgTmp)
+			fmt.Printf("error: %v", err)
+			sendError(conn, "Message could not be deserialized. Closing connection...")
 			return
 		}
 
 		if msg.Username != username {
-			msgTmp := ServerMessage{
-				Type:    "error",
-				Message: "Wrong Username. Disconnecting...",
-			}
-			_ = conn.WriteJSON(msgTmp)
-			delete(clients, conn)
-			conn.Close()
+			sendError(conn, "Wrong Username. Disconnecting...")
 			return
 		}
 
 		switch msg.Type {
 
 		case "setState":
-			// Check if the user already has a saved game state
-			var existingState GameStateFromUser
-
-			result := db.Table("game_state_from_users").Where("username = ?", msg.Username).First(&existingState)
-
-			if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-
-				score, err := msg.Message.(map[string]interface{})["score"].(float64)
-
-				if err {
-					conn.WriteJSON(ServerMessage{Type: "error", Message: "Failed to parse score. Wrong Type."})
-					break
-				}
-				rest, err := msg.Message.(map[string]interface{})["rest"].(string)
-
-				if err {
-					conn.WriteJSON(ServerMessage{Type: "error", Message: "Failed to parse rest. Wrong Type."})
-					continue
-				}
-
-				fmt.Println("Score:", score, "Rest:", rest)
-				newGameState := GameStateFromUser{Username: msg.Username, Score: 33, Rest: rest}
-
-				db.Create(&newGameState)
-			} else if result.Error != nil && !errors.Is(result.Error, gorm.ErrRecordNotFound) {
-				log.Println("Failed to find Gamestateforuser entry:", result.Error)
-				conn.WriteJSON(ServerMessage{Type: "error", Message: result.Error})
-			} else {
-				// Replace the existing game state with the new one
-				existingState.Score = msg.Message.(map[string]interface{})["score"].(float64)
-				existingState.Rest = msg.Message.(map[string]interface{})["rest"].(string)
-				result := db.Save(&existingState)
-				if result.Error != nil {
-					log.Println("Failed to update game state:", result.Error)
-					conn.WriteJSON(ServerMessage{Type: "error", Message: "Failed to update game state"})
-				}
-			}
+			handleSetState(conn, msg)
 		case "getState":
 			username := msg.Username
 			// Find the Gamestateforuser entry that matches the username
@@ -94,7 +49,7 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 			} else {
 				fmt.Println(gameState)
 			}
-			conn.WriteJSON(ServerMessage{Type: "gameState", Message: gameState})
+			_ = conn.WriteJSON(ServerMessage{Type: "gameState", Message: gameState})
 			fmt.Println(username)
 		case "getLeaderboard":
 			// Retrieve all entries from game_state_from_users table with the fields username and score, sorted by score
@@ -109,7 +64,7 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 			} else {
 				fmt.Println(gameStates)
 			}
-			conn.WriteJSON(ServerMessage{Type: "leaderboard", Message: gameStates})
+			_ = conn.WriteJSON(ServerMessage{Type: "leaderboard", Message: gameStates})
 
 		case "sendMessage":
 			chatMessage := ChatMessage{Username: msg.Username, Message: msg.Message.(string)}
@@ -117,7 +72,52 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 			chatMessageBroadcast <- chatMessage
 		default:
 			log.Println("Unknown message type:", msg.Type)
+			sendError(conn, "Unknown message type: "+msg.Type)
 		}
 
+	}
+}
+
+func sendError(conn *websocket.Conn, msg string) {
+	msgTmp := ServerMessage{
+		Type:    "error",
+		Message: msg,
+	}
+	_ = conn.WriteJSON(msgTmp)
+}
+
+func handleSetState(conn *websocket.Conn, msg ClientMessage) {
+
+	score, oks := msg.Message.(map[string]interface{})["score"].(float64)
+	if !oks {
+		sendError(conn, "Failed to parse score. Wrong Type (Needs float64). Had Type: "+reflect.TypeOf(msg.Message.(map[string]interface{})["score"]).String())
+		return
+	}
+	rest, okr := msg.Message.(map[string]interface{})["rest"].(string)
+
+	if !okr {
+		sendError(conn, "Failed to parse rest. Wrong Type (Needs String). Had Type: "+reflect.TypeOf(msg.Message.(map[string]interface{})["rest"]).String())
+		return
+	}
+
+	// Check if the user already has a saved game state
+	var existingState GameStateFromUser
+
+	result := db.Table("game_state_from_users").Where("username = ?", msg.Username).First(&existingState)
+
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		newGameState := GameStateFromUser{Username: msg.Username, Score: score, Rest: rest}
+		db.Create(&newGameState)
+	} else if result.Error != nil && !errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		sendError(conn, result.Error.Error())
+	} else {
+		// Replace the existing game state with the new one
+		existingState.Score = score
+		existingState.Rest = rest
+		result := db.Save(&existingState)
+		if result.Error != nil {
+			log.Println("Failed to update game state:", result.Error)
+			sendError(conn, result.Error.Error())
+		}
 	}
 }

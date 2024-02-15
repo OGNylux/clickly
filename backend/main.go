@@ -26,7 +26,6 @@ import (
 	"github.com/gorilla/websocket"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"log"
 )
 
 var clients = make(map[*websocket.Conn]bool) // connected clients
@@ -59,7 +58,7 @@ func main() {
 	go handleChatMessages()
 
 	// Start the HTTP server
-	log.Println("WebSocket server started on http://localhost:8080/ws")
+	fmt.Println("WebSocket server started on http://localhost:8080/ws")
 
 	_ = r.Run(":8080")
 
@@ -73,7 +72,7 @@ func handleWebSocketAuth(c *gin.Context) {
 	// Upgrade the HTTP connection to a WebSocket connection
 	conn, err := upgrade.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
-		log.Println("Failed to upgrade connection:", err)
+		fmt.Println("Failed to upgrade connection:", err)
 		return
 	}
 
