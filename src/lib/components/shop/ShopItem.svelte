@@ -42,7 +42,7 @@
     <img src={item.image.src} alt="" class="size-16 p-2 drop-shadow" />
     <div class="flex flex-col grow justify-between p-2">
         <p class="font-bold">{item.name}</p>
-        <p>{formatNumber(marketValue)}</p>
+        <p>{formatNumber(marketValue)} Emojis</p>
     </div>
 
     {#if item.getAmount() == 0 && !action}

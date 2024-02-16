@@ -85,8 +85,9 @@
             <div class="bg-slate-800">
                 <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-950" />
             </div>
-            <div class="text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
-                <p> dein passives Einkommen: <span class="text-yellow-400">{formatNumber(passiveIncome)} E/s</span></p>
+            <div class="flex flex-col text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
+                <p><span class="text-yellow-400">{$emojis.toLocaleString("de-DE")}</span> E</p>
+                <p>Passive Income: <span class="text-yellow-400">{formatNumber(passiveIncome)}</span> E/s</p>
             </div>
         </Tooltip.Content>  
     </Tooltip.Root>

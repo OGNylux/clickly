@@ -63,7 +63,7 @@
                     {:else}
                         <p class="font-bold truncate">{storeItem.name}: 2x E/s</p>
                     {/if}
-                    <p class="truncate text-center">{formatNumber(marketValue)} Crops</p>
+                    <p class="truncate">{formatNumber(marketValue)} Crops</p>
                 </div>
             </button>
             <div class="absolute rounded-xl w-28 right-0 h-full text-center p-2 border-2 bg-slate-600">
