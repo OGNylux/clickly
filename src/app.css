@@ -12,7 +12,7 @@
     --toastContainerBottom: 1rem;
     --toastContainerLeft: auto;
     --toastBorderRadius: 0.75rem;
-    --toastBackground: rgb(203 213 225);
+    --toastBackground: rgb(226 232 240);
     --toastColor: #000000;
     --toastWidth: 20rem;
 }

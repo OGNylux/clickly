@@ -58,7 +58,7 @@
             unlockLevelUpReward(currentLevel);
             currentLevelScore = nextLevelScore;
             nextLevelScore = getLevelupScore(currentLevel + 1);
-            toast.push(`Du hast <strong>Level ${currentLevel}</strong> erreicht 🎉!`, {duration: 10000});
+            toast.push(`<div class="flex"> <img src="Level-up.svg" alt="" class="size-8""/> <p class="px-2"> You reached <strong>Level ${currentLevel}</strong>!</p></div>`, {duration: 10000});
         }
         fillPercent.set(
             $score ? (100 * ($score - currentLevelScore)) / (nextLevelScore - currentLevelScore) : 0,
