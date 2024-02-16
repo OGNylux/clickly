@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { formatNumber } from '$lib/helper';
+    import { formatNumber } from "$lib/formatNumber";
+
 
     export let value = 0;
   

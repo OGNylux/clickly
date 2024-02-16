@@ -6,6 +6,7 @@
     import { tweened } from "svelte/motion";
     import { sineInOut } from "svelte/easing";
     import { animate, timeline } from "motion";
+    import { formatNumber } from "$lib/formatNumber";
 
     let audio: HTMLAudioElement,
         volume = tweened(0, { duration: 750, easing: sineInOut }),
@@ -64,7 +65,7 @@
     </div>
     <div class="absolute bottom-0 left-0 w-full flex flex-col items-center 2xl:flex-row 2xl:justify-between p-2 gap-2">
         {#each $farmUpgrades as upgrade}
-        <FarmUpgrade upgrade={upgrade} />
+            <FarmUpgrade upgrade={upgrade} />
         {/each}
     </div>
     <div class="absolute grid place-content-center inset-0 z-[1]">
@@ -73,7 +74,7 @@
         </svg>
     </div>
     <div class="absolute top-0 left-0 w-full flex justify-center mt-2">
-        <h2 class="bg-[#0000005d] text-white p-2 w-fit rounded-xl text-3xl text-center z-10">crops: {$crops}</h2>
+        <h2 class="bg-[#0000005d] text-white p-2 w-fit rounded-xl text-3xl text-center z-10">crops: {formatNumber($crops)}</h2>
     </div>
     <button 
         class={`absolute hidden ${squirrel ? '4xl:block' : '4xl:hidden'}`} 

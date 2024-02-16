@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { formatNumber, getLevel, getLevelupScore, unlockLevelUpReward } from "$lib/helper";
+    import { getLevel, getLevelupScore, unlockLevelUpReward } from "$lib/helper";
     import { emojis, score, unlockedClicker, unlockedPassiveItems } from "$lib/store";
     import { beforeUpdate, onDestroy, onMount } from "svelte";
     import { tweened } from "svelte/motion";
@@ -9,6 +9,7 @@
     import ClickerCounter from "$lib/components/clicker/ClickerCounter.svelte";
     import { Tooltip } from "bits-ui";
     import { flyAndScale } from "$lib/transition";
+    import { formatNumber } from "$lib/formatNumber";
 
     const fillPercent = tweened(0, {
         duration: 400,
@@ -84,8 +85,9 @@
             <div class="bg-slate-800">
                 <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-950" />
             </div>
-            <div class="text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
-                <p> dein passives Einkommen: <span class="text-yellow-400">{passiveIncome} E/s</span></p>
+            <div class="flex flex-col text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
+                <p><span class="text-yellow-400">{$emojis.toLocaleString("de-DE")}</span> E</p>
+                <p>Passive Income: <span class="text-yellow-400">{formatNumber(passiveIncome)}</span> E/s</p>
             </div>
         </Tooltip.Content>  
     </Tooltip.Root>
@@ -99,7 +101,7 @@
                 <Tooltip.Trigger> 
                     <p class="place-content-center flex items-center">
                         <Info size="15" />
-                        <span>LVL {currentLevel}</span>
+                        <span>LVL {formatNumber(currentLevel)}</span>
                     </p>
                 </Tooltip.Trigger>
                 <Tooltip.Content
@@ -112,7 +114,7 @@
                         <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-950" />
                     </div>
                     <div class="text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
-                        <p> dein aktueller Score: <span class="text-yellow-400">{$score}</span></p>
+                        <p> dein aktueller Score: <span class="text-yellow-400">{formatNumber($score)}</span></p>
                     </div>
                 </Tooltip.Content>  
             </Tooltip.Root>
