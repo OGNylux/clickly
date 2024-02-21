@@ -2,6 +2,8 @@
     import { Settings, BellDot } from "lucide-svelte";
     import { Popover } from "bits-ui";
     import { flyAndScale } from "$lib/transition";
+
+    export const level = 0;
 </script>
 
 <div class="flex h-10 items-center bg-slate-200 px-3 header">
@@ -9,7 +11,7 @@
         Username
     </div>
     <div class="inline-flex h-10 items-center justify-center px-3 text-md font-medium">
-        LVL
+        {`Level ${level}`}
     </div>
     <div class="flex-1"></div>
     <div class="inline-flex h-10 items-center justify-center px-3 text-3xl font-bold">

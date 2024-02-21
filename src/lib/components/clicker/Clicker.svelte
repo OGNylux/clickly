@@ -11,6 +11,7 @@
     import { flyAndScale } from "$lib/transition";
     import { toast } from "@zerodevx/svelte-toast";
     import { formatNumber } from "$lib/formatNumber";
+    import level from "../Header.svelte";
   
     const fillPercent = tweened(0, {
         duration: 400,
@@ -60,6 +61,7 @@
             currentLevelScore = nextLevelScore;
             nextLevelScore = getLevelupScore(currentLevel + 1);
             toast.push(`<div class="flex"> <img src="Level-up.svg" alt="" class="size-8""/> <p class="px-2"> You reached <strong>Level ${currentLevel}</strong>!</p></div>`, {duration: 10000});
+            const Level = currentLevel;
         }
         fillPercent.set(
             $score ? (100 * ($score - currentLevelScore)) / (nextLevelScore - currentLevelScore) : 0,
