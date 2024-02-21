@@ -2,11 +2,6 @@ import { FarmItem, levelScores, levelUpRewards } from "$lib/data";
 import { unlockedClicker, unlockedFarmItems, unlockedPassiveItems } from "$lib/store";
 import { toast } from '@zerodevx/svelte-toast'
 
-export function formatNumber(num: number) {
-    if(num) return num.toLocaleString('de-DE');
-    return 0;
-}
-
 export function getLevelupScore(level: number) {
     if (level === 0) return 0;
 

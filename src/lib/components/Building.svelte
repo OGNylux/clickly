@@ -3,7 +3,7 @@
     import { ArrowBigUpDash } from "lucide-svelte";
     import { crops } from "$lib/store";
     import Emoji from "./Emoji.svelte";
-    import { formatNumber } from "$lib/helper";
+    import { formatNumber } from "$lib/formatNumber";
     import { Separator } from "bits-ui";
     import { animate, spring } from "motion";
 
@@ -63,15 +63,15 @@
                     {:else}
                         <p class="font-bold truncate">{storeItem.name}: 2x E/s</p>
                     {/if}
-                    <p class="truncate text-center">{formatNumber(marketValue)} Crops</p>
+                    <p class="truncate">{formatNumber(marketValue)} Crops</p>
                 </div>
             </button>
             <div class="absolute rounded-xl w-28 right-0 h-full text-center p-2 border-2 bg-slate-600">
-                <p class="text-4xl truncate">{storeItem.getAmount()}</p>
+                <p class="text-4xl truncate">{formatNumber(storeItem.getAmount())}</p>
                 {#if storeItem instanceof ClickerItem}
-                    <p class="text-sm truncate -m-2">{storeItem.getInfluence()+1} E/c</p>
+                    <p class="text-sm truncate -m-2">{formatNumber(storeItem.getInfluence()+1)} E/c</p>
                 {:else}
-                    <p class="text-sm truncate -m-2">{storeItem.getInfluence()} E/s</p>
+                    <p class="text-sm truncate -m-2">{formatNumber(storeItem.getInfluence())} E/s</p>
                 {/if}
             </div>
         </div>
