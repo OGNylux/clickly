@@ -17,7 +17,7 @@
     </div>
     <div class="flex-1"></div>
     <Popover.Root>
-        <Popover.Trigger class="inline-flex h-10 items-center justify-end px-6 transition hover:bg-slate-300 rounded-xl">
+        <Popover.Trigger class="inline-flex h-8 items-center justify-end px-4 transition hover:bg-slate-300 rounded-xl">
             <BellDot/>
         </Popover.Trigger>
         <Popover.Content
@@ -37,7 +37,7 @@
         </Popover.Content>
     </Popover.Root>
     <Popover.Root>
-        <Popover.Trigger class="inline-flex h-10 items-center justify-end px-6 transition hover:bg-slate-300 rounded-xl">
+        <Popover.Trigger class="inline-flex h-8 items-center justify-end px-4    transition hover:bg-slate-300 rounded-xl">
             <Settings/>
         </Popover.Trigger>
         <Popover.Content
