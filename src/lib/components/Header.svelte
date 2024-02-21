@@ -4,8 +4,8 @@
     import { flyAndScale } from "$lib/transition";
 </script>
 
-<div class="flex h-14 items-center bg-slate-200 px-3 header">
-    <div class="inline-flex h-10 items-center justify-center px-3 text-md font-medium bg-slate-300 border-slate-200 border-2 rounded-xl">
+<div class="flex h-10 items-center bg-slate-200 px-3 header">
+    <div class="inline-flex h-8 items-center justify-center px-2 text-md font-medium bg-slate-300 border-slate-200 border-2 rounded-xl">
         Username
     </div>
     <div class="inline-flex h-10 items-center justify-center px-3 text-md font-medium">
@@ -21,7 +21,7 @@
             <BellDot/>
         </Popover.Trigger>
         <Popover.Content
-            class="z-20 w-full max-w-[328px] rounded-[12px] border border-dark-10 bg-slate-800 p-4 text-white"
+            class="z-20 w-full max-w-[328px] rounded-[12px] border bg-slate-800 p-4 text-white"
             transition={flyAndScale}
             sideOffset={8}
         >
@@ -41,7 +41,7 @@
             <Settings/>
         </Popover.Trigger>
         <Popover.Content
-            class="z-20 w-full max-w-[328px] rounded-[12px] border border-dark-10 bg-slate-800 p-4 text-white"
+            class="z-20 w-full max-w-[328px] rounded-[12px] border bg-slate-800 p-4 text-white"
             transition={flyAndScale}
             sideOffset={8}
         >
