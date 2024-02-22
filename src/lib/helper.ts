@@ -1,5 +1,5 @@
 import { FarmItem, levelScores, levelUpRewards } from "$lib/data";
-import { unlockedClicker, unlockedFarmItems, unlockedPassiveItems } from "$lib/store";
+import { unlockedClicker, unlockedFarmItems, unlockedPassiveItems, notifications } from "$lib/store";
 import { toast } from '@zerodevx/svelte-toast'
 
 export function getLevelupScore(level: number) {
@@ -53,7 +53,10 @@ export function unlockAllunlockedItems(level: number) {
 export function unlockLevelUpReward(level: number) {
     if (levelUpRewards[level]) {
         levelUpRewards[level].forEach(item => {
-            toast.push(`<div class="flex"> <img src=${item.image.src} alt="" class="size-8" /> <p class="px-2"> New item unlocked! </p></div>`)
+            const unread = true;
+            const message = `<div class="flex"> <img src="${item.image.src}" alt="" class="size-8" /> <p class="px-2"> New item unlocked! </p></div>`
+            toast.push(message)
+            notifications.update(n => [...n, {message:message, unread:unread}])
             if (item instanceof FarmItem) {
                 if (!unlockedFarmItems.contains(item)) {
                     unlockedFarmItems.add(item);

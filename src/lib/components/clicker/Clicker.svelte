@@ -1,6 +1,6 @@
 <script lang="ts">
     import { getLevel, getLevelupScore, unlockLevelUpReward } from "$lib/helper";
-    import { emojis, score, unlockedClicker, unlockedPassiveItems } from "$lib/store";
+    import { emojis, score, unlockedClicker, unlockedPassiveItems, notifications } from "$lib/store";
     import { beforeUpdate, onDestroy, onMount } from "svelte";
     import { tweened } from "svelte/motion";
     import { cubicOut } from "svelte/easing";
@@ -11,7 +11,6 @@
     import { flyAndScale } from "$lib/transition";
     import { toast } from "@zerodevx/svelte-toast";
     import { formatNumber } from "$lib/formatNumber";
-    import level from "../Header.svelte";
   
     const fillPercent = tweened(0, {
         duration: 400,
@@ -60,8 +59,10 @@
             unlockLevelUpReward(currentLevel);
             currentLevelScore = nextLevelScore;
             nextLevelScore = getLevelupScore(currentLevel + 1);
-            toast.push(`<div class="flex"> <img src="Level-up.svg" alt="" class="size-8""/> <p class="px-2"> You reached <strong>Level ${currentLevel}</strong>!</p></div>`, {duration: 10000});
-            const Level = currentLevel;
+            const unread = true;
+            const message = `<div class="flex"> <img src="Level-up.svg" alt="" class="size-8""/> <p class="px-2"> You reached <strong>Level ${currentLevel}</strong>!</p></div>`;
+            toast.push(message, {duration: 10000});
+            notifications.update(n => [...n, {message:message, unread:unread}])
         }
         fillPercent.set(
             $score ? (100 * ($score - currentLevelScore)) / (nextLevelScore - currentLevelScore) : 0,
