@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { onMount } from "svelte";
+    import { onMount, onDestroy } from "svelte";
     import { Settings, Bell } from "lucide-svelte";
     import { Popover, Separator } from "bits-ui";
     import { flyAndScale } from "$lib/transition";
@@ -7,9 +7,14 @@
     import { notifications, score } from "$lib/store";
 
     let level = 0;
+    let previousLevel = 0;
 
     onMount(() => {
         level = getLevel($score);
+    });
+
+    onDestroy(() => {
+        removeReadNotifications();
     });
 
     function updateReadStatus() {
@@ -22,6 +27,21 @@
             });
         });
     }
+
+    function removeReadNotifications() {
+        notifications.update((notifications) => {
+            return notifications.filter((notification) => {
+                return notification.unread;
+            });
+        });
+    }
+
+    $: {
+        if (level !== previousLevel) {
+            previousLevel = level;
+            removeReadNotifications();
+        }
+    }
 </script>
 
 <div class="grid grid-cols-3 h-10 items-center bg-slate-200 px-3 header content-center">
@@ -32,7 +52,7 @@
             </div>
         </div>
         <div class="flex items-center px-3 font-medium">
-            {`Level ${level}`}
+            {`Level ${getLevel($score)}`}
         </div>
     </div>
     <div class="place-self-center flex items-center px-3 text-xl font-semibold">
@@ -43,9 +63,7 @@
             <Popover.Trigger class="items-center justify-end px-4">
                 <div class="transition hover:bg-slate-300 rounded-3xl p-1">
                     {#if $notifications.some(notification => notification.unread)}
-                        <button on:click={() => updateReadStatus()}>
-                            <img src="Bell-Icon.svg" alt="bell" class="size-6"/>
-                        </button>
+                        <img on:click={() => { updateReadStatus();}} src="BellIcon.svg" alt="bell" class="size-6"/>
                     {:else}
                         <Bell />
                     {/if}
