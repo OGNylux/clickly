@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="flex items-center px-3 font-medium">
-            {`Level ${getLevel($score)}`}
+            Level {getLevel($score)}
         </div>
     </div>
     <div class="place-self-center flex items-center px-3 text-xl font-semibold">
