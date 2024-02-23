@@ -47,7 +47,7 @@
                 </div>
             </Popover.Trigger>
             <Popover.Content
-                class="z-20 w-full max-w-[240px] rounded-xl border bg-slate-800 p-4 text-white overflow-y-auto h-auto max-h-screen overflow-scroll scroll-auto"
+                class="z-20 w-full max-w-[240px] rounded-xl border bg-slate-800 p-4 text-white overflow-y-auto h-auto max-h-screen"
                 transition={flyAndScale}
                 sideOffset={8}
             >
