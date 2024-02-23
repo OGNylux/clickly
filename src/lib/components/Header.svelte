@@ -1,21 +1,9 @@
 <script lang="ts">
-    import { onMount, onDestroy } from "svelte";
     import { Settings, Bell } from "lucide-svelte";
     import { Popover, Separator } from "bits-ui";
     import { flyAndScale } from "$lib/transition";
     import { getLevel } from "$lib/helper";
     import { notifications, score } from "$lib/store";
-
-    let level = 0;
-    let previousLevel = 0;
-
-    onMount(() => {
-        level = getLevel($score);
-    });
-
-    onDestroy(() => {
-        removeReadNotifications();
-    });
 
     function updateReadStatus() {
         notifications.update((notifications) => {
@@ -26,21 +14,6 @@
                 };
             });
         });
-    }
-
-    function removeReadNotifications() {
-        notifications.update((notifications) => {
-            return notifications.filter((notification) => {
-                return notification.unread;
-            });
-        });
-    }
-
-    $: {
-        if (level !== previousLevel) {
-            previousLevel = level;
-            removeReadNotifications();
-        }
     }
 </script>
 
@@ -74,7 +47,7 @@
                 </div>
             </Popover.Trigger>
             <Popover.Content
-                class="z-20 w-full max-w-[230px] rounded-xl border bg-slate-800 p-4 text-white"
+                class="z-20 w-full max-w-[240px] rounded-xl border bg-slate-800 p-4 text-white overflow-y-auto h-screen overflow-scroll scroll-auto"
                 transition={flyAndScale}
                 sideOffset={8}
             >
