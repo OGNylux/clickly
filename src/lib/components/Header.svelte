@@ -57,8 +57,8 @@
                 <div class="flex items-center justify-center">
                     <h2 class="text-lg font-bold">Notifications</h2>
                 </div>
-                <Separator.Root 
-                class="my-2 shrink-0 bg-slate-300 data-[orientation=horizontal]:h-px data-[orientation=vertical]:h-full data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-[1px]"/>
+                <Separator.Root
+                class="my-2 shrink-0 bg-slate-300 h-px"/>
                 {#each $notifications as notification}
                     <div class="flex flex-col py-2">
                         {@html notification.message}
@@ -84,7 +84,7 @@
                     <h2 class="text-lg font-bold">Settings</h2>
                 </div>
                 <Separator.Root 
-                class="my-2 shrink-0 bg-slate-300 data-[orientation=horizontal]:h-px data-[orientation=vertical]:h-full data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-[1px]"/>
+                class="my-2 shrink-0 bg-slate-300 h-px"/>
                 Wer das ließt ist nen hs 😎
             </Popover.Content>
         </Popover.Root>
