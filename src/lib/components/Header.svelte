@@ -60,10 +60,10 @@
     </div>
     <div class="place-self-end flex">
         <Popover.Root>
-            <Popover.Trigger class="items-center justify-end px-4">
+            <Popover.Trigger class="items-center justify-end px-4" on:click={() => updateReadStatus()}>
                 <div class="transition hover:bg-slate-300 rounded-3xl p-1">
                     {#if $notifications.some(notification => notification.unread)}
-                        <svg on:click={() => { updateReadStatus();}} class="size-6" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="size-6" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M25.8667 19.8667C26.9333 21.8667 28 22.6667 28 22.6667H4C4 22.6667 8 20.0001 8 10.6667C8 6.26675 11.6 2.66675 16 2.66675C16.9333 2.66675 17.7333 2.80008 18.5333 3.06675" stroke="black" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M13.7333 28C13.9565 28.4059 14.2846 28.7445 14.6833 28.9803C15.082 29.216 15.5368 29.3404 16 29.3404C16.4632 29.3404 16.918 29.216 17.3167 28.9803C17.7154 28.7445 18.0435 28.4059 18.2667 28" stroke="black" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                             <circle cx="24" cy="10.6666" r="5.33333" fill="#0EA5E9"/>
