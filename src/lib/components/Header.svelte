@@ -98,7 +98,7 @@
                 </div>
                 <Separator.Root 
                 class="my-2 shrink-0 bg-slate-300 h-px"/>
-                Wer das ließt ist nen hs 😎
+                Wer das liest ist nen hs 😎
             </Popover.Content>
         </Popover.Root>
     </div>
