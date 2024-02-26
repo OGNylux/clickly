@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Settings, Bell } from "lucide-svelte";
+    import { Settings, Bell, X } from "lucide-svelte";
     import { Popover, Separator } from "bits-ui";
     import { flyAndScale } from "$lib/transition";
     import { getLevel } from "$lib/helper";
@@ -14,6 +14,11 @@
                 };
             });
         });
+    }
+    
+    function removeNotification(index: number) {
+        $notifications.splice(index, 1);
+        $notifications = [...$notifications]
     }
 </script>
 
@@ -47,7 +52,7 @@
                 </div>
             </Popover.Trigger>
             <Popover.Content
-                class="z-20 w-full max-w-[240px] rounded-xl border bg-slate-800 p-4 text-white overflow-y-auto h-auto max-h-screen"
+                class="z-20 w-full max-w-[280px] rounded-xl border bg-slate-800 p-4 text-white overflow-y-auto h-auto max-h-screen"
                 transition={flyAndScale}
                 sideOffset={8}
             >
@@ -59,9 +64,17 @@
                 </div>
                 <Separator.Root
                 class="my-2 shrink-0 bg-slate-300 h-px"/>
-                {#each $notifications as notification}
-                    <div class="flex flex-col py-2">
-                        {@html notification.message}
+                {#each $notifications as notification, i}
+                    <div class="flex flex-row w-full py-2">
+                        <div class="grow">
+                            {@html notification.message}
+                        </div>
+                        <div class="flex justify-end">
+                            <button
+                                on:click={() => removeNotification(i)}>
+                                <X />
+                            </button>
+                        </div>
                     </div>
                 {/each}
             </Popover.Content>

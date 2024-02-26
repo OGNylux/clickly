@@ -99,6 +99,6 @@ function scoreStore() {
 export const score = scoreStore();
 
 interface notification 
-    {message: string, unread : boolean,}
+    {message: string, unread : boolean}
     
 export const notifications = writable<notification[]>([]);
