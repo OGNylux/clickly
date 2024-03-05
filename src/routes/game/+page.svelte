@@ -5,7 +5,6 @@
     import { onMount } from 'svelte';
     import { loadLocalStorage, save } from '$lib/save';
     import { getLevel, loadScore, unlockAllunlockedItems } from '$lib/helper';
-    import { score } from '$lib/store';
     import Farm from '$lib/components/farm/Farm.svelte';
     import Header from '$lib/components/Header.svelte';
 
@@ -16,19 +15,17 @@
     });
 </script>
 
-<div class="w-full h-screen"> 
-    <nav class="w-screen h-16">
-        <Header/>
-    </nav>
-    <main class="flex justify-around gap-2">
-        <Buildings />
-        <div id="main">
-            <Clicker />
-            <Farm />
-        </div>
-        <Shop />
-    </main>
-</div>
+<nav class="w-full h-16">
+    <Header/>
+</nav>
+<main class="flex justify-around gap-2 screen">
+    <Buildings />
+    <div id="main" class="screen">
+        <Clicker />
+        <Farm />
+    </div>
+    <Shop />
+</main>
 
 <style lang="postcss">
     #main {
@@ -38,5 +35,8 @@
             (w-80 * 2 = 20rem * 2)
         */ 
         width: calc(100vw - 48rem); 
+    }
+    .screen {
+        height: calc(100vh - 4.25rem);
     }
 </style>

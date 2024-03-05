@@ -71,7 +71,7 @@
 </script>
 
 <div
-    class="bg-slate-100 border-2 border-slate-200 rounded-xl grid place-items-center justify-items-center gap-2 mb-2"
+    class="bg-slate-100 border-2 h-96 border-slate-200 rounded-xl grid place-items-center justify-items-center gap-2 mb-2"
     bind:offsetWidth={width}
 >
     <Tooltip.Root>
