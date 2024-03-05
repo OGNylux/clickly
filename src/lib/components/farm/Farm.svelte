@@ -85,11 +85,11 @@
         on:click={() => squirrelReward()}>
         <img src="/farm/squirrel.svg" alt="Squirrel" >
     </button>
-    <div class="absolute right-0 bottom-20 hidden 3xl:block">
-        <img src="/farm/tractor.svg" alt="Tractor" class="h-3/4 mr-2">
-    </div>
     <div class="absolute right-0 top-2 hidden 4xl:block">
         <img src="/farm/pig_bg.svg" alt="Tree" class="h-3/4 mr-2">
+    </div>
+    <div class="absolute right-0 bottom-20 hidden 3xl:block">
+        <img src="/farm/tractor.svg" alt="Tractor" class="h-3/4 mr-2">
     </div>
     <div class="absolute -left-8 -top-10 hidden 4xl:block">
         <img src="/farm/cow_bg.svg" alt="Tree" class="h-3/4 mr-2">
