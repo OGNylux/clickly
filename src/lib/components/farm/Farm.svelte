@@ -74,7 +74,10 @@
         </svg>
     </div>
     <div class="absolute top-0 left-0 w-full flex justify-center mt-2">
-        <h2 class="bg-[#0000005d] text-white p-2 w-fit rounded-xl text-3xl text-center z-10">crops: {formatNumber($crops)}</h2>
+        <div class="bg-[#0000005d] text-white py-2 px-6 w-fit rounded-xl text-3xl text-center z-10 flex items-center">
+            <h2>{formatNumber($crops)}</h2>
+            <img src="emojis/c.svg" alt="c" class="size-6 ml-1">
+        </div>
     </div>
     <button 
         class={`absolute hidden ${squirrel ? '4xl:block' : '4xl:hidden'}`} 
