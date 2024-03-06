@@ -53,10 +53,9 @@ export function unlockAllunlockedItems(level: number) {
 export function unlockLevelUpReward(level: number) {
     if (levelUpRewards[level]) {
         levelUpRewards[level].forEach(item => {
-            const unread = true;
             const message = `<div class="flex"> <img src="${item.image.src}" alt="" class="size-8" /> <p class="px-2"> New item unlocked! </p></div>`
             toast.push(message)
-            notifications.update(n => [...n, {message:message, unread:unread}])
+            notifications.update(n => [...n, { message: message, unread: true }])
             if (item instanceof FarmItem) {
                 if (!unlockedFarmItems.contains(item)) {
                     unlockedFarmItems.add(item);
@@ -67,6 +66,9 @@ export function unlockLevelUpReward(level: number) {
                 }
             }
         });
+        const message = `<div class="flex"> <img src="Level-up.svg" alt="" class="size-8""/> <p class="px-2"> You reached <strong>Level ${level}</strong>!</p></div>`;
+        toast.push(message, { duration: 10000 });
+        notifications.update(n => [...n, { message: message, unread: true }])
     }
 }
 

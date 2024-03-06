@@ -4,12 +4,10 @@
     import Clicker from '$lib/components/clicker/Clicker.svelte';
     import { onMount } from 'svelte';
     import { loadLocalStorage, save } from '$lib/save';
-    import { getLevel, loadScore, unlockAllunlockedItems } from '$lib/helper';
     import Farm from '$lib/components/farm/Farm.svelte';
     import Header from '$lib/components/Header.svelte';
 
     onMount(() => {
-        unlockAllunlockedItems(getLevel(loadScore()));
         loadLocalStorage();
         save();
     });
