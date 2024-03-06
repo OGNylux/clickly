@@ -61,6 +61,8 @@ func main() {
 	// Broadcast messages to all connected clients
 	go handleChatMessages()
 
+	go eventXY()
+
 	// Start the HTTP server
 	fmt.Println("WebSocket server started on http://localhost:8080/ws")
 

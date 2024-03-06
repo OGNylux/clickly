@@ -1,8 +1,13 @@
 package main
 
 import (
+	"bufio"
+	"fmt"
 	"github.com/gorilla/websocket"
+	"os"
 	"reflect"
+	"strconv"
+	"time"
 )
 
 // Messages to Server:
@@ -12,8 +17,18 @@ import (
 // Event start
 // Event finished
 
-var eventParticipants = make(map[*websocket.Conn]float64)
+var eventParticipants = make(map[*websocket.Conn]int)
 var currentEvent = false
+
+func eventXY() {
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("To Start an Event Type something an hit enter")
+	_, _ = reader.ReadString('\n')
+	fmt.Println("Event will start")
+	startEvent("TestEvent")
+	time.Sleep(1 * time.Minute)
+	endEvent()
+}
 
 func handleEvent(conn *websocket.Conn, message ClientMessage) {
 	if !currentEvent {
@@ -32,26 +47,29 @@ func handleEvent(conn *websocket.Conn, message ClientMessage) {
 		return
 	}
 
-	eventParticipants[conn] = score
+	fmt.Println("New Score for " + message.Username + "New Score is " + strconv.Itoa(int(score)))
+	eventParticipants[conn] = int(score)
 }
 
 func startEvent(eventType string) {
+	fmt.Println("Event started")
 	currentEvent = true
 	for conn := range clients {
 		eventStartMessage := ServerMessage{
 			Type:    "EventStart",
 			Message: eventType,
 		}
+		fmt.Println("send start message to somebody")
 		_ = conn.WriteJSON(eventStartMessage)
 	}
 }
 
 func endEvent() {
+	fmt.Println("Event stopped")
 	currentEvent = false
 	for conn := range eventParticipants {
-
 		type EndEvent struct {
-			Score       float64
+			Score       int
 			Leaderboard string
 			Place       int
 		}
