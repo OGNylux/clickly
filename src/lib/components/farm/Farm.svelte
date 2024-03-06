@@ -63,7 +63,7 @@
             <FarmObjekt />
         {/each}
     </div>
-    <div class="absolute bottom-0 left-0 w-full flex flex-col items-center 2xl:flex-row 2xl:justify-between p-2 gap-2">
+    <div class="absolute bottom-0 left-0 w-full flex flex-col items-center xl:flex-row xl:justify-between p-2 gap-2">
         {#each $farmUpgrades as upgrade}
             <FarmUpgrade upgrade={upgrade} />
         {/each}

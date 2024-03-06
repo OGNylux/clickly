@@ -1,6 +1,6 @@
 <script lang="ts">
     import { getLevel, getLevelupScore, loadScore, unlockAllunlockedItems, unlockLevelUpReward } from "$lib/helper";
-    import { emojis, score, unlockedClicker, unlockedPassiveItems, notifications } from "$lib/store";
+    import { emojis, score, unlockedClicker, unlockedPassiveItems } from "$lib/store";
     import { beforeUpdate, onDestroy, onMount } from "svelte";
     import { tweened } from "svelte/motion";
     import { cubicOut } from "svelte/easing";
@@ -9,7 +9,6 @@
     import ClickerCounter from "$lib/components/clicker/ClickerCounter.svelte";
     import { Tooltip } from "bits-ui";
     import { flyAndScale } from "$lib/transition";
-    import { toast } from "@zerodevx/svelte-toast";
     import { formatNumber } from "$lib/formatNumber";
   
     const fillPercent = tweened(0, {
