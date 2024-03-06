@@ -18,7 +18,7 @@
 </nav>
 <main class="flex justify-around gap-2 screen">
     <Buildings />
-    <div id="main" class="screen">
+    <div id="main" class="screen grid grid-rows-2">
         <Clicker />
         <Farm />
     </div>

@@ -54,7 +54,7 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div 
-    class="w-full rounded-xl border-2 border-slate-200 relative grid place-content-center select-none overflow-hidden" 
+    class="w-full h-full rounded-xl border-2 border-slate-200 relative grid place-content-center select-none overflow-hidden" 
     id="farm" 
     on:mouseenter={() => { volume.set(100); audio.play(); }} 
     on:mouseleave={() => volume.set(0)}>
@@ -102,7 +102,6 @@
 <style lang="postcss">
     #farm {
         background: url('/grass.svg') repeat;
-        height: calc(100vh - 4.25rem - 24rem - 0.5rem);
     }
     #squirrel {
         right: 250px;

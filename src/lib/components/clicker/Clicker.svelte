@@ -68,7 +68,7 @@
 </script>
 
 <div
-    class="bg-slate-100 border-2 h-96 border-slate-200 rounded-xl grid place-items-center justify-items-center gap-2 mb-2"
+    class="bg-slate-100 border-2 h-full border-slate-200 rounded-xl flex flex-col items-center gap-2 mb-2"
     bind:offsetWidth={width}
 >
     <Tooltip.Root>
@@ -125,9 +125,9 @@
     </div>
     <button
         on:click={incrementCount}
-        class="transform active:scale-75 transition-transform z-10 select-none"
+        class="h-full transform active:scale-75 transition-transform z-10 select-none"
     >
-        <img src="emojis/heart.svg" alt="" class="size-64 p-2 filter drop-shadow-2xl" />
+        <img src="emojis/heart.svg" alt="" class="h-full p-2 filter drop-shadow-2xl" />
     </button>
     <ClickerCanvas bind:width />
 </div>
