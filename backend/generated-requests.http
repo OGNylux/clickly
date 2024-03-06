@@ -1,0 +1,68 @@
+###
+POST http://localhost:8080/usernameCheck
+Content-Type: text/plain
+
+test24
+
+<> 2024-02-14T171845.409.json
+<> 2024-02-14T171327.409.json
+<> 2024-02-14T171323.409.json
+
+###
+
+POST http://localhost:8080/registerUser
+Content-Type: application/json
+
+{
+  "name": "test2",
+  "password": "tttwer"
+}
+
+<> 2024-02-15T125348.409.json
+<> 2024-02-14T174233.409.json
+<> 2024-02-14T171341.200.json
+<> 2024-02-14T171336.409.json
+<> 2024-02-14T171305.200.json
+<> 2024-02-14T170028.409.json
+<> 2024-02-14T170021.409.json
+<> 2024-02-14T165940.200.json
+<> 2024-02-14T165814.200.json
+<> 2024-02-14T164959.409.json
+<> 2024-02-14T162849.409.txt
+
+###
+
+WEBSOCKET ws://localhost:8080/ws
+Content-Type: application-json // Used for content highlighting only
+
+{
+  "username":"test2",
+  "type":"authentication",
+  "message": {"password":"tttwer"}
+}
+=== wait-for-server
+{
+  "username":"test2",
+  "type":"setState",
+  "message":{"score":33,"rest":"{....}"}
+}
+===
+{
+  "username":"test2",
+  "type":"setState",
+  "message":{"score":34,"rest":"{....}"}
+}
+===
+{
+  "username":"test2",
+  "type":"getState",
+  "message":{}
+}
+=== wait-for-server
+{
+  "username":"test2",
+  "type": "getLeaderboard",
+  "message":{}
+}
+
+###
