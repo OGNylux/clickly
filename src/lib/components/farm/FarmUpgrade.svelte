@@ -19,21 +19,21 @@
         else buyable = true;
 </script>
 
-<div class="grid grid-flow-col grid-cols-3 place-content-start bg-amber-800 w-96 rounded-xl text-white shadow_top z-10">
-    <div class="flex flex-col justify-between p-2 col-span-2">
-        <p class="font-bold">{upgrade.name}</p>
+<div class="h-16 flex justify-between bg-amber-800 w-96 rounded-xl text-white shadow_top z-10">
+    <div class="flex flex-col justify-between p-2">
+        <p class="font-bold truncate">{upgrade.name}</p>
         {#if upgrade.checkAddAmount(1)}
-            <p>{formatNumber(upgrade.nextCost(1))}</p>
+            <p class="truncate" title={formatNumber(upgrade.nextCost(1))}>{formatNumber(upgrade.nextCost(1))}</p>
         {:else}
-            <Lock size={32} />
+            <Lock size={16} />
         {/if}
     </div>
-    <div class="w-full bg-amber-900 border-2 border-amber-800 rounded-xl flex items-center relative">
-        <span class="text-xl w-12 grid place-content-center">x {upgrade.getAmount()}</span>
+    <div class="w-32 h-16 bg-amber-900 border-2 border-amber-800 rounded-xl flex items-center relative">
+        <span class="text-xl pl-3">x {upgrade.getAmount()}</span>
         <button
             on:click={() => buy()}
             disabled={!buyable}
-            class={`absolute top-0 h-full w-20 right-0 buy_button transition font-bold border-amber-800 border-l-2 flex justify-center items-center 
+            class={`h-full absolute top-0 w-20 right-0 buy_button transition font-bold border-amber-800 border-l-2 flex justify-center items-center 
                 ${buyable ? "bg-amber-950 hover:bg-amber-900 " : "bg-amber-900"}`}>
             {#if upgrade.checkAddAmount(1)}
                 BUY

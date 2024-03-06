@@ -96,5 +96,9 @@ function scoreStore() {
         reset: () => set(0)
     };
 }
-export const score = scoreStore(); 
+export const score = scoreStore();
 
+interface notification 
+    {message: string, unread : boolean}
+    
+export const notifications = writable<notification[]>([]);

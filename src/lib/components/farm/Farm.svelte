@@ -54,7 +54,7 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div 
-    class="w-full h-full overflow-hidden rounded-xl border-2 border-slate-200 relative grid place-content-center select-none" 
+    class="w-full h-full rounded-xl border-2 border-slate-200 relative grid place-content-center select-none overflow-hidden" 
     id="farm" 
     on:mouseenter={() => { volume.set(100); audio.play(); }} 
     on:mouseleave={() => volume.set(0)}>
@@ -63,7 +63,7 @@
             <FarmObjekt />
         {/each}
     </div>
-    <div class="absolute bottom-0 left-0 w-full flex flex-col items-center 2xl:flex-row 2xl:justify-between p-2 gap-2">
+    <div class="absolute bottom-0 left-0 w-full flex flex-col items-center xl:flex-row xl:justify-between p-2 gap-2">
         {#each $farmUpgrades as upgrade}
             <FarmUpgrade upgrade={upgrade} />
         {/each}
@@ -74,7 +74,10 @@
         </svg>
     </div>
     <div class="absolute top-0 left-0 w-full flex justify-center mt-2">
-        <h2 class="bg-[#0000005d] text-white p-2 w-fit rounded-xl text-3xl text-center z-10">crops: {formatNumber($crops)}</h2>
+        <div class="bg-[#0000005d] text-white py-2 px-6 w-fit rounded-xl text-3xl text-center z-10 flex items-center">
+            <h2>{formatNumber($crops)}</h2>
+            <img src="emojis/c.svg" alt="c" class="size-6 ml-1">
+        </div>
     </div>
     <button 
         class={`absolute hidden ${squirrel ? '4xl:block' : '4xl:hidden'}`} 
@@ -82,11 +85,11 @@
         on:click={() => squirrelReward()}>
         <img src="/farm/squirrel.svg" alt="Squirrel" >
     </button>
-    <div class="absolute right-0 bottom-20 hidden 3xl:block">
-        <img src="/farm/tractor.svg" alt="Tractor" class="h-3/4 mr-2">
-    </div>
     <div class="absolute right-0 top-2 hidden 4xl:block">
         <img src="/farm/pig_bg.svg" alt="Tree" class="h-3/4 mr-2">
+    </div>
+    <div class="absolute right-0 bottom-20 hidden 3xl:block">
+        <img src="/farm/tractor.svg" alt="Tractor" class="h-3/4 mr-2">
     </div>
     <div class="absolute -left-8 -top-10 hidden 4xl:block">
         <img src="/farm/cow_bg.svg" alt="Tree" class="h-3/4 mr-2">

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getLevel, getLevelupScore, unlockLevelUpReward } from "$lib/helper";
+    import { getLevel, getLevelupScore, loadScore, unlockAllunlockedItems, unlockLevelUpReward } from "$lib/helper";
     import { emojis, score, unlockedClicker, unlockedPassiveItems } from "$lib/store";
     import { beforeUpdate, onDestroy, onMount } from "svelte";
     import { tweened } from "svelte/motion";
@@ -10,7 +10,7 @@
     import { Tooltip } from "bits-ui";
     import { flyAndScale } from "$lib/transition";
     import { formatNumber } from "$lib/formatNumber";
-
+  
     const fillPercent = tweened(0, {
         duration: 400,
         easing: cubicOut,
@@ -38,9 +38,11 @@
     });
 
     onMount(() => {
-        currentLevel = getLevel($score);
-        currentLevelScore = getLevelupScore(currentLevel);
-        nextLevelScore = getLevelupScore(currentLevel + 1);
+        const level = getLevel(loadScore());
+        unlockAllunlockedItems(level);
+        currentLevel = level;
+        currentLevelScore = getLevelupScore(level);
+        nextLevelScore = getLevelupScore(level + 1);
 
         interval = setInterval(() => {
             emojis.increment(passiveIncome);
@@ -66,7 +68,7 @@
 </script>
 
 <div
-    class="bg-slate-100 border-2 border-slate-200 rounded-xl grid place-items-center justify-items-center gap-2 mb-2"
+    class="bg-slate-100 border-2 h-full border-slate-200 rounded-xl flex flex-col items-center gap-2 mb-2"
     bind:offsetWidth={width}
 >
     <Tooltip.Root>
@@ -123,9 +125,9 @@
     </div>
     <button
         on:click={incrementCount}
-        class="transform active:scale-75 transition-transform z-10 select-none"
+        class="h-full transform active:scale-75 transition-transform z-10 select-none flex justify-center "
     >
-        <img src="emojis/heart.svg" alt="" class="size-64 p-2 filter drop-shadow-2xl" />
+        <img src="emojis/heart.svg" alt="" class="h-full p-2 filter drop-shadow-2xl" />
     </button>
     <ClickerCanvas bind:width />
 </div>
