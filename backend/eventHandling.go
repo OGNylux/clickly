@@ -32,7 +32,9 @@ func eventXY() {
 
 func handleEvent(conn *websocket.Conn, message ClientMessage) {
 	if !currentEvent {
-		sendError(conn, "Currently is no Event running")
+		sendError(conn, "Currently is no Event running. Following Message is your Result from last Event")
+		//Implement
+
 		return
 	}
 
@@ -54,6 +56,7 @@ func handleEvent(conn *websocket.Conn, message ClientMessage) {
 func startEvent(eventType string) {
 	fmt.Println("Event started")
 	currentEvent = true
+	eventParticipants = make(map[*websocket.Conn]int)
 	for conn := range clients {
 		eventStartMessage := ServerMessage{
 			Type:    "EventStart",
