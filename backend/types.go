@@ -2,14 +2,14 @@ package main
 
 import "gorm.io/gorm"
 
-// ClientMessage Types: authentication, setState, getState, getLeaderboard, sendMessage
+// ClientMessage Types: authentication, setState, eventScore, getState, getLeaderboard, sendMessage
 type ClientMessage struct {
 	Username string      `json:"username"`
 	Type     string      `json:"type"`
 	Message  interface{} `json:"message"`
 }
 
-// Types: chatMessage, gameState, leaderboard, messages, error, success
+// Types: chatMessage, gameState, eventStart, leaderboard, messages, error, success
 type ServerMessage struct {
 	Type    string      `json:"type"`
 	Message interface{} `json:"message"`
