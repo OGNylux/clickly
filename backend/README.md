@@ -1,6 +1,8 @@
 # How to use:
 
 ```shell
+go env -w CGO_ENABLED=1 (on Windows)
+
 go run *.go
 ```
 
