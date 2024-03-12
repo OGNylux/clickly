@@ -83,7 +83,7 @@
                         </button>
                     {:else}
                     <div class="grid col-span-3">
-                        Nothing to find here... <br> Level up to get your first seed!
+                        Nothing to find here yet... <br> Level up to get your first seed!
                     </div>
                     {/each}
                 </div>

@@ -506,14 +506,14 @@ let champagne = new FarmItem("Champagne", "The tears of all emojis combined to s
 
 const initialFarmUpgrades = () => {
     return [ new FarmUpgrade({
-        name: "House Upgrade",
+        name: "Field Upgrade",
         description: "Increases the number of fields you can have at once. ",
         image: { src: "emojis/house.svg", alt: "house" },
         initialCost: 5000,
         max: 7
     }, 2),
     new FarmUpgrade({
-        name: "Tractor Upgrade",
+        name: "Growth Upgrade",
         description: "Increases the speed at which your crops grow.",
         image: { src: "emojis/tractor.svg", alt: "tractor" },
         initialCost: 10000,
