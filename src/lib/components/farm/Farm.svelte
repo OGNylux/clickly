@@ -23,8 +23,8 @@
     });
 
     function startRandomSquirrel() {
-        const min = 10 * 1000; //60
-        const max = 10 * 1000; //200
+        const min = 60 * 1000; 
+        const max = 200 * 1000;
         
         interval = setInterval(() => {
             squirrel = true;

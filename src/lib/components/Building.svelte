@@ -1,7 +1,7 @@
 <script lang="ts">
     import { ClickerItem, StoreItem } from "$lib/data";
     import { ArrowBigUpDash } from "lucide-svelte";
-    import { crops, isSoundOn } from "$lib/store";
+    import { crops, isAnimOn, isSoundOn } from "$lib/store";
     import Emoji from "./Emoji.svelte";
     import { formatNumber } from "$lib/formatNumber";
     import { Separator } from "bits-ui";
@@ -41,8 +41,8 @@
 {:else}
 <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div class="flex bg-slate-200 z-10 rounded-xl w-96"
-        on:mouseenter={() => {animated = true}}
-        on:mouseleave={() => {animated = false}}
+        on:mouseenter={() => {animated = true && isAnimOn.get()}}
+        on:mouseleave={() => {animated = false && isAnimOn.get()}}
     >
         <div class="m-2 mt-1 w-full">
             <p class="font-bold">{storeItem.name}</p>

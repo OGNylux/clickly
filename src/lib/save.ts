@@ -1,5 +1,5 @@
 import { browser } from "$app/environment";
-import { emojis, score, isClassic, unlockedClicker, unlockedPassiveItems, unlockedFarmItems, crops, farmUpgrades, isSoundOn} from "$lib/store";
+import { emojis, score, isClassic, unlockedClicker, unlockedPassiveItems, unlockedFarmItems, crops, farmUpgrades, isSoundOn, isAnimOn} from "$lib/store";
 import { FarmItem, StoreItem } from "./data";
 import { unlockAllunlockedItems } from "./helper";
 
@@ -9,6 +9,7 @@ import { unlockAllunlockedItems } from "./helper";
 export function loadLocalStorage() {
     if (browser) {
         let isSoundOnLocal = localStorage.getItem('isSoundOn');
+        let isAnimOnLocal = localStorage.getItem('isAnimOn');
         let emojisLocal = localStorage.getItem('emojis');
         let scoreLocal = localStorage.getItem('score');
         let cropsLocal = localStorage.getItem('crops');
@@ -18,8 +19,9 @@ export function loadLocalStorage() {
         let farmLocal = localStorage.getItem('farm');
         let farmUpgradesLocal = localStorage.getItem('farmUpgrades');
 
-        if (isSoundOnLocal && emojisLocal && scoreLocal && cropsLocal && passiveLocal && upgradeLocal && clickerLocal && farmLocal && farmUpgradesLocal) {
+        if (isSoundOnLocal && isAnimOnLocal && emojisLocal && scoreLocal && cropsLocal && passiveLocal && upgradeLocal && clickerLocal && farmLocal && farmUpgradesLocal) {
             isSoundOn.set(JSON.parse(isSoundOnLocal));
+            isAnimOn.set(JSON.parse(isAnimOnLocal));
             emojis.set(JSON.parse(emojisLocal));
             score.set(JSON.parse(scoreLocal));
             crops.set(JSON.parse(cropsLocal));
@@ -62,6 +64,12 @@ export function save() {
     isSoundOn.subscribe(value => {
         if (browser && classic) {
             localStorage.setItem('isSoundOn', JSON.stringify(value));
+        }
+    });
+
+    isAnimOn.subscribe(value => {
+        if (browser && classic) {
+            localStorage.setItem('isAnimOn', JSON.stringify(value));
         }
     });
 
@@ -122,6 +130,7 @@ export function save() {
  */
 export function reset() {
     isSoundOn.set(true);
+    isAnimOn.set(true);
     emojis.reset();
     score.reset();
     unlockedClicker.reset();
@@ -131,6 +140,7 @@ export function reset() {
     unlockAllunlockedItems(0);
     if (browser) {
         localStorage.removeItem('isSoundOn');
+        localStorage.removeItem('isAnimOn');
         localStorage.removeItem('emojis');
         localStorage.removeItem('score');
         localStorage.removeItem('crops');
