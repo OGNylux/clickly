@@ -116,7 +116,7 @@
                         <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-950" />
                     </div>
                     <div class="text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
-                        <p> your current Score: <span class="text-yellow-400">{formatNumber($score)}</span></p>
+                        <p>current Score: <span class="text-yellow-400">{formatNumber($score)}</span></p>
                     </div>
                 </Tooltip.Content>  
             </Tooltip.Root>
