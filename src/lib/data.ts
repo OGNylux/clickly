@@ -311,6 +311,7 @@ class FarmItem {
         if (this.planted - 1 < 0) return;
 
         this.planted -= 1;
+        if(Math.random() < 0.5) this.addAmount(1);
         unlockedFarmItems.update(this);
     }
 
@@ -324,6 +325,11 @@ class FarmItem {
 
     setAmount(amount: number) {
         this.amount = amount;
+        unlockedFarmItems.update(this);
+    }
+
+    addAmount(amount: number) {
+        this.amount += amount;
         unlockedFarmItems.update(this);
     }
 }
@@ -487,15 +493,16 @@ let expensiveHot = new ExpensivePassiveIncomeItem(
 /**
  * Farm Definitions
  */
-let strawberry = new FarmItem("Strawberry", "A juicy strawberry", 1, 5000, { src: "/farm/strawberry.svg", alt: "strawberry" });
-let potato = new FarmItem("Potato", "A juicy potato", 2, 8000, { src: "/farm/potato.svg", alt: "potato" });
-let banana = new FarmItem("Banana", "A juicy banana", 3, 10000, { src: "/farm/banana.svg", alt: "banana" });
-let eggplant = new FarmItem("Eggplant", "A juicy eggplant", 4, 10000, { src: "/farm/eggplant.svg", alt: "eggplant" });
-let peach = new FarmItem("Peach", "A juicy peach", 4, 10000, { src: "/farm/peach.svg", alt: "peach" });
-let peanut = new FarmItem("Peanut", "A juicy peanut", 5, 12000, { src: "/farm/peanut.svg", alt: "peanut" });
+let strawberry = new FarmItem("Strawberry", "A juicy strawberry", 3, 5000, { src: "/farm/strawberry.svg", alt: "strawberry" });
+let potato = new FarmItem("Potato", "A juicy potato", 10, 8000, { src: "/farm/potato.svg", alt: "potato" });
+let banana = new FarmItem("Banana", "A juicy banana", 20, 10000, { src: "/farm/banana.svg", alt: "banana" });
+let eggplant = new FarmItem("Eggplant", "A juicy eggplant", 50, 10000, { src: "/farm/eggplant.svg", alt: "eggplant" });
+let peach = new FarmItem("Peach", "A juicy peach", 100, 10000, { src: "/farm/peach.svg", alt: "peach" });
+let peanut = new FarmItem("Peanut", "A juicy peanut", 150, 12000, { src: "/farm/peanut.svg", alt: "peanut" });
 
-let burger = new FarmItem("Burger", "A juicy burger", 10, 15000, { src: "/farm/burger.svg", alt: "burger" });
-let candy = new FarmItem("Candy", "A juicy candy", 20, 20000, { src: "/farm/candy.svg", alt: "candy" });
+let burger = new FarmItem("Burger", "A juicy burger", 500, 15000, { src: "/farm/burger.svg", alt: "burger" });
+let candy = new FarmItem("Candy", "A juicy candy", 1000, 20000, { src: "/farm/candy.svg", alt: "candy" });
+let champagne = new FarmItem("Champagne", "The tears of all emojis combined to sacrifice to the emoji gods", 1000000, 50000, { src: "/farm/champagne.svg", alt: "champagne" });
 
 const initialFarmUpgrades = () => {
     return [ new FarmUpgrade({
@@ -536,7 +543,8 @@ export const levelUpRewards: Record<number, Array<StoreItem | FarmItem>> = {
     6: [eggplant, clown, cool],
     7: [peanut, byebye],
     8: [burger, stonks],
-    9: [candy, hole]
+    9: [candy, hole],
+    20: [champagne]
 }
 
 export { StoreItem, ClickerItem, PassiveIncomeItem, EasyExpensivePassiveIncomeItem, FarmItem, FarmUpgrade, initialFarmUpgrades };

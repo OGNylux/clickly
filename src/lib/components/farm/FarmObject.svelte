@@ -16,7 +16,6 @@
         if (farmItem == null) return;
 
         const time = farmItem.growthTime * (1 - $farmUpgrades[1].getInfluence());
-        console.log(time);
         progress.subscribe((value) => {
             if (farmItem == null) return;
             remainingTime = Math.ceil((1 - value / 100) * time);
