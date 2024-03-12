@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { serverMessageTypes, type ServerMessage } from "$lib/api";
-    import { X, Check } from "lucide-svelte";
-    import { Button } from "bits-ui";
+    import { X, Check, Loader2  } from "lucide-svelte";
+    import { Button, Tooltip } from "bits-ui";
+    import { flyAndScale } from "$lib/transition";
 
     let username = "";
     let validUsername = 0;
@@ -71,29 +71,63 @@
 </script>
 
 {#if !success}
-<div class="flex flex-col gap-1 justify-center items-center">
-    <label for="username">Username:</label>
-    <div class="flex flex-row" title={rule}>
-        <input type="text" id="username" bind:value={username} />
-        <div class="pl-2">
-            {#if validUsername === 0}
-                <X color="#fc1703" />
-            {:else if validUsername === 1}
-                <Check color="#6ffc03" />
-            {:else}
-                <div class="animate-pulse">...</div>
-            {/if}
+<div class="grid place-items-start gap-2 h-full">
+    <label for="usernameRegister" class="text-sm font-medium">Username:</label>
+    <div class="relative w-full" title={rule}>
+        <input 
+            type="text" 
+            id="usernameRegister" 
+            bind:value={username} 
+            class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-sky-500 focus:border-sky-500" 
+        />
+        <div class="absolute top-0 right-0 h-full flex items-center mr-2">
+            <Tooltip.Root>
+                <Tooltip.Trigger> 
+                    {#if validUsername === 0}
+                        <X color="#fc1703" />
+                    {:else if validUsername === 1}
+                        <Check color="#6ffc03" />
+                    {:else}
+                        <Loader2  class="animate-spin"/>
+                    {/if}
+                </Tooltip.Trigger>
+                <Tooltip.Content
+                    transition={flyAndScale}
+                    transitionConfig={{ y: 8, duration: 150 }}
+                    sideOffset={-5}
+                    side={'top'}
+                >
+                    <div class="bg-slate-200">
+                        <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-300" />
+                    </div>
+                    <div class="text-center border-slate-300 bg-slate-200 p-2 font-medium shadow-2xl outline-none rounded-xl">
+                        {#if validUsername === 1}
+                            <p>The Username is available.</p>
+                        {:else}
+                            <p>{rule}</p>
+                        {/if}
+                    </div>
+                </Tooltip.Content>
+            </Tooltip.Root>
+            
         </div>
     </div>
-    <label for="password">Password:</label>
-    <input type="password" id="password" bind:value={password} />
+
+    <label for="passwordRegister" class="text-sm font-medium">Password:</label>
+    <input 
+        type="password" 
+        id="passwordRegister" 
+        bind:value={password} 
+        class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-sky-500 focus:border-sky-500" 
+    />
+
     <Button.Root
         on:click={register}
         disabled={username == "" ||
             password == "" ||
             validUsername == 0 ||
             validUsername == 2}
-        class="w-40 font-bold text-base relative overflow-hidden px-6 py-1 rounded-xl bg-slate-100 text-slate-950 mt-2 disabled:bg-gray-400 disabled:cursor-not-allowed "
+        class="relative mt-6 py-2 shadow-sm rounded-md text-lg bg-sky-500 w-full text-white font-semibold active:scale-98 active:transition-all disabled:bg-sky-200 disabled:text-black"
     >
         Register
     </Button.Root>

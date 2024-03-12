@@ -1,8 +1,9 @@
 <script lang="ts">
     import { Button } from "bits-ui";
     import { onDestroy } from "svelte";
-    import {clientMessageTypes,serverMessageTypes} from "$lib/api";
-    import type { ClientMessage,ServerMessage} from "$lib/api";
+    import { clientMessageTypes, serverMessageTypes } from "$lib/api";
+    import type { ClientMessage, ServerMessage } from "$lib/api";
+    import { Ban } from "lucide-svelte";
 
     let username = "";
     let password = "";
@@ -52,27 +53,37 @@
     }
 </script>
 
-<div class="flex flex-col gap-1 justify-center items-center">
-    <label for="username">Username:</label>
-    <input type="text" id="username" bind:value={username} />
+<div class="grid place-items-start gap-2 h-full">
+    <label for="usernameLogIn" class="text-sm font-medium">Username:</label>
+    <input 
+        type="text" 
+        id="usernameLogIn" 
+        bind:value={username} 
+        class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-sky-500 focus:border-sky-500" 
+    />
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" bind:value={password} />
-    <div class="flex flex-row justify-center items-center">
-        <Button.Root
-            class="inline-flex h-12 items-center justify-center rounded-input bg-dark
-                        px-[21px] text-[15px] font-semibold text-background shadow-mini
-                        hover:bg-dark/95 active:scale-98 active:transition-all disabled:bg-gray-600"
-            on:click={handleLogin}
-            disabled={username == "" || password == ""}
-        >
-            Login
-        </Button.Root>
-        {#if loggedIn}
-            <p>Logged in</p>
-        {/if}
+    <label for="passwordLogIn" class="block text-sm font-medium">Password:</label>
+    <input 
+        type="password" 
+        id="passwordLogIn" 
+        bind:value={password} 
+        class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-sky-500 focus:border-sky-500" 
+    />
+
+    <Button.Root
+        class="relative mt-6 py-2 shadow-sm rounded-md text-lg bg-sky-500 w-full text-white font-semibold active:scale-98 active:transition-all disabled:bg-sky-200 disabled:text-black"
+        on:click={handleLogin}
+        disabled={username == "" || password == ""}
+    >
+        Login
         {#if errorMsg !== ""}
-            <p>{errorMsg}</p>
+        <div class="absolute text-red-600 -top-7 flex items-center">
+            <Ban size={18} />
+            <span class="truncate">{errorMsg}</span>
+        </div>
         {/if}
-    </div>
+    </Button.Root>
+    {#if loggedIn}
+        <p>Logged in</p>
+    {/if}
 </div>
