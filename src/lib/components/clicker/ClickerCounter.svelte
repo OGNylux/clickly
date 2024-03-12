@@ -14,7 +14,7 @@
     function startCount() {
         clearInterval(interval);
         const diff = value - current;
-        step = Math.ceil(diff / 20);
+        step = Math.ceil(diff / 10);
         interval = setInterval(() => {
             current += step;
             if (Math.abs(current - value) <= Math.abs(step)) {

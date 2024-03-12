@@ -1,19 +1,22 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { animate, stagger } from "motion"
+    import { animate, stagger, type AnimationControls } from "motion"
 
     export let animated = false;
     export let size = 64;
+    
+    let animation: AnimationControls[] = [];
 
     onMount(() => {
-        if (!animated) return;
-
-        animate(".droplet", {y: [0,40]}, {duration: 1, delay: stagger(0.2), repeat: Infinity, easing: "ease-in-out"});
-        animate("#eyebrowL", {transform: ["rotate(0deg)", "rotate(7deg)" , "rotate(0deg)"]}, {duration: 1, delay:stagger(0.1), repeat: Infinity, easing: "ease-in-out"});
-        animate("#eyebrowR", {transform: ["rotate(0deg)", "rotate(-7deg)" , "rotate(0deg)"]}, {duration: 1, delay:stagger(0.1), repeat: Infinity, easing: "ease-in-out"});
-        animate(".eye", {transform: ["scale(1)","scale(1,0.8)","scale(1)"]}, {duration: 2, delay:stagger(0.1), repeat: Infinity, easing: "ease-in-out"});
-        animate(".tounge", {transform: ["scale(1)","scale(1,1.1)","scale(1)"]}, {duration: 1, repeat: Infinity, easing: "ease-in-out"});
+        animation[0] = animate(".droplet", {y: [0,40]}, {duration: 1, delay: stagger(0.2), repeat: Infinity, easing: "ease-in-out"});
+        animation[1] = animate("#eyebrowL", {transform: ["rotate(0deg)", "rotate(7deg)" , "rotate(0deg)"]}, {duration: 1, delay:stagger(0.1), repeat: Infinity, easing: "ease-in-out"});
+        animation[2] = animate("#eyebrowR", {transform: ["rotate(0deg)", "rotate(-7deg)" , "rotate(0deg)"]}, {duration: 1, delay:stagger(0.1), repeat: Infinity, easing: "ease-in-out"});
+        animation[3] = animate(".eye", {transform: ["scale(1)","scale(1,0.8)","scale(1)"]}, {duration: 2, delay:stagger(0.1), repeat: Infinity, easing: "ease-in-out"});
+        animation[4] = animate(".tounge", {transform: ["scale(1)","scale(1,1.1)","scale(1)"]}, {duration: 1, repeat: Infinity, easing: "ease-in-out"});
     });
+
+    $: if (!animated && animation) animation.forEach((a) => a.pause());
+       else if (animated && animation) animation.forEach((a) => a.play());
 </script>
        
 <svg width={size} height={size} viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="filter drop-shadow">

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { ClickerItem, StoreItem } from "$lib/data";
     import { ArrowBigUpDash } from "lucide-svelte";
-    import { crops } from "$lib/store";
+    import { crops, isAnimOn, isSoundOn } from "$lib/store";
     import Emoji from "./Emoji.svelte";
     import { formatNumber } from "$lib/formatNumber";
     import { Separator } from "bits-ui";
@@ -9,6 +9,8 @@
 
     export let storeItem: StoreItem;
     let marketValue: number;
+
+    let animated = false;
     
     $: marketValue = storeItem.nextUpgradeCost();
 
@@ -37,13 +39,17 @@
         <span class="font-bold text-4xl">???</span>
     </div>
 {:else}
-    <div class="flex bg-slate-200 z-10 rounded-xl w-96">
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+    <div class="flex bg-slate-200 z-10 rounded-xl w-96"
+        on:mouseenter={() => {animated = true && isAnimOn.get()}}
+        on:mouseleave={() => {animated = false && isAnimOn.get()}}
+    >
         <div class="m-2 mt-1 w-full">
             <p class="font-bold">{storeItem.name}</p>
             <div class="flex h-8 -space-x-4 rtl:space-x-reverse">
                 {#each {length: Math.min(storeItem.getAmount(), 10)} as _}
                     {#if storeItem.component}
-                        <Emoji emoji={storeItem.component} animated={true} />
+                        <Emoji emoji={storeItem.component} animated={animated}  />
                     {:else}
                         <img src={storeItem.image.src} alt="" class="filter drop-shadow size-8">
                     {/if}
@@ -52,7 +58,7 @@
         </div>
         <div class="flex relative text-white">
             <button 
-            on:click={()=> upgradeClick()} class="flex absolute right-0 w-40 h-full rounded-xl overflow-hidden bg-slate-500 border-slate-200 border-2 box_transition hover:w-96 active:bg-slate-400">
+            on:click={()=> upgradeClick()} class="flex absolute right-0 w-40 h-full rounded-xl overflow-hidden bg-slate-500 border-slate-200 border-2 box_transition hover:w-96 active:bg-slate-400" tabindex="0">
                 <div bind:this={upgrade} class="flex my-auto ml-1">
                     <ArrowBigUpDash size={40}/>
                 </div>

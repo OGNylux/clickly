@@ -4,6 +4,7 @@
     import { flyAndScale } from "$lib/transition";
     import { getLevel } from "$lib/helper";
     import { notifications, score } from "$lib/store";
+    import SettingsDialogue from "./SettingsDialogue.svelte";
 
     function updateReadStatus() {
         notifications.update((notifications) => {
@@ -98,7 +99,7 @@
                 </div>
                 <Separator.Root 
                 class="my-2 shrink-0 bg-slate-300 h-px"/>
-                Wer das liest ist nen hs 😎
+                <SettingsDialogue />
             </Popover.Content>
         </Popover.Root>
     </div>

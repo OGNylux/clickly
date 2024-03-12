@@ -1,16 +1,19 @@
 <script lang="ts">
     import FarmObjekt from "$lib/components/farm/FarmObject.svelte";
     import FarmUpgrade from "$lib/components/farm/FarmUpgrade.svelte";
-    import { crops, farmUpgrades } from "$lib/store";
+    import { crops, farmUpgrades, isSoundOn, score } from "$lib/store";
     import { onMount } from 'svelte';
     import { tweened } from "svelte/motion";
     import { sineInOut } from "svelte/easing";
     import { animate, timeline } from "motion";
     import { formatNumber } from "$lib/formatNumber";
+    import { getLevel } from "$lib/helper";
 
     let audio: HTMLAudioElement,
         volume = tweened(0, { duration: 750, easing: sineInOut }),
         squirrel = false,
+        m = { x: 0, y: 0 },
+	    container: HTMLDivElement,
         interval: number;
 
     onMount(() => {
@@ -20,8 +23,8 @@
     });
 
     function startRandomSquirrel() {
-        const min = 20 * 1000;
-        const max = 50 * 1000;
+        const min = 60 * 1000; 
+        const max = 200 * 1000;
         
         interval = setInterval(() => {
             squirrel = true;
@@ -37,26 +40,48 @@
         }, Math.floor(Math.random() * (max - min + 1) + min));
     }
 
+	function handleMousemove(e: any) {
+        let rect = (document.getElementById('farm') as HTMLElement).getBoundingClientRect();
+        m.x = (e.clientX - rect.left)-20;
+        m.y = (e.clientY - rect.top)-20;
+	}
+
     function stopRandomSquirrel() {
         clearInterval(interval);
     }
+    
+    function randomIntFromInterval(min: number, max: number) { // min and max included 
+        return Math.floor(Math.random() * (max - min + 1) + min)
+    }
 
     function squirrelReward() {
-        alert('You got 10 crops from the squirrel!');
-        crops.increment(10);
+        const randomReward = randomIntFromInterval(10, 20) * (getLevel($score) > 0 ? getLevel($score)*10 : 1);
+
+		const rewardLabel = document.createElement('span');
+		rewardLabel.textContent = `+${randomReward} C`;
+        rewardLabel.classList.add('absolute', 'z-10', 'text-md', 'text-amber-300', 'font-bold');
+        rewardLabel.style.left = m.x+'px';
+        rewardLabel.style.top = m.y+'px';
+		container.appendChild(rewardLabel);
+
+        animate(rewardLabel, {opacity: 0, y: 25}, {duration: 3}).finished.then(() => {
+            container.removeChild(rewardLabel);
+        });
+        crops.increment(randomReward);
     }
 
     $ : if (audio) {
             audio.volume = $volume / 100
-            if ($volume == 0) audio.pause();
+            if ($volume == 0 || !isSoundOn.get()) audio.pause();
         }
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div 
+<div bind:this={container}
     class="w-full h-full rounded-xl border-2 border-slate-200 relative grid place-content-center select-none overflow-hidden" 
     id="farm" 
-    on:mouseenter={() => { volume.set(100); audio.play(); }} 
+    on:mousemove={handleMousemove}
+    on:mouseenter={() => { if(isSoundOn.get()) volume.set(100); audio.play(); }} 
     on:mouseleave={() => volume.set(0)}>
     <div class="grid grid-cols-4 grid-rows-2 place-content-center gap-4">
         {#each { length: $farmUpgrades[0].getAmount() + 1} as _}

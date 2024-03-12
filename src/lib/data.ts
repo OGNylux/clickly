@@ -311,6 +311,7 @@ class FarmItem {
         if (this.planted - 1 < 0) return;
 
         this.planted -= 1;
+        if(Math.random() < 0.5) this.addAmount(1);
         unlockedFarmItems.update(this);
     }
 
@@ -324,6 +325,11 @@ class FarmItem {
 
     setAmount(amount: number) {
         this.amount = amount;
+        unlockedFarmItems.update(this);
+    }
+
+    addAmount(amount: number) {
+        this.amount += amount;
         unlockedFarmItems.update(this);
     }
 }
@@ -379,15 +385,95 @@ let nerd = new PassiveIncomeItem({
     image: { src: "emojis/nerd.svg", alt: "nerd face" },
     initialCost: 10,
     max: Infinity
-}, 1, 1.2, 30, 1.4, "NerdEmoji");
+}, 1, 1.2, 10, 1.4, "NerdEmoji");
 
 let blushed = new PassiveIncomeItem({
-    name: "Blushed face",
-    description: "Blushed face",
+    name: "Blushed Face",
+    description: "Blushed Face",
     image: { src: "emojis/blushed.svg", alt: "blushed face" },
-    initialCost: 100,
+    initialCost: 50,
     max: Infinity
-}, 3, 1.4, 30, 1.4, "BlushedEmoji");
+}, 3, 1.2, 15, 1.1, "BlushedEmoji");
+
+let money = new PassiveIncomeItem({
+    name: "Money Face",
+    description: "Money Face",
+    image: { src: "emojis/money.svg", alt: "money face" },
+    initialCost: 250,
+    max: Infinity
+}, 5, 1.2, 20, 1.1, "MoneyEmoji");
+
+let cowboy = new PassiveIncomeItem({
+    name: "Cowboy",
+    description: "Cowboy",
+    image: { src: "emojis/cowboy.svg", alt: "cowboy" },
+    initialCost: 500,
+    max: Infinity
+}, 10, 1.3, 30, 1.2, "CowboyEmoji");
+
+let hot = new PassiveIncomeItem({
+    name: "Hot Face",
+    description: "Hot Face",
+    image: { src: "emojis/hot.svg", alt: "hot face" },
+    initialCost: 1500,
+    max: Infinity
+}, 20, 1.3, 50, 1.2, "HotEmoji");
+
+let cold = new PassiveIncomeItem({
+    name: "Cold Face",
+    description: "Cold Face",
+    image: { src: "emojis/cold.svg", alt: "cold face" },
+    initialCost: 5000,
+    max: Infinity
+}, 50, 1.3, 100, 1.2, "ColdEmoji");
+
+let weary = new PassiveIncomeItem({
+    name: "Weary Face",
+    description: "Weary Face",
+    image: { src: "emojis/weary.svg", alt: "weary face" },
+    initialCost: 7500,
+    max: Infinity
+}, 75, 1.4, 250, 1.3, "WearyEmoji");
+
+let clown = new PassiveIncomeItem({
+    name: "Clown Face",
+    description: "Clown Face",
+    image: { src: "emojis/clown.svg", alt: "clown face" },
+    initialCost: 15000,
+    max: Infinity
+}, 120, 1.4, 500, 1.3, "ClownEmoji");
+
+let cool = new PassiveIncomeItem({
+    name: "Cool Face",
+    description: "Cool Face",
+    image: { src: "emojis/cool.svg", alt: "cool face" },
+    initialCost: 25000,
+    max: Infinity
+}, 200, 1.4, 1000, 1.4, "CoolEmoji");
+
+let byebye = new PassiveIncomeItem({
+    name: "Bye Bye Face",
+    description: "Bye Bye Face",
+    image: { src: "emojis/byebye.svg", alt: "bye bye face" },
+    initialCost: 40000,
+    max: Infinity
+}, 300, 1.4, 2000, 1.4, "ByeByeEmoji");
+
+let stonks = new PassiveIncomeItem({
+    name: "Stonks Emoji",
+    description: "Stonks",
+    image: { src: "emojis/stonks.svg", alt: "stonks emoji" },
+    initialCost: 100000,
+    max: Infinity
+}, 500, 1.4, 5000, 1.4, "StonksEmoji");
+
+let hole = new PassiveIncomeItem({
+    name: "Hole Emoji",
+    description: "Hole Emoji",
+    image: { src: "emojis/hole.svg", alt: "hole emoji" },
+    initialCost: 200000,
+    max: Infinity
+}, 1000, 1.4, 10000, 1.4, "HoleEmoji");
 
 let easyHot = new EasyExpensivePassiveIncomeItem();
 
@@ -407,26 +493,27 @@ let expensiveHot = new ExpensivePassiveIncomeItem(
 /**
  * Farm Definitions
  */
-let strawberry = new FarmItem("Strawberry", "A juicy strawberry", 1, 5000, { src: "/farm/strawberry.svg", alt: "strawberry" });
-let potato = new FarmItem("Potato", "A juicy potato", 2, 8000, { src: "/farm/potato.svg", alt: "potato" });
-let banana = new FarmItem("Banana", "A juicy banana", 3, 10000, { src: "/farm/banana.svg", alt: "banana" });
-let eggplant = new FarmItem("Eggplant", "A juicy eggplant", 4, 10000, { src: "/farm/eggplant.svg", alt: "eggplant" });
-let peach = new FarmItem("Peach", "A juicy peach", 4, 10000, { src: "/farm/peach.svg", alt: "peach" });
-let peanut = new FarmItem("Peanut", "A juicy peanut", 5, 12000, { src: "/farm/peanut.svg", alt: "peanut" });
+let strawberry = new FarmItem("Strawberry", "A juicy strawberry", 3, 5000, { src: "/farm/strawberry.svg", alt: "strawberry" });
+let potato = new FarmItem("Potato", "A juicy potato", 10, 8000, { src: "/farm/potato.svg", alt: "potato" });
+let banana = new FarmItem("Banana", "A juicy banana", 20, 10000, { src: "/farm/banana.svg", alt: "banana" });
+let eggplant = new FarmItem("Eggplant", "A juicy eggplant", 50, 10000, { src: "/farm/eggplant.svg", alt: "eggplant" });
+let peach = new FarmItem("Peach", "A juicy peach", 100, 10000, { src: "/farm/peach.svg", alt: "peach" });
+let peanut = new FarmItem("Peanut", "A juicy peanut", 150, 12000, { src: "/farm/peanut.svg", alt: "peanut" });
 
-let burger = new FarmItem("Burger", "A juicy burger", 10, 15000, { src: "/farm/burger.svg", alt: "burger" });
-let candy = new FarmItem("Candy", "A juicy candy", 20, 20000, { src: "/farm/candy.svg", alt: "candy" });
+let burger = new FarmItem("Burger", "A juicy burger", 500, 15000, { src: "/farm/burger.svg", alt: "burger" });
+let candy = new FarmItem("Candy", "A juicy candy", 1000, 20000, { src: "/farm/candy.svg", alt: "candy" });
+let champagne = new FarmItem("Champagne", "The tears of all emojis combined to sacrifice to the emoji gods", 1000000, 50000, { src: "/farm/champagne.svg", alt: "champagne" });
 
 const initialFarmUpgrades = () => {
     return [ new FarmUpgrade({
-        name: "House Upgrade",
+        name: "Field Upgrade",
         description: "Increases the number of fields you can have at once. ",
         image: { src: "emojis/house.svg", alt: "house" },
         initialCost: 5000,
         max: 7
     }, 2),
     new FarmUpgrade({
-        name: "Tractor Upgrade",
+        name: "Growth Upgrade",
         description: "Increases the speed at which your crops grow.",
         image: { src: "emojis/tractor.svg", alt: "tractor" },
         initialCost: 10000,
@@ -450,13 +537,14 @@ export const levelScores = [2000, 5000, 10000, 50000];
 export const levelUpRewards: Record<number, Array<StoreItem | FarmItem>> = {
     0: [nerd],
     1: [strawberry, blushed],
-    2: [peach],
-    4: [potato],
-    5: [banana],
-    6: [eggplant],
-    7: [peanut],
-    8: [burger],
-    9: [candy]
+    2: [peach, money, cowboy],
+    4: [potato, hot, cold],
+    5: [banana, weary],
+    6: [eggplant, clown, cool],
+    7: [peanut, byebye],
+    8: [burger, stonks],
+    9: [candy, hole],
+    20: [champagne]
 }
 
 export { StoreItem, ClickerItem, PassiveIncomeItem, EasyExpensivePassiveIncomeItem, FarmItem, FarmUpgrade, initialFarmUpgrades };
