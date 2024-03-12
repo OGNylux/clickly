@@ -5,6 +5,9 @@ import { ClickerItem, FarmItem, StoreItem } from "$lib/data";
 // enable server communication and certain features
 export const isClassic = writable(true);
 
+// auth store
+export const user = writable<string | null>(null);
+
 
 function clickerStoreFunc() {
     const store = writable(new ClickerItem());

@@ -4,11 +4,12 @@
     import { clientMessageTypes, serverMessageTypes } from "$lib/api";
     import type { ClientMessage, ServerMessage } from "$lib/api";
     import { Ban } from "lucide-svelte";
+    import { user } from "$lib/store";
+    import { goto } from "$app/navigation";
 
     let username = "";
     let password = "";
     let socket: WebSocket;
-    let loggedIn = false;
     let errorMsg ="";
 
 
@@ -28,7 +29,8 @@
             let test : ServerMessage = JSON.parse(event.data);
             console.log(test);
             if (test.type === serverMessageTypes.Success){
-                loggedIn = true;
+                user.set(username);
+                goto("/competetive")
             } else if (test.type === serverMessageTypes.Error){
                 errorMsg = test.message.toString();
             }
@@ -83,7 +85,4 @@
         </div>
         {/if}
     </Button.Root>
-    {#if loggedIn}
-        <p>Logged in</p>
-    {/if}
 </div>
