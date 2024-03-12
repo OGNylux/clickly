@@ -70,7 +70,7 @@
                 sideOffset={20}
                 side={'top'}>
                 <div class="flex justify-between items-center">
-                    <p>Pick a crop</p>
+                    <p>Pick a seed</p>
                     <Popover.Close><X /></Popover.Close>
                 </div>
                 <Separator.Root class="-mx-4 my-3 h-px bg-slate-300" />
@@ -82,7 +82,9 @@
                             <span class="absolute bottom-0 right-0 p-1">{item.getAvailable()}</span>
                         </button>
                     {:else}
-                        Nothing to find here... <br> Level up to get more crops!
+                    <div class="grid col-span-3">
+                        Nothing to find here... <br> Level up to get your first seed!
+                    </div>
                     {/each}
                 </div>
                 <Popover.Arrow />
