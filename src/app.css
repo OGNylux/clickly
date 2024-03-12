@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    *,
+    html {
+        scroll-behavior: smooth !important;
+        scrollbar-width: thin;
+    }
+}
+
 * {
     font-family: 'Baloo 2', sans-serif;
 }
