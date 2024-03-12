@@ -12,8 +12,8 @@
 </script>
 
 <div class="flex flex-col gap-2 mr-1">
-    <div class="border-slate-100 border-2 h-full bg-slate-50 rounded-xl p-2 overflow-y-auto">
-        <div class="grid grid-flow-col grid-cols-1 sticky">
+    <div class="border-slate-100 border-2 h-full bg-slate-50 rounded-xl p-1">
+        <div class="grid grid-flow-col grid-cols-1">
             <div class="grid grid-cols-2 w-28 font-medium border-slate-200 border-2 rounded-xl">
                 <button on:click={() => (buy = true)} class={`button1 ${buy ? "bg-slate-100" : "bg-slate-300"}`}>Buy</button>
                 <button on:click={() => (buy = false)} class={`button2 ${!buy ? "bg-slate-100" : "bg-slate-300"}`}>Sell</button>
@@ -24,7 +24,7 @@
                 <button on:click={() => toggleItems(100)} class={`button2 ${numberOfItems == 100 ? "bg-slate-100" : "bg-slate-300"}`}>100</button>
             </div>
         </div>
-        <div class="h-full flex flex-col gap-2 items-center py-1">
+        <div class="flex flex-col gap-2 items-center py-1">
             <ClickerShopItem bind:action={buy} bind:numberOfItems />
             {#each $unlockedPassiveItems as _,i}
                 <ShopItem bind:action={buy} bind:numberOfItems itemIndex={i} />

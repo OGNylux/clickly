@@ -388,8 +388,8 @@ let nerd = new PassiveIncomeItem({
 }, 1, 1.2, 10, 1.4, "NerdEmoji");
 
 let blushed = new PassiveIncomeItem({
-    name: "Blushed Face",
-    description: "Blushed Face",
+    name: "Blushed face",
+    description: "Blushed face",
     image: { src: "emojis/blushed.svg", alt: "blushed face" },
     initialCost: 50,
     max: Infinity
