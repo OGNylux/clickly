@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Button } from "bits-ui";
-    import { onDestroy, onMount } from "svelte";
+    import { onDestroy } from "svelte";
     import {clientMessageTypes,serverMessageTypes} from "$lib/api";
     import type { ClientMessage,ServerMessage} from "$lib/api";
 
@@ -10,11 +10,19 @@
     let loggedIn = false;
     let errorMsg ="";
 
-    onMount(() => {
+
+    // Die Funktion kann weg, wenn wir wissen was wir mit dem Websocket dann machen
+    onDestroy(() => {
+        if (socket) socket.close();
+    });
+
+    async function handleLogin(){
         socket = new WebSocket('ws://johafo.de:18143/ws');
-        socket.onopen = () => {
-            console.log("Connected to server");
-        };
+        await new Promise((resolve) => {
+            socket.onopen = resolve;
+        });
+        console.log("Connected to server");
+        // Das zuhören hier ist dann vermutlich (nach erfolgreichen Login) nicht mehr nötig
         socket.onmessage = (event) => {
             let test : ServerMessage = JSON.parse(event.data);
             console.log(test);
@@ -28,13 +36,10 @@
         socket.onclose = (event) => {
             console.log("Connection closed");
         };
-    });
 
-    onDestroy(() => {
-        if (socket) socket.close();
-    });
+        // Um dann mit dem listen aufzuhören
+        //socket.removeEventListener('message', () => {});
 
-    function handleLogin() {
         let test: ClientMessage = {
             username: username,
             type: clientMessageTypes.Authentication,
