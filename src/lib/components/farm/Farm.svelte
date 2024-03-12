@@ -1,7 +1,7 @@
 <script lang="ts">
     import FarmObjekt from "$lib/components/farm/FarmObject.svelte";
     import FarmUpgrade from "$lib/components/farm/FarmUpgrade.svelte";
-    import { crops, farmUpgrades } from "$lib/store";
+    import { crops, farmUpgrades, isSoundOn } from "$lib/store";
     import { onMount } from 'svelte';
     import { tweened } from "svelte/motion";
     import { sineInOut } from "svelte/easing";
@@ -14,6 +14,8 @@
         interval: number;
 
     onMount(() => {
+        if (!isSoundOn.get()) return;
+
         audio = new Audio('/farm/ambience.mp3');
         audio.loop = true;
         startRandomSquirrel();
@@ -48,7 +50,7 @@
 
     $ : if (audio) {
             audio.volume = $volume / 100
-            if ($volume == 0) audio.pause();
+            if ($volume == 0 || !isSoundOn.get()) audio.pause();
         }
 </script>
 
@@ -56,7 +58,7 @@
 <div 
     class="w-full h-full rounded-xl border-2 border-slate-200 relative grid place-content-center select-none overflow-hidden" 
     id="farm" 
-    on:mouseenter={() => { volume.set(100); audio.play(); }} 
+    on:mouseenter={() => { if(isSoundOn.get()) volume.set(100); audio.play(); }} 
     on:mouseleave={() => volume.set(0)}>
     <div class="grid grid-cols-4 grid-rows-2 place-content-center gap-4">
         {#each { length: $farmUpgrades[0].getAmount() + 1} as _}

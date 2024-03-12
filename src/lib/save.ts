@@ -1,5 +1,5 @@
 import { browser } from "$app/environment";
-import { emojis, score, isClassic, unlockedClicker, unlockedPassiveItems, unlockedFarmItems, crops, farmUpgrades} from "$lib/store";
+import { emojis, score, isClassic, unlockedClicker, unlockedPassiveItems, unlockedFarmItems, crops, farmUpgrades, isSoundOn} from "$lib/store";
 import { FarmItem, StoreItem } from "./data";
 import { unlockAllunlockedItems } from "./helper";
 
@@ -8,6 +8,7 @@ import { unlockAllunlockedItems } from "./helper";
  */
 export function loadLocalStorage() {
     if (browser) {
+        let isSoundOnLocal = localStorage.getItem('isSoundOn');
         let emojisLocal = localStorage.getItem('emojis');
         let scoreLocal = localStorage.getItem('score');
         let cropsLocal = localStorage.getItem('crops');
@@ -17,7 +18,8 @@ export function loadLocalStorage() {
         let farmLocal = localStorage.getItem('farm');
         let farmUpgradesLocal = localStorage.getItem('farmUpgrades');
 
-        if (emojisLocal && scoreLocal && cropsLocal && passiveLocal && upgradeLocal && clickerLocal && farmLocal && farmUpgradesLocal) {
+        if (isSoundOnLocal && emojisLocal && scoreLocal && cropsLocal && passiveLocal && upgradeLocal && clickerLocal && farmLocal && farmUpgradesLocal) {
+            isSoundOn.set(JSON.parse(isSoundOnLocal));
             emojis.set(JSON.parse(emojisLocal));
             score.set(JSON.parse(scoreLocal));
             crops.set(JSON.parse(cropsLocal));
@@ -56,6 +58,12 @@ export function loadLocalStorage() {
 export function save() {
     let classic = true;
     const ununscribeIsOnline = isClassic.subscribe(c => {classic = c});
+
+    isSoundOn.subscribe(value => {
+        if (browser && classic) {
+            localStorage.setItem('isSoundOn', JSON.stringify(value));
+        }
+    });
 
     emojis.subscribe(value => {
         if (browser && classic) {
@@ -113,6 +121,7 @@ export function save() {
  * Reset the gamestate.
  */
 export function reset() {
+    isSoundOn.set(true);
     emojis.reset();
     score.reset();
     unlockedClicker.reset();
@@ -121,6 +130,7 @@ export function reset() {
     farmUpgrades.reset();
     unlockAllunlockedItems(0);
     if (browser) {
+        localStorage.removeItem('isSoundOn');
         localStorage.removeItem('emojis');
         localStorage.removeItem('score');
         localStorage.removeItem('crops');

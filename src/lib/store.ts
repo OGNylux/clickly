@@ -5,6 +5,17 @@ import { ClickerItem, FarmItem, FarmUpgrade, StoreItem, initialFarmUpgrades } fr
 // enable server communication and certain features
 export const isClassic = writable(true);
 
+function soundStoreFunc() {
+    const store = writable(true);
+    const { subscribe, set } = store;
+    return {
+        subscribe,
+        set: (value: boolean) => set(value),
+        get: () => get(store),
+    };
+}
+export const isSoundOn = soundStoreFunc();
+
 
 function clickerStoreFunc() {
     const store = writable(new ClickerItem());
