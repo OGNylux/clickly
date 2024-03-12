@@ -6,7 +6,7 @@
 </script>
 
 <!-- {#if dev} -->
-    <Debug />
+<Debug />
 <!-- {/if} -->
 <SvelteToast options={{ pausable: true, intro: { y: 192 }, reversed: true }}/>
 <slot></slot>

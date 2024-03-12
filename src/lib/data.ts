@@ -379,95 +379,95 @@ let nerd = new PassiveIncomeItem({
     image: { src: "emojis/nerd.svg", alt: "nerd face" },
     initialCost: 10,
     max: Infinity
-}, 1, 1.2, 30, 1.1, "NerdEmoji");
+}, 1, 1.2, 10, 1.4, "NerdEmoji");
 
 let blushed = new PassiveIncomeItem({
     name: "Blushed Face",
     description: "Blushed Face",
     image: { src: "emojis/blushed.svg", alt: "blushed face" },
-    initialCost: 100,
+    initialCost: 50,
     max: Infinity
-}, 3, 1.2, 50, 1.1, "BlushedEmoji");
+}, 3, 1.2, 15, 1.1, "BlushedEmoji");
 
 let money = new PassiveIncomeItem({
     name: "Money Face",
     description: "Money Face",
     image: { src: "emojis/money.svg", alt: "money face" },
-    initialCost: 100,
+    initialCost: 250,
     max: Infinity
-}, 5, 1.2, 250, 1.1, "MoneyEmoji");
+}, 5, 1.2, 20, 1.1, "MoneyEmoji");
 
 let cowboy = new PassiveIncomeItem({
     name: "Cowboy",
     description: "Cowboy",
     image: { src: "emojis/cowboy.svg", alt: "cowboy" },
-    initialCost: 100,
+    initialCost: 500,
     max: Infinity
-}, 10, 1.3, 500, 1.2, "CowboyEmoji");
+}, 10, 1.3, 30, 1.2, "CowboyEmoji");
 
 let hot = new PassiveIncomeItem({
     name: "Hot Face",
     description: "Hot Face",
     image: { src: "emojis/hot.svg", alt: "hot face" },
-    initialCost: 100,
+    initialCost: 1500,
     max: Infinity
-}, 20, 1.3, 1500, 1.2, "HotEmoji");
+}, 20, 1.3, 50, 1.2, "HotEmoji");
 
 let cold = new PassiveIncomeItem({
     name: "Cold Face",
     description: "Cold Face",
     image: { src: "emojis/cold.svg", alt: "cold face" },
-    initialCost: 100,
+    initialCost: 5000,
     max: Infinity
-}, 50, 1.3, 5000, 1.2, "ColdEmoji");
+}, 50, 1.3, 100, 1.2, "ColdEmoji");
 
 let weary = new PassiveIncomeItem({
     name: "Weary Face",
     description: "Weary Face",
     image: { src: "emojis/weary.svg", alt: "weary face" },
-    initialCost: 100,
+    initialCost: 7500,
     max: Infinity
-}, 75, 1.4, 7500, 1.3, "WearyEmoji");
+}, 75, 1.4, 250, 1.3, "WearyEmoji");
 
 let clown = new PassiveIncomeItem({
     name: "Clown Face",
     description: "Clown Face",
     image: { src: "emojis/clown.svg", alt: "clown face" },
-    initialCost: 100,
+    initialCost: 15000,
     max: Infinity
-}, 120, 1.4, 15000, 1.3, "ClownEmoji");
+}, 120, 1.4, 500, 1.3, "ClownEmoji");
 
 let cool = new PassiveIncomeItem({
     name: "Cool Face",
     description: "Cool Face",
     image: { src: "emojis/cool.svg", alt: "cool face" },
-    initialCost: 100,
+    initialCost: 25000,
     max: Infinity
-}, 200, 1.4, 25000, 1.4, "CoolEmoji");
+}, 200, 1.4, 1000, 1.4, "CoolEmoji");
 
 let byebye = new PassiveIncomeItem({
     name: "Bye Bye Face",
     description: "Bye Bye Face",
     image: { src: "emojis/byebye.svg", alt: "bye bye face" },
-    initialCost: 100,
+    initialCost: 40000,
     max: Infinity
-}, 300, 1.4, 40000, 1.4, "ByeByeEmoji");
+}, 300, 1.4, 2000, 1.4, "ByeByeEmoji");
 
 let stonks = new PassiveIncomeItem({
     name: "Stonks Emoji",
     description: "Stonks",
     image: { src: "emojis/stonks.svg", alt: "stonks emoji" },
-    initialCost: 100,
+    initialCost: 100000,
     max: Infinity
-}, 500, 1.4, 100000, 1.4, "StonksEmoji");
+}, 500, 1.4, 5000, 1.4, "StonksEmoji");
 
 let hole = new PassiveIncomeItem({
     name: "Hole Emoji",
     description: "Hole Emoji",
     image: { src: "emojis/hole.svg", alt: "hole emoji" },
-    initialCost: 100,
+    initialCost: 200000,
     max: Infinity
-}, 1000, 1.4, 200000, 1.4, "HoleEmoji");
+}, 1000, 1.4, 10000, 1.4, "HoleEmoji");
 
 let easyHot = new EasyExpensivePassiveIncomeItem();
 
