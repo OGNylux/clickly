@@ -33,6 +33,7 @@
 
     function checkUsernameChange() {
         if (!isValidString(username)) {
+            rule = "Rules: Only alphanumeric characters and underscores are allowed. The length must be more than 3 characters."
             validUsername = 0;
             return;
         }
@@ -45,6 +46,7 @@
         }).then((response) => {
             if (!response.ok) {
                 validUsername = 0;
+                rule = "Username already exists. Please choose another one."
                 console.log("Username already exists");
             } else {
                 validUsername = 1;
@@ -65,12 +67,13 @@
     }
 
     $: username && onUsernameChange();
+    let rule = "Rules: Only alphanumeric characters and underscores are allowed. The length must be more than 3 characters.";
 </script>
 
 {#if !success}
 <div class="flex flex-col gap-1 justify-center items-center">
     <label for="username">Username:</label>
-    <div class="flex flex-row" title="Rules: Only alphanumeric characters and underscores are allowed. The length must be more than 3 characters.">
+    <div class="flex flex-row" title={rule}>
         <input type="text" id="username" bind:value={username} />
         <div class="pl-2">
             {#if validUsername === 0}
