@@ -8,7 +8,7 @@
     let animation: AnimationControls | null = null;
 
     onMount(() => {
-        animation = animate(".eye", {transform: ['scale(1)', 'scale(1.1)', 'scale(1)']}, {duration: 1, repeat: Infinity});
+        animation = animate(".eye", {transform: ['scale(1)', 'scale(1.15)', 'scale(1)']}, {duration: 1, repeat: Infinity});
     });
 
     $: if (!animated && animation) (animation as AnimationControls).pause();

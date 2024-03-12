@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { animate, type AnimationControls } from "motion";
+    import { animate, stagger, type AnimationControls } from "motion";
     import { onMount } from "svelte";
 
     export let animated = false;
@@ -8,7 +8,7 @@
     let animation: AnimationControls | null = null;
 
     onMount(() => {
-        animation = animate(".hand", {transform: ["scale(1)","scale(0.8)","scale(1)","scale(0.8)","scale(1)","scale(1)","scale(1)"]}, {duration: 3, repeat: Infinity, easing: "ease-in-out"});
+        animation = animate(".hand", {transform: ["scale(1)","scale(0.8)","scale(1)","scale(0.8)","scale(1)","scale(1)","scale(1)"]}, {duration: 3, delay: stagger(0.02), repeat: Infinity, easing: "ease-in-out"});
     });
 
     $: if (!animated && animation) (animation as AnimationControls).pause();

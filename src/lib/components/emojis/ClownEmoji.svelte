@@ -8,7 +8,7 @@
     let animation: AnimationControls | null = null;
 
     onMount(() => {
-        animation = animate(".nose", {transform: ["scale(1)","scale(1.5)","scale(1)"]}, {duration: 2, delay:stagger(0.1), repeat: Infinity, easing: "ease-in-out"});
+        animation = animate(".nose", {transform: ["scale(1)","scale(1.5)","scale(1)"]}, {duration: 2, delay:stagger(0.02), repeat: Infinity, easing: "ease-in-out"});
     });
 
     $: if (!animated && animation) (animation as AnimationControls).pause();
