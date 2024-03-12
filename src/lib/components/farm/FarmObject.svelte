@@ -82,7 +82,7 @@
                             <span class="absolute bottom-0 right-0 p-1">{item.getAvailable()}</span>
                         </button>
                     {:else}
-                        Nothing to find here...
+                        Nothing to find here... <br> Level up to get more crops!
                     {/each}
                 </div>
                 <Popover.Arrow />
