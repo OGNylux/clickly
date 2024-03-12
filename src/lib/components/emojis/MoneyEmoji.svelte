@@ -1,17 +1,20 @@
 <script lang="ts">
-    import { animate, stagger } from "motion";
+    import { animate, type AnimationControls } from "motion";
     import { onMount } from "svelte";
 
     export let animated = false;
     export let size = 64;
+    
+    let animation: AnimationControls[] = [];
 
     onMount(() => {
-        if (!animated) return;
-        
-        animate(".eyes", {transform: ['scale(1.0)', 'scale(1.2)', 'scale(1.0)']}, {duration: 1, repeat: Infinity, easing: "ease-in-out"})
-        animate(".tounge", {transform: ['scale(1.0)', 'scale(1.2)', 'scale(1.0)']}, {duration: 1, repeat: Infinity, easing: "ease-in-out"}) 
-        animate(".toungeDollar", {y: [0,2,0]}, {duration: 1, repeat: Infinity, easing: "ease-in-out"});
+        animation[0] = animate(".eyes", {transform: ['scale(1.0)', 'scale(1.2)', 'scale(1.0)']}, {duration: 1, repeat: Infinity, easing: "ease-in-out"})
+        animation[1] = animate(".tounge", {transform: ['scale(1.0)', 'scale(1.2)', 'scale(1.0)']}, {duration: 1, repeat: Infinity, easing: "ease-in-out"}) 
+        animation[2] = animate(".toungeDollar", {y: [0,2,0]}, {duration: 1, repeat: Infinity, easing: "ease-in-out"});
     });
+
+    $: if (!animated && animation) animation.forEach((a) => a.pause());
+       else if (animated && animation) animation.forEach((a) => a.play());
 </script>
 
 <svg width={size} height={size} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">

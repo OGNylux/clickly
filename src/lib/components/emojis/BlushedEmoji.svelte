@@ -1,15 +1,18 @@
 <script lang="ts">
-    import { animate } from "motion";
+    import { animate, type AnimationControls } from "motion";
     import { onMount } from "svelte";
 
     export let animated = false;
     export let size = 64;
 
-    onMount(() => {
-        if (!animated) return;
+    let animation: AnimationControls | null = null;
 
-        animate(".eye", {transform: ['scale(1)', 'scale(1.1)', 'scale(1)']}, {duration: 1, repeat: Infinity})        
+    onMount(() => {
+        animation = animate(".eye", {transform: ['scale(1)', 'scale(1.1)', 'scale(1)']}, {duration: 1, repeat: Infinity});
     });
+
+    $: if (!animated && animation) (animation as AnimationControls).pause();
+       else if (animated && animation) (animation as AnimationControls).play();
 </script>
 
 <svg width={size} height={size} viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="filter drop-shadow">

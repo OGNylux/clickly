@@ -1,15 +1,18 @@
 <script lang="ts">
-    import { animate } from "motion";
+    import { animate, type AnimationControls } from "motion";
     import { onMount } from "svelte";
 
     export let animated = false;
     export let size = 64;
+    
+    let animation: AnimationControls | null = null;
 
     onMount(() => {
-        if (!animated) return;
-        
-        animate("#glasses", {transform: ["rotate(0deg)", "rotate(5deg)" , "rotate(0deg)"]}, {duration: 1, repeat: Infinity, easing: "ease-in-out"});
+        animation = animate("#glasses", {transform: ["rotate(0deg)", "rotate(5deg)" , "rotate(0deg)"]}, {duration: 1, repeat: Infinity, easing: "ease-in-out"});
     });
+
+    $: if (!animated && animation) (animation as AnimationControls).pause();
+       else if (animated && animation) (animation as AnimationControls).play();
 </script>
 
 <svg width={size} height={size} viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="filter drop-shadow">

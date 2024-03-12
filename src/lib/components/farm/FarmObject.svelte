@@ -56,9 +56,9 @@
     <button on:click={collect} class="bg-amber-950 rounded-3xl transform active:scale-90 transition z-10 select-none xl:size-20 grid place-content-center gap-2">  
         <Popover.Root bind:open={popoverOpen}>
             <Popover.Trigger>
-                <div class="p-4 grid place-content-center">
+                <div class="p-4 grid items-center">
                     {#if farmItem}
-                        <img src={farmItem.image.src} alt={farmItem.image.alt} class="size-16 object-contain" style={`transform: scale(${$progress}%); transform-origin: center center`} />
+                        <img src={farmItem.image.src} alt={farmItem.image.alt} class="size-16 object-contain my-auto" style={`transform: scale(${$progress}%); transform-origin: center center`} />
                     {:else}
                         <Plus class="size-10 text-amber-900" />
                     {/if}
@@ -70,7 +70,7 @@
                 sideOffset={20}
                 side={'top'}>
                 <div class="flex justify-between items-center">
-                    <p>Wähle eine Pflanze</p>
+                    <p>Pick a crop</p>
                     <Popover.Close><X /></Popover.Close>
                 </div>
                 <Separator.Root class="-mx-4 my-3 h-px bg-slate-300" />
@@ -82,7 +82,7 @@
                             <span class="absolute bottom-0 right-0 p-1">{item.getAvailable()}</span>
                         </button>
                     {:else}
-                        noch nischt freigeschaltet
+                        Nothing to find here...
                     {/each}
                 </div>
                 <Popover.Arrow />

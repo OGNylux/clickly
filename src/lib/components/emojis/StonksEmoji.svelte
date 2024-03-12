@@ -1,26 +1,23 @@
 <script lang="ts">
-    import { animate, stagger, timeline } from "motion";
+    import { animate, stagger, timeline, type AnimationControls } from "motion";
     import { onMount } from "svelte";
 
     export let animated = false;
     export let size = 64;
 
-    
     const draw = (progress: number) => ({
-          // This property makes the line "draw" in when animated
           strokeDashoffset: 1 - progress,
-
-          // Each line will be hidden until it starts drawing
-          // to fix a bug in Safari where the line can be
-          // partially visible even when progress is at 0
           visibility: "visible",
-        })
+    })
+    
+    let animation: AnimationControls | null = null;
 
     onMount(() => {
-        if (!animated) return;
-        
-        animate(".line", draw(1), { duration: 2, repeat: Infinity });
+        animation = animate(".line", draw(1), { duration: 5, delay: stagger(0.1), repeat: Infinity });
     });
+
+    $: if (!animated && animation) (animation as AnimationControls).pause();
+       else if (animated && animation) (animation as AnimationControls).play();
 </script>
 
 <svg width={size} height={size} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">

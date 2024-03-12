@@ -1,15 +1,18 @@
 <script lang="ts">
-    import { animate, stagger } from "motion";
+    import { animate, stagger, type AnimationControls } from "motion";
     import { onMount } from "svelte";
 
     export let animated = false;
     export let size = 64;
+    
+    let animation: AnimationControls | null = null;
 
     onMount(() => {
-        if (!animated) return;
-        
-        animate("#hat", {y: [0,1,0]}, {duration: 1, delay: stagger(0.2), repeat: Infinity, easing: "ease-in-out"});
+        animation = animate("#hat", {y: [0,1,0]}, {duration: 1, delay: stagger(0.2), repeat: Infinity, easing: "ease-in-out"});
     });
+
+    $: if (!animated && animation) (animation as AnimationControls).pause();
+       else if (animated && animation) (animation as AnimationControls).play();
 </script>
     
 <svg width={size} height={size}  viewBox="619.8558 200.271 35.9999 36" xmlns="http://www.w3.org/2000/svg">
