@@ -6,7 +6,7 @@
     let username = "";
     let validUsername = 0;
     let password = "";
-    let success: boolean | null = null;
+    let success: boolean = false;
 
     function register() {
         const data = {
@@ -67,9 +67,10 @@
     $: username && onUsernameChange();
 </script>
 
+{#if !success}
 <div class="flex flex-col gap-1 justify-center items-center">
     <label for="username">Username:</label>
-    <div class="flex flex-row">
+    <div class="flex flex-row" title="Rules: Only alphanumeric characters and underscores are allowed. The length must be more than 3 characters.">
         <input type="text" id="username" bind:value={username} />
         <div class="pl-2">
             {#if validUsername === 0}
@@ -94,3 +95,9 @@
         Register
     </Button.Root>
 </div>
+{:else}
+<div class="flex flex-col justify-center items-center h-full w-full">
+    <Check color="#6ffc03" class="h-10 w-10"></Check>
+    <p class="text-2xl pt-4">Successfully registered</p>
+</div>
+{/if}
