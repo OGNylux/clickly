@@ -1,65 +1,96 @@
 <script lang="ts">
     import { serverMessageTypes, type ServerMessage } from "$lib/api";
+    import { X, Check } from "lucide-svelte";
     import { Button } from "bits-ui";
 
     let username = "";
-    let validUsername = true;
+    let validUsername = 0;
     let password = "";
-    let success : boolean | null = null;
+    let success: boolean | null = null;
 
     function register() {
         const data = {
             name: username,
-            password: password
+            password: password,
         };
 
-        fetch('http://localhost:8080/registerUser', {
-            method: 'POST',
+        fetch("http://johafo.de:18143/registerUser", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
         })
-        .then(response => {
-            if (!response.ok) success = false;
-            else success = true;
-        })
-        .catch(error => {
-            console.log('Error:', error);
-            // Handle any errors here
-        });
+            .then((response) => {
+                if (!response.ok) success = false;
+                else success = true;
+            })
+            .catch((error) => {
+                console.log("Error:", error);
+                // Handle any errors here
+            });
     }
 
-    function handleUsernameChange(){
-        fetch('http://localhost:8080/usernameCheck', {
-            method: 'POST',
+    function checkUsernameChange() {
+        if (!isValidString(username)) {
+            validUsername = 0;
+            return;
+        }
+        fetch("http://johafo.de:18143/usernameCheck", {
+            method: "POST",
             headers: {
-                'Content-Type': 'text/plain'
+                "Content-Type": "text/plain",
             },
-            body: username
-        }).then(response => {
+            body: username,
+        }).then((response) => {
             if (!response.ok) {
-                validUsername = false;
-                console.log('Username already exists');
+                validUsername = 0;
+                console.log("Username already exists");
+            } else {
+                validUsername = 1;
             }
         });
     }
+    let safeTimeoutForName: number;
 
-    $: username && handleUsernameChange();
+    function isValidString(str: string) {
+        if (str.length <= 3) return false;
+        const regex = /^[a-zA-Z0-9_]+$/;
+        return regex.test(str);
+    }
+    function onUsernameChange() {
+        validUsername = 2;
+        clearTimeout(safeTimeoutForName);
+        safeTimeoutForName = setTimeout(checkUsernameChange, 500);
+    }
+
+    $: username && onUsernameChange();
 </script>
 
 <div class="flex flex-col gap-1 justify-center items-center">
-        <label for="username">Username:</label>
+    <label for="username">Username:</label>
+    <div class="flex flex-row">
         <input type="text" id="username" bind:value={username} />
-    
-        <label for="password">Password:</label>
-        <input type="password" id="password" bind:value={password} />
-    
-        <Button.Root
-            class="bg-transparent disabled:bg-black hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-            on:click={register}
-            disabled={username == "" || password == "" || !validUsername}
-        >
-            Register
-        </Button.Root>
+        <div class="pl-2">
+            {#if validUsername === 0}
+                <X color="#fc1703" />
+            {:else if validUsername === 1}
+                <Check color="#6ffc03" />
+            {:else}
+                <div class="animate-pulse">...</div>
+            {/if}
+        </div>
+    </div>
+    <label for="password">Password:</label>
+    <input type="password" id="password" bind:value={password} />
+    <Button.Root
+        on:click={register}
+        disabled={username == "" ||
+            password == "" ||
+            validUsername == 0 ||
+            validUsername == 2}
+        class="w-40 font-bold text-base relative overflow-hidden px-6 py-1 rounded-xl bg-slate-100 text-slate-950 mt-2 disabled:bg-gray-400 disabled:cursor-not-allowed "
+    >
+        Register
+    </Button.Root>
 </div>

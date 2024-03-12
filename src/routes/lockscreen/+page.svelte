@@ -10,7 +10,7 @@
             <div class="pt-6">
                 <Tabs.Root
                 value="outbound"
-                class="w-[390px] rounded-card border border-muted bg-background p-3 bg-slate-400 rounded-xl shadow-card"
+                class="w-[390px] rounded-card border border-muted bg-background p-3 rounded-xl shadow-card"
                 >
                 <Tabs.List
                     class="grid w-full grid-cols-2 gap-1 rounded-9px bg-dark-10 p-1 text-sm font-semibold leading-[0.01em] shadow-mini-inset"
@@ -26,10 +26,10 @@
                     >Register</Tabs.Trigger
                     >
                 </Tabs.List>
-                <Tabs.Content value="outbound" class="pt-3">
+                <Tabs.Content value="outbound" class="pt-3 h-44">
                         <Login />
                 </Tabs.Content>
-                <Tabs.Content value="inbound" class="pt-3">
+                <Tabs.Content value="inbound" class="pt-3 h-44">
                         <Register />
                 </Tabs.Content>
                 </Tabs.Root>
