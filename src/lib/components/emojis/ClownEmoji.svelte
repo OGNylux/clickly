@@ -15,7 +15,7 @@
        else if (animated && animation) (animation as AnimationControls).play();
 </script>
 
-<svg width={size} height={size} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width={size} height={size} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" class="filter drop-shadow">
     <path d="M29 5C30.1046 5 31 4.10457 31 3C31 1.89543 30.1046 1 29 1C27.8954 1 27 1.89543 27 3C27 4.10457 27.8954 5 29 5Z" fill="#4289C1"/>
     <path d="M33 11C34.6569 11 36 9.65685 36 8C36 6.34315 34.6569 5 33 5C31.3431 5 30 6.34315 30 8C30 9.65685 31.3431 11 33 11Z" fill="#4289C1"/>
     <path d="M33 7C34.6569 7 36 5.65685 36 4C36 2.34315 34.6569 1 33 1C31.3431 1 30 2.34315 30 4C30 5.65685 31.3431 7 33 7Z" fill="#4289C1"/>

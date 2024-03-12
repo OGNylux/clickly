@@ -17,7 +17,7 @@
        else if (animated && animation) animation.forEach((a) => a.play());
 </script>
 
-<svg width={size} height={size} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width={size} height={size} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" class="filter drop-shadow">
     <path d="M36 18C36 27.941 27.941 36 18 36C8.06 36 0 27.941 0 18C0 8.06 8.06 0 18 0C27.941 0 36 8.06 36 18Z" fill="#FFCC4D"/>
     <path d="M7 21.2627C7 25.2267 11.596 30.2627 18 30.2627C24.404 30.2627 29 25.2627 29 21.2627C29 21.2627 18.667 24.0187 7 21.2627Z" fill="#664500"/>
     <path class="tounge" d="M12 23.0029V29.9639C12 32.9639 14 35.9639 18 35.9639C22 35.9639 24 32.9639 24 29.9639V23.0439C17.709 24.3359 12 23.0029 12 23.0029Z" fill="#5D9040"/>
