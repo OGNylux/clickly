@@ -3,14 +3,13 @@
     import Buildings from "$lib/components/BuildingsWrapper.svelte";
     import Clicker from "$lib/components/clicker/Clicker.svelte";
     import { onDestroy, onMount } from "svelte";
-    import { unlockAllunlockedItems } from "$lib/helper";
+    import { getLevel, unlockAllunlockedItems } from "$lib/helper";
     import {
         crops,
         emojis,
         isClassic,
         score,
         unlockedClicker,
-        unlockedFarmItems,
         unlockedPassiveItems,
         user,
     } from "$lib/store";
@@ -20,6 +19,7 @@
         type ServerMessage,
     } from "$lib/api";
     import { Socket } from "$lib/websocket";
+    import type { StoreItem } from "$lib/data";
 
     let socket: WebSocket;
     let saveInterval = 0;
@@ -37,33 +37,26 @@
         if (user.get() == null) return;
 
         isClassic.set(false);
-
         socket = Socket.getInstance().getSocket();
-
-        console.log("Connected to server");
 
         socket.onmessage = (event) => {
             const m: ServerMessage = JSON.parse(event.data);
             if (m.type == "gameState") {
-                console.log("Received game state", m.message);
                 let gameState: GameState = JSON.parse(m.message.toString());
-                console.log("Game state", gameState);
                 score.set(gameState.score);
                 crops.set(gameState.crops);
                 emojis.set(gameState.emojis);
 
+                unlockAllunlockedItems(getLevel(score.get()));
 
-               // unlockedClicker.update(gameState.clicker);
-               // unlockedPassiveItems.update(gameState.passive);
+                const clicker = unlockedClicker.get();
+                clicker.addItem(Number(gameState.clicker));
+                unlockedClicker.update(clicker)
 
-
-                // score.set(m.message.score);
-                // crops.set(m.message.crops);
-                // unlockedClicker.update(m.message.clicker);
-                // unlockedPassiveItems.update(m.message.passive);
-                // unlockedFarmItems.update(m.message.farm);
-            } else {
-                console.log("Received unknown message", m);
+                unlockedPassiveItems.get().forEach((item: StoreItem, index: number) => {
+                    item.addItem(Number(gameState.passive[index]));
+                    unlockedPassiveItems.update(item);
+                });
             }
         };
         socket.onclose = (event) => {
@@ -80,10 +73,7 @@
             message: {},
         };
 
-        console.log("Sending get state message", message);
         socket.send(JSON.stringify(message));
-
-        // unlockAllunlockedItems($score);
 
         saveInterval = setInterval(() => {
             let arr: number[] = [];
@@ -96,7 +86,7 @@
                 emojis: emojis.get(),
                 crops: crops.get(),
                 clicker: unlockedClicker.get().getAmount(),
-                passive: [],
+                passive: arr,
                 farm: [1, 2],
             };
 
@@ -109,7 +99,6 @@
                     score: gameState.score,
                 },
             };
-            console.log("Sending set state message", message);
             socket.send(JSON.stringify(message));
         }, 1000);
     });
