@@ -5,12 +5,14 @@ export function formatNumber(num: number) {
         if (num < 1e+6) return num.toLocaleString("de-DE");
         if (num < upperBound && num >= lowerBound) {
             const newNum: string = (Math.round((num / lowerBound)  * 1000) / 1000).toLocaleString("de-DE");
-            return newNum + " " + stringNumbers[i-2];
+            return newNum + " " + stringNumbers[i];
         }
     }
 }
 
 const stringNumbers = [
+    "",
+    "",
     "Million",
     "Billion",
     "Trillion",
@@ -112,5 +114,3 @@ const stringNumbers = [
     "Novemnonagintillion",
     "Centillion"
 ];
-
-

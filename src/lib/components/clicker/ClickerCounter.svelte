@@ -25,4 +25,4 @@
     }
 </script>
     
-<span>{formatNumber(current)}</span>
+<span>{formatNumber(Math.floor(current))}</span>
