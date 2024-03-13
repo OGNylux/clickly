@@ -25,10 +25,14 @@ func eventXY() {
 	fmt.Print("To Start an Event Type something an hit enter")
 	_, _ = reader.ReadString('\n')
 	fmt.Println("Event will start")
+	eventEvent()
+	eventXY()
+}
+
+func eventEvent() {
 	startEvent("TestEvent")
 	time.Sleep(1 * time.Minute)
 	endEvent()
-	eventXY()
 }
 
 func handleEvent(conn *websocket.Conn, message ClientMessage) {
