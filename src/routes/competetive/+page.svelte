@@ -43,6 +43,8 @@
             const m: ServerMessage = JSON.parse(event.data);
             if (m.type == "gameState") {
                 let gameState: GameState = JSON.parse(m.message.toString());
+                if (gameState.score == null) return;
+                
                 score.set(gameState.score);
                 crops.set(gameState.crops);
                 emojis.set(gameState.emojis);
