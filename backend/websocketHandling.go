@@ -73,6 +73,7 @@ func handleSetState(conn *websocket.Conn, msg ClientMessage) {
 		return
 	}
 
+	fmt.Println("score")
 	fmt.Println(score)
 
 	rest, okr := msg.Message.(map[string]interface{})["rest"].(string)
