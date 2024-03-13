@@ -391,7 +391,7 @@ let blushed = new PassiveIncomeItem({
     name: "Blushed Face",
     description: "Blushed Face",
     image: { src: "emojis/blushed.svg", alt: "blushed face" },
-    initialCost: 50,
+    initialCost: 100,
     max: Infinity
 }, 3, 1.2, 75, 2.5, "BlushedEmoji");
 
@@ -399,7 +399,7 @@ let money = new PassiveIncomeItem({
     name: "Money Face",
     description: "Money Face",
     image: { src: "emojis/money.svg", alt: "money face" },
-    initialCost: 250,
+    initialCost: 1000,
     max: Infinity
 }, 5, 1.2, 150, 2.5, "MoneyEmoji");
 
@@ -407,7 +407,7 @@ let cowboy = new PassiveIncomeItem({
     name: "Cowboy",
     description: "Cowboy",
     image: { src: "emojis/cowboy.svg", alt: "cowboy" },
-    initialCost: 500,
+    initialCost: 15000,
     max: Infinity
 }, 10, 1.3, 500, 2.4, "CowboyEmoji");
 
@@ -415,7 +415,7 @@ let hot = new PassiveIncomeItem({
     name: "Hot Face",
     description: "Hot Face",
     image: { src: "emojis/hot.svg", alt: "hot face" },
-    initialCost: 1500,
+    initialCost: 100000,
     max: Infinity
 }, 20, 1.3, 1000, 2.4, "HotEmoji");
 
@@ -423,7 +423,7 @@ let cold = new PassiveIncomeItem({
     name: "Cold Face",
     description: "Cold Face",
     image: { src: "emojis/cold.svg", alt: "cold face" },
-    initialCost: 5000,
+    initialCost: 1000000,
     max: Infinity
 }, 50, 1.3, 2000, 2.3, "ColdEmoji");
 
@@ -431,7 +431,7 @@ let weary = new PassiveIncomeItem({
     name: "Weary Face",
     description: "Weary Face",
     image: { src: "emojis/weary.svg", alt: "weary face" },
-    initialCost: 7500,
+    initialCost: 20000000,
     max: Infinity
 }, 75, 1.4, 5000, 2.3, "WearyEmoji");
 
@@ -439,7 +439,7 @@ let clown = new PassiveIncomeItem({
     name: "Clown Face",
     description: "Clown Face",
     image: { src: "emojis/clown.svg", alt: "clown face" },
-    initialCost: 15000,
+    initialCost: 300000000,
     max: Infinity
 }, 120, 1.4, 10000, 2.3, "ClownEmoji");
 
@@ -447,7 +447,7 @@ let cool = new PassiveIncomeItem({
     name: "Cool Face",
     description: "Cool Face",
     image: { src: "emojis/cool.svg", alt: "cool face" },
-    initialCost: 25000,
+    initialCost: 5000000000,
     max: Infinity
 }, 200, 1.4, 50000, 2.2, "CoolEmoji");
 
@@ -455,7 +455,7 @@ let byebye = new PassiveIncomeItem({
     name: "Bye Bye Face",
     description: "Bye Bye Face",
     image: { src: "emojis/byebye.svg", alt: "bye bye face" },
-    initialCost: 40000,
+    initialCost: 100000000000,
     max: Infinity
 }, 300, 1.4, 100000, 2.2, "ByeByeEmoji");
 
@@ -463,7 +463,7 @@ let stonks = new PassiveIncomeItem({
     name: "Stonks Emoji",
     description: "Stonks",
     image: { src: "emojis/stonks.svg", alt: "stonks emoji" },
-    initialCost: 100000,
+    initialCost: 10000000000000,
     max: Infinity
 }, 500, 1.4, 200000, 2.2, "StonksEmoji");
 
@@ -471,7 +471,7 @@ let hole = new PassiveIncomeItem({
     name: "Hole Emoji",
     description: "Hole Emoji",
     image: { src: "emojis/hole.svg", alt: "hole emoji" },
-    initialCost: 200000,
+    initialCost: 1000000000000000,
     max: Infinity
 }, 1000, 1.4, 500000, 2.1, "HoleEmoji");
 
@@ -538,13 +538,13 @@ export const levelUpRewards: Record<number, Array<StoreItem | FarmItem>> = {
     0: [nerd],
     1: [strawberry, blushed],
     2: [peach, money, cowboy],
-    4: [potato, hot, cold],
+    3: [potato, hot, cold],
     5: [banana, weary],
-    6: [eggplant, clown, cool],
-    7: [peanut, byebye],
-    8: [burger, stonks],
-    9: [candy, hole],
-    20: [champagne]
+    7: [eggplant, clown, cool],
+    10: [peanut, byebye],
+    15: [burger, stonks],
+    20: [candy, hole],
+    30: [champagne]
 }
 
 export { StoreItem, ClickerItem, PassiveIncomeItem, EasyExpensivePassiveIncomeItem, FarmItem, FarmUpgrade, initialFarmUpgrades };
