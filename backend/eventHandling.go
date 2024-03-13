@@ -28,6 +28,7 @@ func eventXY() {
 	startEvent("TestEvent")
 	time.Sleep(1 * time.Minute)
 	endEvent()
+	eventXY()
 }
 
 func handleEvent(conn *websocket.Conn, message ClientMessage) {

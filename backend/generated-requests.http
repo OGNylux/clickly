@@ -64,5 +64,11 @@ Content-Type: application-json // Used for content highlighting only
   "type": "getLeaderboard",
   "message":{}
 }
+=== wait-for-server
+{
+  "username":"test2",
+  "type":"eventScore",
+  "message":{"score":34}
+}
 
 ###
