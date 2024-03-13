@@ -66,17 +66,23 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 }
 
 func handleSetState(conn *websocket.Conn, msg ClientMessage) {
+
 	score, oks := msg.Message.(map[string]interface{})["score"].(float64)
 	if !oks {
 		sendError(conn, "Failed to parse score. Wrong Type (Needs float64). Had Type: "+reflect.TypeOf(msg.Message.(map[string]interface{})["score"]).String())
 		return
 	}
+
+	fmt.Println(score)
+
 	rest, okr := msg.Message.(map[string]interface{})["rest"].(string)
 
 	if !okr {
 		sendError(conn, "Failed to parse rest. Wrong Type (Needs String). Had Type: "+reflect.TypeOf(msg.Message.(map[string]interface{})["rest"]).String())
 		return
 	}
+
+	fmt.Println(rest)
 
 	// Check if the user already has a saved game state
 	var existingState GameStateFromUser
