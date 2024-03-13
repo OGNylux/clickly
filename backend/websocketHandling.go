@@ -45,7 +45,7 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 
 		switch msg.Type {
 		case "debugEvent":
-			eventEvent()
+			go eventEvent()
 		case "eventScore":
 			handleEvent(conn, msg)
 		case "setState":
