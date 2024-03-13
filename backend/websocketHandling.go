@@ -116,7 +116,7 @@ func handleGetState(conn *websocket.Conn, username string) {
 	} else {
 		fmt.Println(gameState)
 	}
-	_ = conn.WriteJSON(ServerMessage{Type: "gameState", Message: gameState})
+	_ = conn.WriteJSON(ServerMessage{Type: "gameState", Message: gameState.Rest})
 }
 
 func handleGetLeaderboard(conn *websocket.Conn) {
