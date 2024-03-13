@@ -72,17 +72,12 @@ func handleSetState(conn *websocket.Conn, msg ClientMessage) {
 		return
 	}
 
-	fmt.Println("score")
-	fmt.Println(score)
-
 	rest, okr := msg.Message.(map[string]interface{})["rest"].(string)
 
 	if !okr {
 		sendError(conn, "Failed to parse rest. Wrong Type (Needs String). Had Type: ")
 		return
 	}
-
-	fmt.Println(rest)
 
 	// Check if the user already has a saved game state
 	var existingState GameStateFromUser
@@ -104,6 +99,8 @@ func handleSetState(conn *websocket.Conn, msg ClientMessage) {
 			sendError(conn, result.Error.Error())
 		}
 	}
+
+	fmt.Println("State safed from " + msg.Username)
 }
 
 func handleGetState(conn *websocket.Conn, username string) {
@@ -112,10 +109,11 @@ func handleGetState(conn *websocket.Conn, username string) {
 	result := db.Table("game_state_from_users").Where("username = ?", username).First(&gameState)
 	if result.Error != nil {
 		log.Println("Failed to find Gamestateforuser entry:", result.Error)
-	} else {
-		fmt.Println(gameState)
+		sendError(conn, "No state available")
+		return
 	}
 	_ = conn.WriteJSON(ServerMessage{Type: "gameState", Message: gameState.Rest})
+	fmt.Println("State safed from " + username)
 }
 
 func handleGetLeaderboard(conn *websocket.Conn) {
