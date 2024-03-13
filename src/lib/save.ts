@@ -1,5 +1,5 @@
 import { browser } from "$app/environment";
-import { emojis, score, isClassic, unlockedClicker, unlockedPassiveItems, unlockedFarmItems, crops} from "$lib/store";
+import { emojis, score, isClassic, unlockedClicker, unlockedPassiveItems, unlockedFarmItems, crops, user} from "$lib/store";
 import { StoreItem } from "./data";
 import { unlockAllunlockedItems } from "./helper";
 

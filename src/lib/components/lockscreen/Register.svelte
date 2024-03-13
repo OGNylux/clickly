@@ -70,7 +70,7 @@
     let rule = "Rules: Only alphanumeric characters and underscores are allowed. The length must be more than 3 characters.";
 </script>
 
-{#if success}
+{#if !success}
     <div class="grid place-items-start gap-2 h-full">
         <label for="usernameRegister" class="text-sm font-medium">Username:</label>
         <div class="relative w-full" title={rule}>
