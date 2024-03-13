@@ -25,6 +25,7 @@
     let saveInterval = 0;
 
     interface GameState {
+        score: number;
         emojis: number;
         crops: number;
         clicker: number;
@@ -47,6 +48,15 @@
                 console.log("Received game state", m.message);
                 let gameState: GameState = JSON.parse(m.message.toString());
                 console.log("Game state", gameState);
+                score.set(gameState.score);
+                crops.set(gameState.crops);
+                emojis.set(gameState.emojis);
+
+
+               // unlockedClicker.update(gameState.clicker);
+               // unlockedPassiveItems.update(gameState.passive);
+
+
                 // score.set(m.message.score);
                 // crops.set(m.message.crops);
                 // unlockedClicker.update(m.message.clicker);
@@ -82,6 +92,7 @@
             });
 
             let gameState: GameState = {
+                score: score.get(),
                 emojis: emojis.get(),
                 crops: crops.get(),
                 clicker: unlockedClicker.get().getAmount(),
@@ -95,7 +106,7 @@
                 type: clientMessageTypes.SetState,
                 message: {
                     rest: JSON.stringify(gameState).toString(),
-                    score: score.get(),
+                    score: gameState.score,
                 },
             };
             console.log("Sending set state message", message);
