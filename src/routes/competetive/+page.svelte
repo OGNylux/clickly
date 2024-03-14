@@ -17,6 +17,7 @@
         clientMessageTypes,
         type ClientMessage,
         type ServerMessage,
+        type GameState,
     } from "$lib/api";
     import { Socket } from "$lib/websocket";
     import type { StoreItem } from "$lib/data";
@@ -24,16 +25,7 @@
     let socket: WebSocket;
     let saveInterval = 0;
 
-    interface GameState {
-        score: number;
-        emojis: number;
-        crops: number;
-        clicker: number;
-        passive: number[];
-        farm: number[];
-    }
-
-    onMount(async () => {
+    onMount(() => {
         if (user.get() == null) return;
 
         isClassic.set(false);

@@ -9,6 +9,15 @@ interface ServerMessage {
     message: {};
 }
 
+interface GameState {
+    score: number;
+    emojis: number;
+    crops: number;
+    clicker: number;
+    passive: number[];
+    farm: number[];
+}
+
 enum clientMessageTypes {
     Authentication = "authentication",
     SetState = "setState",
@@ -26,5 +35,5 @@ enum serverMessageTypes {
     Success = "success"
 }
 
-export type { ClientMessage, ServerMessage };
+export type { ClientMessage, ServerMessage, GameState };
 export { clientMessageTypes, serverMessageTypes };
