@@ -64,7 +64,7 @@ func main() {
 	go eventXY()
 
 	// Start the HTTP server
-	fmt.Println("WebSocket server started on http://localhost:1814/ws")
+	fmt.Println("WebSocket server started on http://localhost:18143/ws")
 
 	_ = r.Run(":18143")
 

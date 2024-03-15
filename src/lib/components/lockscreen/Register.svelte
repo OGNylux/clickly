@@ -14,9 +14,10 @@
             password: password,
         };
 
-        fetch("http://johafo.de:18143/registerUser", {
+        fetch("https://johafo.de/registerUser", {
             method: "POST",
             headers: {
+                "Authorization": "Basic Sm9oYW5uZXM6QTd0S01LSyRtJDNrZWFNOCZA",
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
@@ -37,9 +38,10 @@
             validUsername = 0;
             return;
         }
-        fetch("http://johafo.de:18143/usernameCheck", {
+        fetch("https://johafo.de/usernameCheck", {
             method: "POST",
             headers: {
+                "Authorization": "Basic Sm9oYW5uZXM6QTd0S01LSyRtJDNrZWFNOCZA",
                 "Content-Type": "text/plain",
             },
             body: username,

@@ -22,7 +22,7 @@ RUN go env -w CGO_ENABLED=1
 # Build the Go app
 RUN go build -o main .
 
-# Expose port 8080 to the outside world
+# Expose port 18143 to the outside world
 EXPOSE 18143
 
 # Command to run the executable
