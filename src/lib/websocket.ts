@@ -3,7 +3,7 @@ export class Socket {
   private static instance: Socket;
   private ws: WebSocket;
   private constructor() {
-    this.ws = new WebSocket('wss://johafo.de/ws');
+    this.ws = new WebSocket('wss://johafo.de:14133/ws');
   }
   public static getInstance() {
     if (!Socket.instance) {
