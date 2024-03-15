@@ -40,21 +40,20 @@
 
 <div class="flex place-content-start bg-slate-200 w-96 rounded-xl">
     <img src={item.image.src} alt="" class="size-16 p-2 drop-shadow" />
-    <div class="flex flex-col grow justify-between p-2">
+    <div class="flex flex-col grow justify-between p-2 w-full">
         <p class="font-bold">{item.name}</p>
-        <div class="grid grid-flow-col">
-            <p>{formatNumber(marketValue)} E</p>
-            <p class="flex justify-self-end">+{formatNumber(item.getIncomeMultiplier())} E/s</p>
+        <div class="grid grid-cols-2">
+            <span title={formatNumber(marketValue) + " E"} class="truncate">{formatNumber(marketValue)} E</span>
+            <span title={formatNumber(item.getIncomeMultiplier()) + " E/s"} class="justify-self-end truncate">+{formatNumber(Math.floor(item.getIncomeMultiplier()))} E/s</span>
         </div>
     </div>
-
     {#if item.getAmount() == 0 && !action}
-        <button disabled class="flex justify-center items-center w-24 bg-slate-300 font-bold text-xl border-slate-200 border-2 buy_button">
+        <button disabled class="flex justify-center items-center w-40 bg-slate-300 font-bold text-xl border-slate-200 border-2 buy_button">
             <Lock size={32} />
         </button>
     {:else}
         <button on:click={() => (action ? buyClick() : sellClick())} 
-            class={`buy_button transition font-bold text-xl w-24 border-slate-200 border-2 ${buyable ? "bg-slate-100 hover:bg-white " : "bg-slate-300 border-slate-200"}`}>
+            class={`buy_button transition font-bold text-xl w-40 border-slate-200 border-2 ${buyable ? "bg-slate-100 hover:bg-white " : "bg-slate-300 border-slate-200"}`}>
             {action ? "BUY" : "SELL"}
         </button>
     {/if}

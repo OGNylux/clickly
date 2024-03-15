@@ -2,7 +2,7 @@
     import { ClickerItem, StoreItem } from "$lib/data";
     import { ArrowBigUpDash } from "lucide-svelte";
     import { crops, isAnimOn, isSoundOn } from "$lib/store";
-    import Emoji from "./Emoji.svelte";
+    import Emoji from "../Emoji.svelte";
     import { formatNumber } from "$lib/formatNumber";
     import { Separator } from "bits-ui";
     import { animate, spring } from "motion";
@@ -51,7 +51,7 @@
                     {#if storeItem.component}
                         <Emoji emoji={storeItem.component} animated={animated}  />
                     {:else}
-                        <img src={storeItem.image.src} alt="" class="filter drop-shadow size-8">
+                        <img src={storeItem.image.src} alt={storeItem.image.alt} class="filter drop-shadow size-8">
                     {/if}
                 {/each}
             </div>
@@ -75,9 +75,9 @@
             <div class="absolute rounded-xl w-28 right-0 h-full text-center p-2 border-2 bg-slate-600">
                 <p class="text-4xl truncate">{formatNumber(storeItem.getAmount())}</p>
                 {#if storeItem instanceof ClickerItem}
-                    <p class="text-sm truncate -m-2">{formatNumber(storeItem.getInfluence()+1)} E/c</p>
+                    <p class="text-sm truncate -my-2">{formatNumber(storeItem.getInfluence()+1)} E/c</p>
                 {:else}
-                    <p class="text-sm truncate -m-2">{formatNumber(storeItem.getInfluence())} E/s</p>
+                    <p class="text-sm truncate -my-2">{formatNumber(storeItem.getInfluence())} E/s</p>
                 {/if}
             </div>
         </div>

@@ -150,7 +150,7 @@ class ClickerItem extends StoreItem {
     }
 
     getIncomeMultiplier(): number {
-        return this.multiplier;
+        return this.multiplier * (1.5 ** this.upgradeAmount);
     }
 
     getInfluence(): number {
@@ -201,7 +201,7 @@ class PassiveIncomeItem extends StoreItem {
     }
 
     getIncomeMultiplier(): number {
-        return this.incomeMultiplier
+        return this.incomeMultiplier * (1.5 ** this.upgradeAmount)
     }
 
     getInfluence(): number {
