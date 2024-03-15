@@ -61,6 +61,8 @@ abstract class StoreItem {
      */
     abstract getInfluence(): number;
 
+    abstract getIncomeMultiplier(): number;
+
     addItem(amount: number = 1) {
         if (this.amount + amount > this.max) return; // fix needed
         this.amount = this.amount + amount;
@@ -147,6 +149,10 @@ class ClickerItem extends StoreItem {
         return tmp;
     }
 
+    getIncomeMultiplier(): number {
+        return this.multiplier;
+    }
+
     getInfluence(): number {
         return this.amount * this.multiplier * (1.5 ** this.upgradeAmount);
     }
@@ -192,6 +198,10 @@ class PassiveIncomeItem extends StoreItem {
         this.initialUpgradeCost = initialUpgradeCost;
         this.upgradeCostMultiplier = upgradeCostMultiplier;
         this.component = component;
+    }
+
+    getIncomeMultiplier(): number {
+        return this.incomeMultiplier
     }
 
     getInfluence(): number {
@@ -245,8 +255,11 @@ class ExpensivePassiveIncomeItem extends StoreItem {
         return this.costArray[this.amount - count];
     }
     
-
     getInfluence(): number {
+        return this.incomeArray[this.amount];
+    }
+
+    getIncomeMultiplier(): number {
         return this.incomeArray[this.amount];
     }
 
@@ -276,6 +289,11 @@ class EasyExpensivePassiveIncomeItem extends StoreItem {
 
     getInfluence(): number {
         return this.incomeArray[this.amount];
+    }
+
+    getIncomeMultiplier(): number {
+        return this.incomeArray[this.amount];
+    
     }
 }
 
@@ -374,6 +392,10 @@ class FarmUpgrade extends StoreItem {
 
         return this.amount * this.growthTimeMultiplier;
     }
+
+    getIncomeMultiplier(): number {
+        return 0;
+    }    
 }
 
 /**

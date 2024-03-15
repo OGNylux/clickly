@@ -23,7 +23,7 @@
     <div class="flex flex-col justify-between p-2">
         <p class="font-bold truncate">{upgrade.name}</p>
         {#if upgrade.checkAddAmount(1)}
-            <p class="truncate" title={formatNumber(upgrade.nextCost(1))}>{formatNumber(upgrade.nextCost(1))}</p>
+            <p class="truncate" title={formatNumber(upgrade.nextCost(1))}>{formatNumber(upgrade.nextCost(1))} E</p>
         {:else}
             <Lock size={16} />
         {/if}

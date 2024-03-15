@@ -34,7 +34,10 @@
     <img src={$unlockedClicker.image.src} alt="" class="size-16 p-2 drop-shadow" />
     <div class="flex flex-col grow justify-between p-2">
         <p class="font-bold">{$unlockedClicker.name}</p>
-        <p>{formatNumber(marketValue)} Emojis</p>
+        <div class="grid grid-flow-col">
+            <p>{formatNumber(marketValue)} E</p>
+            <p class="flex justify-self-end">+{formatNumber($unlockedClicker.getIncomeMultiplier())} E/c</p>
+        </div>
     </div>
     {#if $unlockedClicker.getAmount() == 0 && !action}
         <div class="flex justify-center items-center buy_button transition font-bold text-xl w-24 bg-slate-300 border-slate-200 border-2">
