@@ -24,7 +24,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"gorm.io/driver/sqlite"
@@ -52,7 +51,7 @@ func main() {
 
 	// Register the WebSocket handler function
 	r := gin.Default()
-	r.Use(cors.Default())
+	//r.Use(cors.Default())
 
 	r.GET("/ws", handleWebSocketAuth)
 	r.POST("/registerUser", registerUser)
