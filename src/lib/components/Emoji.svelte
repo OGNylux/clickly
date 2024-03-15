@@ -3,7 +3,7 @@
 
     export let animated = false;
     export let emoji: String;
-    export let size = 48;
+    export let size = 32;
  
     let Emote: any;
 
@@ -12,4 +12,4 @@
     });
 </script>
 
-<svelte:component this={Emote} animated={animated} size={size}/>
+<svelte:component this={Emote} animated={animated} size={size} class="filter drop-shadow-2xl shadow-lg"/>

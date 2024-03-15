@@ -1,5 +1,5 @@
-import { writable, get, readable } from "svelte/store";
-import { ClickerItem, FarmItem, StoreItem } from "$lib/data";
+import { writable, get } from "svelte/store";
+import { ClickerItem, FarmItem, FarmUpgrade, StoreItem, initialFarmUpgrades } from "$lib/data";
 
 
 // enable server communication and certain features
@@ -17,6 +17,28 @@ function userFunc() {
     };
 }
 export const user = userFunc();
+
+function soundStoreFunc() {
+    const store = writable(true);
+    const { subscribe, set } = store;
+    return {
+        subscribe,
+        set: (value: boolean) => set(value),
+        get: () => get(store),
+    };
+}
+export const isSoundOn = soundStoreFunc();
+
+function animStoreFunc() {
+    const store = writable(true);
+    const { subscribe, set } = store;
+    return {
+        subscribe,
+        set: (value: boolean) => set(value),
+        get: () => get(store),
+    };
+}
+export const isAnimOn = animStoreFunc();
 
 function clickerStoreFunc() {
     const store = writable(new ClickerItem());
@@ -49,7 +71,7 @@ function unlockedFarmItemsFunc() {
     const { subscribe, set, update } = store;
     return {
         subscribe,
-        update: (item: FarmItem) => update(n => n.map(i => i.name == item.name ? item : i)), // if the item is already in the store, update it, otherwise add it
+        update: (item: FarmItem) => update(n => n.map(i => i.name == item.name ? item : i)),
         add: (item: FarmItem) => update(n => [...n, item]),
         contains: (item: FarmItem) => get(store).some(x => x.name == item.name),
         get: () => get(store),
@@ -57,6 +79,20 @@ function unlockedFarmItemsFunc() {
     };
 }
 export const unlockedFarmItems = unlockedFarmItemsFunc();
+
+function farmUpgradeFunc() {
+    const store = writable<FarmUpgrade[]>(initialFarmUpgrades())
+    const { subscribe, set, update } = store;
+    return {
+        subscribe,
+        update: (item: FarmUpgrade) => update(n => n.map(i => i.name == item.name ? item : i)),
+        add: (item: FarmUpgrade) => update(n => [...n, item]),
+        contains: (item: FarmUpgrade) => get(store).some(x => x.name == item.name),
+        get: () => get(store),
+        reset: () => set(initialFarmUpgrades()),
+    };
+}
+export const farmUpgrades = farmUpgradeFunc();
 
 function cropStore() {
     const { subscribe, set, update } = writable(0);
@@ -96,5 +132,9 @@ function scoreStore() {
         reset: () => set(0)
     };
 }
-export const score = scoreStore(); 
+export const score = scoreStore();
 
+interface notification 
+    {message: string, unread : boolean}
+    
+export const notifications = writable<notification[]>([]);

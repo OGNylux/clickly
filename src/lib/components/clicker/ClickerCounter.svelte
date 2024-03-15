@@ -1,25 +1,28 @@
 <script lang="ts">
-    import { formatNumber } from '$lib/helper';
+    import { formatNumber } from "$lib/formatNumber";
+
 
     export let value = 0;
   
-    let current = 0;
-    $: step = Math.max(1, Math.floor((value - current) / 100));
+    let current = 0,
+        interval = 0,
+        step = 0;
+
+    // listen to changes in value
+    $: value, startCount();
   
-    function countUp() {
-      if (current !== value) {
-        current += step;
-        setTimeout(countUp, 20);
-      }
+    function startCount() {
+        clearInterval(interval);
+        const diff = value - current;
+        step = Math.ceil(diff / 10);
+        interval = setInterval(() => {
+            current += step;
+            if (Math.abs(current - value) <= Math.abs(step)) {
+                current = value;
+                clearInterval(interval);
+            }
+        }, 20);
     }
-  
-    $: if (value > current) {
-        countUp();
-    } else if (value < current) {
-        step = -step;
-        countUp();
-    }
-  </script>
-  
-  <span>{formatNumber(current)}</span>
-  
+</script>
+    
+<span>{formatNumber(Math.floor(current))}</span>

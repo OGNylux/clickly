@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    *,
+    html {
+        scroll-behavior: smooth !important;
+        scrollbar-width: thin;
+    }
+}
+
 * {
     font-family: 'Baloo 2', sans-serif;
+}
+
+:root {
+    --toastContainerTop: auto;
+    --toastContainerRight: 1rem;
+    --toastContainerBottom: 1rem;
+    --toastContainerLeft: auto;
+    --toastBorderRadius: 0.75rem;
+    --toastBackground: rgb(226 232 240);
+    --toastColor: #000000;
+    --toastWidth: 20rem;
 }
