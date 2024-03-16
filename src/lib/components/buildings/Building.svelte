@@ -75,9 +75,9 @@
             <div class="absolute rounded-xl w-28 right-0 h-full text-center p-2 border-2 bg-slate-600">
                 <p class="text-4xl truncate">{formatNumber(storeItem.getAmount())}</p>
                 {#if storeItem instanceof ClickerItem}
-                    <p class="text-sm truncate -my-2">{formatNumber(storeItem.getInfluence()+1)} E/c</p>
+                    <p title={formatNumber(storeItem.getInfluence()+1) + " E/c"} class="text-sm truncate -my-2">{formatNumber(storeItem.getInfluence()+1)} E/c</p>
                 {:else}
-                    <p class="text-sm truncate -my-2">{formatNumber(storeItem.getInfluence())} E/s</p>
+                    <p title={formatNumber(storeItem.getInfluence()) + " E/s"} class="text-sm truncate -my-2">{formatNumber(storeItem.getInfluence())} E/s</p>
                 {/if}
             </div>
         </div>

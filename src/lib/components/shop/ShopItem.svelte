@@ -40,12 +40,10 @@
 
 <div class="flex place-content-start bg-slate-200 w-96 rounded-xl">
     <img src={item.image.src} alt="" class="size-16 p-2 drop-shadow" />
-    <div class="flex flex-col grow justify-between p-2 w-full">
-        <p class="font-bold">{item.name}</p>
-        <div class="grid grid-cols-2">
-            <span title={formatNumber(marketValue) + " E"} class="truncate">{formatNumber(marketValue)} E</span>
-            <span title={formatNumber(item.getIncomeMultiplier()) + " E/s"} class="justify-self-end truncate">+{formatNumber(Math.floor(item.getIncomeMultiplier()))} E/s</span>
-        </div>
+    <div class="grid grid-rows-2 grid-cols-2 grow p-2 w-full">
+        <p class="font-bold col-span-2">{item.name}</p>
+        <span title={formatNumber(marketValue) + " E"} class="truncate">{formatNumber(marketValue)} E</span>
+        <span title={formatNumber(item.getIncomeMultiplier()) + " E/s"} class="truncate text-end">+{formatNumber(Math.floor(item.getIncomeMultiplier()))} E/s</span>
     </div>
     {#if item.getAmount() == 0 && !action}
         <button disabled class="flex justify-center items-center w-40 bg-slate-300 font-bold text-xl border-slate-200 border-2 buy_button">

@@ -32,12 +32,10 @@
 
 <div class="flex place-content-start bg-slate-200 w-96 rounded-xl">
     <img src={$unlockedClicker.image.src} alt="" class="size-16 p-2 drop-shadow" />
-    <div class="flex flex-col grow justify-between p-2 w-full">
-        <p class="font-bold">{$unlockedClicker.name}</p>
-        <div class="grid grid-flow-col">
-            <p title={formatNumber(marketValue) + " E"} class="truncate">{formatNumber(marketValue)} E</p>
-            <p title={formatNumber($unlockedClicker.getIncomeMultiplier()) + " E/c"} class="justify-self-end truncate">+{formatNumber($unlockedClicker.getIncomeMultiplier())} E/c</p>
-        </div>
+    <div class="grid grid-rows-2 grid-cols-2 grow p-2 w-full">
+        <p class="font-bold col-span-2">{$unlockedClicker.name}</p>
+        <span title={formatNumber(marketValue) + " E"} class="truncate">{formatNumber(marketValue)} E</span>
+        <span title={formatNumber($unlockedClicker.getIncomeMultiplier()) + " E/s"} class="truncate text-end">+{formatNumber(Math.floor($unlockedClicker.getIncomeMultiplier()))} E/s</span>
     </div>
     {#if $unlockedClicker.getAmount() == 0 && !action}
         <div class="flex justify-center items-center buy_button transition font-bold text-xl w-40 bg-slate-300 border-slate-200 border-2">
