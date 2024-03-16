@@ -27,7 +27,7 @@
             <div class="flex flex-col justify-between p-2">
                 <p class="font-bold truncate">{upgrade.name}</p>
                 {#if upgrade.checkAddAmount(1)}
-                    <p class="truncate" title={formatNumber(upgrade.nextCost(1))}>{formatNumber(upgrade.nextCost(1))} E</p>
+                    <p class="truncate flex" title={formatNumber(upgrade.nextCost(1))}>{formatNumber(upgrade.nextCost(1))} E</p>
                 {:else}
                     <Lock size={16} />
                 {/if}
@@ -51,9 +51,6 @@
             </div>
         </Tooltip.Content>  
     </Tooltip.Root>
-    
-    
-
     <div class="w-32 h-16 bg-amber-900 border-2 border-amber-800 rounded-xl flex items-center relative">
         <span class="text-xl pl-3">x {upgrade.getAmount()}</span>
         <button
