@@ -399,21 +399,19 @@ class FarmUpgrade extends StoreItem {
 }
 
 class FallingItem {
-    id: number;
+    img: CanvasImageSource;
     x: number;
     y: number;
     size: number;
     opacity: any;
     clicked: boolean = false;
-    randomizer: number;
 
-    constructor(id: number, x: number, y: number, randomizer: number) {
-        this.id = id;
+    constructor(img: CanvasImageSource, x: number, y: number, size: number, opacity: number) {
+        this.img = img;
         this.x = x;
         this.y = y;
-        this.randomizer = randomizer
-        this.size = 70 + this.randomizer * 100;
-        this.opacity = this.randomizer;
+        this.size = size;
+        this.opacity = opacity;
     }
 
 }

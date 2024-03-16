@@ -15,12 +15,6 @@
     <FallingObjectManager bind:width bind:height bind:score />
 </div>
 
-
-
-
-
-
-
 <style lang="postcss">
     .wave1 {
         color: #ffffff60;
