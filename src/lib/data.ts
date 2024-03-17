@@ -381,15 +381,13 @@ class FallingItem {
     x: number;
     y: number;
     size: number;
-    opacity: any;
     clicked: boolean = false;
 
-    constructor(img: CanvasImageSource, x: number, y: number, size: number, opacity: number) {
+    constructor(img: CanvasImageSource, x: number, y: number, size: number) {
         this.img = img;
         this.x = x;
         this.y = y;
         this.size = size;
-        this.opacity = opacity;
     }
 
 }

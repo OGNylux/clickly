@@ -25,9 +25,8 @@
         for (let i = 0; i < numOfCookies; i++) {
             let x = Math.random() * canvas.width;
             let y = -40 - Math.random() * 100;
-            let randomize = Math.random();
-            let size = 100 + randomize * 70;
-            fallingObjects.push(new FallingItem(cookie, x, y, size, randomize));
+            let size = 100 + Math.random() * 70;
+            fallingObjects.push(new FallingItem(cookie, x, y, size));
         }
 
         requestAnimationFrame(draw);
