@@ -71,7 +71,7 @@
     class="bg-slate-100 border-2 h-full border-slate-200 rounded-xl flex flex-col items-center gap-2 mb-2"
     bind:offsetWidth={width}
 >
-    <Tooltip.Root>
+    <Tooltip.Root openDelay={200}>
         <Tooltip.Trigger> 
             <h1 class="text-5xl font-bold flex items-center gap-2 p-2">
                 <ClickerCounter bind:value={$emojis} />
@@ -99,7 +99,7 @@
         </div>
         <div class="grid grid-cols-3 g">
             <span>{formatNumber(getLevelupScore(currentLevel))}</span>
-            <Tooltip.Root>
+            <Tooltip.Root openDelay={200}>
                 <Tooltip.Trigger> 
                     <p class="place-content-center flex items-center">
                         <Info size="15" />
