@@ -87,14 +87,13 @@
         const y = event.clientY - rect.top;
 
         // Check if the click occurred on any falling object
-        for (let i = 0; i < fallingObjects.length; i++) {
-            const falling = fallingObjects[i];
+        fallingObjects.forEach((falling) => {
             if (x >= falling.x && x <= falling.x + falling.size/4 && y >= falling.y && y <= falling.y + falling.size/4) {
                 falling.clicked = true;
                 score++;
-                break; // Exit loop after logging the click
+                return; // Exit loop after logging the click
             }
-        }
+        });
     }
 </script>
 
