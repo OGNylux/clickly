@@ -68,7 +68,7 @@
 
             falling.y += 0.025 * falling.size;
             if(falling.clicked) {
-                if(falling.size > 0.25) falling.size = falling.size * 0.9;
+                if(falling.size > 0.25) falling.size = falling.size * 0.95;
                 else {falling.y = height + 20; falling.size = 100}
             }
             if (falling.y > height + 20) {
