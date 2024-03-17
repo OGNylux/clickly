@@ -1,6 +1,5 @@
 <script lang="ts">
     import FallingObjectManager from "$lib/components/events/FallingObjectManager.svelte";
-    import { onMount } from "svelte";
     let width: number = 1000,
         height: number,
         score: number;
