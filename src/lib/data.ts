@@ -515,16 +515,16 @@ let expensiveHot = new ExpensivePassiveIncomeItem(
 /**
  * Farm Definitions
  */
-let strawberry = new FarmItem("Strawberry", "A juicy strawberry", 3, 5000, { src: "/farm/strawberry.svg", alt: "strawberry" });
-let peach = new FarmItem("Peach", "A juicy peach", 10, 10000, { src: "/farm/peach.svg", alt: "peach" });
-let potato = new FarmItem("Potato", "A juicy potato", 20, 8000, { src: "/farm/potato.svg", alt: "potato" });
-let banana = new FarmItem("Banana", "A juicy banana", 50, 10000, { src: "/farm/banana.svg", alt: "banana" });
-let eggplant = new FarmItem("Eggplant", "A juicy eggplant", 100, 10000, { src: "/farm/eggplant.svg", alt: "eggplant" });
-let peanut = new FarmItem("Peanut", "A juicy peanut", 250, 12000, { src: "/farm/peanut.svg", alt: "peanut" });
+let strawberry = new FarmItem("Strawberry", "A juicy strawberry", 10, 5000, { src: "/farm/strawberry.svg", alt: "strawberry" });
+let peach = new FarmItem("Peach", "A juicy peach", 100, 10000, { src: "/farm/peach.svg", alt: "peach" });
+let potato = new FarmItem("Potato", "A juicy potato", 1000, 8000, { src: "/farm/potato.svg", alt: "potato" });
+let banana = new FarmItem("Banana", "A juicy banana", 5000, 10000, { src: "/farm/banana.svg", alt: "banana" });
+let eggplant = new FarmItem("Eggplant", "A juicy eggplant", 50000, 10000, { src: "/farm/eggplant.svg", alt: "eggplant" });
+let peanut = new FarmItem("Peanut", "A juicy peanut", 250000, 12000, { src: "/farm/peanut.svg", alt: "peanut" });
 
-let burger = new FarmItem("Burger", "A juicy burger", 500, 15000, { src: "/farm/burger.svg", alt: "burger" });
-let candy = new FarmItem("Candy", "A juicy candy", 1000, 20000, { src: "/farm/candy.svg", alt: "candy" });
-let champagne = new FarmItem("Champagne", "The tears of all emojis combined to sacrifice to the emoji gods", 1000000, 50000, { src: "/farm/champagne.svg", alt: "champagne" });
+let burger = new FarmItem("Burger", "A juicy burger", 500000, 15000, { src: "/farm/burger.svg", alt: "burger" });
+let candy = new FarmItem("Candy", "A juicy candy", 1000000, 20000, { src: "/farm/candy.svg", alt: "candy" });
+let champagne = new FarmItem("Champagne", "The tears of all emojis combined to sacrifice to the emoji gods", 1000000000, 50000, { src: "/farm/champagne.svg", alt: "champagne" });
 
 const initialFarmUpgrades = () => {
     return [ new FarmUpgrade({
