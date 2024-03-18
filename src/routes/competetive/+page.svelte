@@ -20,6 +20,7 @@
         type ClientMessage,
         type ServerMessage,
         type GameState,
+        type Event,
         serverMessageTypes,
         eventTypes,
     } from "$lib/api";
@@ -58,8 +59,10 @@
                 });
             } else if (m.type == serverMessageTypes.EventStart){
                 const e = eventTypes.get(m.message.toString());
-                if (e != null){
+                if (e){
                     activeEvent = e;
+                } else {
+                    throw new Error("Event not found");
                 }
                 console.log("EventStart", activeEvent);
             } else if (m.type == serverMessageTypes.EventEnd){
@@ -144,6 +147,7 @@
 <main class="flex justify-around gap-2 screen">
     {#if activeEvent != null}
         <EventWrapper activeEvent={activeEvent} />
+        <p>s</p>
     {/if}
     <Buildings />
     <div id="main" class="screen grid grid-rows-2">

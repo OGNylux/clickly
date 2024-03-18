@@ -45,28 +45,28 @@ enum serverMessageTypes {
 // }
 
 
-type Event = {
+interface Event {
     name: string;
     component: string;
     description: string;
 }
 
-const eventTypes: Map<string, Event[]> = new Map([
-    ["TestEvent", [
+const eventTypes: Map<string, Event> = new Map([
+    ["TestEvent",
         {
             name: "TestEvent",
             component: "TestEvent.svelte",
             description: "This is a test event"
         }
-    ]],
-    ["Cookie", [
+    ],
+    ["Cookie", 
         {
             name: "Cookie",
             component: "CookieEventWrapper.svelte",
             description: "This is a test event"
         }
-    ]]
+    ]
 ]);
 
-export type { ClientMessage, ServerMessage, GameState };
+export type { ClientMessage, ServerMessage, GameState, Event };
 export { clientMessageTypes, serverMessageTypes, eventTypes };
