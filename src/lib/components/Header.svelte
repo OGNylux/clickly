@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { Settings, Bell, X, Trophy } from "lucide-svelte";
-    import { Popover, Separator } from "bits-ui";
+    import { Settings, Bell, X, Trophy, Undo2 } from "lucide-svelte";
+    import { Button, Popover, Separator } from "bits-ui";
     import { flyAndScale } from "$lib/transition";
     import { getLevel } from "$lib/helper";
     import { isClassic, notifications, score } from "$lib/store";
@@ -26,6 +26,13 @@
 
 <div class="grid grid-cols-3 h-10 items-center bg-slate-200 px-3 header content-center">
     <div class="place-self-start flex items-center">
+        <div class="pr-4">
+            <a href="/">
+                <div class="transition hover:bg-slate-300 rounded-3xl p-1">
+                    <Undo2 size={20}/>
+                </div>
+            </a>
+        </div>
         <div class="flex h-8 px-3 bg-slate-300 border-slate-200 border-2 rounded-xl">
             <div class="font-medium">
                 Guest
