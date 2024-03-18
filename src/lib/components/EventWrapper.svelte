@@ -1,9 +1,10 @@
 <script lang="ts">
     import type { Event, EventResult } from "$lib/api";
+    import { emojis } from "$lib/store";
     import { flyAndScale } from "$lib/transition";
     import { Dialog, Separator } from "bits-ui";
     import { X } from "lucide-svelte";
-    import { space } from "postcss/lib/list";
+    import { get } from "svelte/store";
 
     export let activeEvent: Event | null = null	;
     export let eventResult: EventResult | null = null;
@@ -20,6 +21,7 @@
      }
 
     $: if (eventResult != null) {
+        getReward();
         resultOpen = true;
     } else {
         resultOpen = false;
@@ -29,7 +31,24 @@
         Event = (await import(`./events/${activeEvent.component}.svelte`)).default;
     }
 
-    function getLeaderboardPosition() {
+    function getReward() {
+        emojis.set(emojis.get() * getMultiplier());
+    }
+
+    function getMultiplier() {
+        switch (eventResult?.place) {
+            case 1:
+                return 5;
+            case 2:
+                return 3;
+            case 3:
+                return 2;
+            default:
+                return 1;
+        }
+    }
+
+    function getLeaderboardPositions() {
         return eventResult?.leaderboard.slice(3);
     }
 </script>
@@ -56,6 +75,7 @@
                 <h1 class="text-5xl font-extrabold text-center my-5">
                     Du bist <span class="text-amber-300">{eventResult.place}.</span> geworden!
                 </h1>
+                <h3 class="text-center text-xl mb-10">Deine Belohnung: <span class="rainbow">{getMultiplier()}x</span> Emoji Multiplikator</h3>
                 <div class="grid grid-flow-col gap-2">
                     {#if eventResult.leaderboard.length >= 2}
                         <section class="self-end">
@@ -76,7 +96,7 @@
                         </section>
                     {/if}
                 </div>
-                {#each getLeaderboardPosition() ?? [] as player, i}
+                {#each getLeaderboardPositions() ?? [] as player, i}
                     <div class="flex justify-between">
                         <p>{i+4}.</p>
                         <p>{player.username}</p>
@@ -109,3 +129,49 @@
         </Dialog.Content>
       </Dialog.Portal>
 </Dialog.Root>
+
+<style>
+    .rainbow{
+		animation: rainbow 2.5s linear;
+		animation-iteration-count: infinite;
+    }
+    @keyframes rainbow{
+		100%,0%{
+			color: rgb(255,0,0);
+		}
+		8%{
+			color: rgb(255,127,0);
+		}
+		16%{
+			color: rgb(255,255,0);
+		}
+		25%{
+			color: rgb(127,255,0);
+		}
+		33%{
+			color: rgb(0,255,0);
+		}
+		41%{
+			color: rgb(0,255,127);
+		}
+		50%{
+			color: rgb(0,255,255);
+		}
+		58%{
+			color: rgb(0,127,255);
+		}
+		66%{
+			color: rgb(0,0,255);
+		}
+		75%{
+			color: rgb(127,0,255);
+		}
+		83%{
+			color: rgb(255,0,255);
+		}
+		91%{
+			color: rgb(255,0,127);
+		}
+    }
+
+</style>
