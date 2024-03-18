@@ -27,6 +27,7 @@
     import { Socket } from "$lib/websocket";
     import type { StoreItem } from "$lib/data";
     import EventWrapper from "$lib/components/EventWrapper.svelte";
+    import { Dialog } from "bits-ui";
 
     let socket: WebSocket;
     let saveInterval = 0;
@@ -146,6 +147,9 @@
 </nav>
 <main class="flex justify-around gap-2 screen">
     <EventWrapper activeEvent={activeEvent} />
+    <Dialog.Root>
+        
+    </Dialog.Root>
     <Buildings />
     <div id="main" class="screen grid grid-rows-2">
         <Clicker />

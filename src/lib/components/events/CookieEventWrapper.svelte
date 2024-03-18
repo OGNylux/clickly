@@ -30,7 +30,7 @@
         });
 </script>
 
-<div bind:offsetWidth={width} bind:offsetHeight={height} class="flex w-full h-96 overflow-hidden items-center justify-center relative">
+<div bind:offsetWidth={width} bind:offsetHeight={height} class="flex w-full h-full overflow-hidden items-center justify-center relative">
     <div class="text-black text-9xl pointer-events-none" style="white-space: nowrap;">
         <p class="select-none absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">{score} Cookies</p>
         <p class="select-none absolute wave1 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">{score} Cookies</p>

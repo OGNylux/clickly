@@ -25,13 +25,14 @@
         <Dialog.Overlay class="fixed inset-0 z-50 bg-black/80" />
         <Dialog.Content 
             transition={flyAndScale} 
-            class="fixed left-[50%] top-[50%] z-50 w-full translate-x-[-50%] translate-y-[-50%] bg-slate-100"
+            class="fixed left-[50%] top-[50%] z-50 translate-x-[-50%] translate-y-[-50%] bg-slate-100 p-5 rounded-xl"
+            style="aspect-ratio: 14/7;"
         >
             {#if activeEvent != null}
-                <Dialog.Title>
+                <Dialog.Title class="text-center text-3xl font-bold">
                     {activeEvent.name}
                 </Dialog.Title>
-                <Dialog.Description>
+                <Dialog.Description class="text-center">
                     {activeEvent.description}
                 </Dialog.Description>
                 <svelte:component this={Event} />
