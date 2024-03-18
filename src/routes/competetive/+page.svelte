@@ -1,6 +1,6 @@
 <script lang="ts">
     import Shop from "$lib/components/shop/Shop.svelte";
-    import Buildings from "$lib/components/BuildingsWrapper.svelte";
+    import Buildings from "$lib/components/buildings/BuildingsWrapper.svelte";
     import Clicker from "$lib/components/clicker/Clicker.svelte";
     import Header from "$lib/components/Header.svelte";
     import Farm from "$lib/components/farm/Farm.svelte";
