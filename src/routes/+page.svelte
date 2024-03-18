@@ -10,7 +10,7 @@
                 <div class="absolute top-0 right-full w-full h-full bg-slate-800 opacity-20 group-hover:translate-x-full z-0 duration-500"/>
                 <h2 class="relative z-10 text-xl">Classic</h2>
             </a>
-            <a href="/" class="w-80 font-bold text-base relative overflow-hidden px-6 py-3 group rounded-xl bg-slate-100 text-slate-950 mt-7">
+            <a href="/lockscreen" class="w-80 font-bold text-base relative overflow-hidden px-6 py-3 group rounded-xl bg-slate-100 text-slate-950 mt-7">
                 <div class="absolute top-0 right-full w-full h-full bg-slate-800 opacity-20 group-hover:translate-x-full z-0 duration-500"/>
                 <h2 class="relative z-10 text-xl">Competitive</h2>
             </a>

@@ -5,6 +5,19 @@ import { ClickerItem, FarmItem, FarmUpgrade, StoreItem, initialFarmUpgrades } fr
 // enable server communication and certain features
 export const isClassic = writable(true);
 
+function userFunc() {
+    const store = writable<string | null>(null);
+    const { subscribe, set, update } = store;
+    return {
+        subscribe,
+        login: (value: string | null) => set(value),
+        update: (value: string | null) => update(_=>value),
+        get: () => get(store),
+        logout: () => set(null)
+    };
+}
+export const user = userFunc();
+
 function soundStoreFunc() {
     const store = writable(true);
     const { subscribe, set } = store;
@@ -88,6 +101,7 @@ function cropStore() {
         increment: (incrementValue: number) => update(n => n + incrementValue),
         decrement: (decrementValue: number) => update(n => n - decrementValue),
         set: (value: number) => set(value),
+        get: () => get(crops),
         reset: () => set(0)
     };
 }
@@ -114,6 +128,7 @@ function scoreStore() {
         increment: (incrementValue: number) => update(n => n + incrementValue),
         decrement: (decrementValue: number) => update(n => n - decrementValue),
         set: (value: number) => set(value),
+        get: () => get(score),
         reset: () => set(0)
     };
 }
