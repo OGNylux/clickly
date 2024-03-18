@@ -1,5 +1,5 @@
 ###
-POST http://localhost:8080/usernameCheck
+POST http://localhost:18143/usernameCheck
 Content-Type: text/plain
 
 test24
@@ -10,7 +10,7 @@ test24
 
 ###
 
-POST http://localhost:8080/registerUser
+POST http://localhost:18143/registerUser
 Content-Type: application/json
 
 {
@@ -32,7 +32,7 @@ Content-Type: application/json
 
 ###
 
-WEBSOCKET ws://localhost:8080/ws
+WEBSOCKET ws://localhost:18143/ws
 Content-Type: application-json // Used for content highlighting only
 
 {
@@ -68,7 +68,7 @@ Content-Type: application-json // Used for content highlighting only
 {
   "username":"test2",
   "type":"eventScore",
-  "message":{"score":34}
+  "message":{"score":"34"}
 }
 
 ###

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/gorilla/websocket"
 	"os"
-	"reflect"
+	"sort"
 	"strconv"
 	"time"
 )
@@ -17,7 +17,12 @@ import (
 // Event start
 // Event finished
 
-var eventParticipants = make(map[*websocket.Conn]int)
+type EventUser struct {
+	Name  string
+	Score int
+}
+
+var eventParticipants = make(map[*websocket.Conn]EventUser)
 var currentEvent = false
 
 func eventXY() {
@@ -31,7 +36,7 @@ func eventXY() {
 
 func eventEvent() {
 	startEvent("TestEvent")
-	time.Sleep(1 * time.Minute)
+	time.Sleep(20 * time.Second)
 	endEvent()
 }
 
@@ -44,24 +49,39 @@ func handleEvent(conn *websocket.Conn, message ClientMessage) {
 	}
 
 	if _, ok := eventParticipants[conn]; !ok {
-		eventParticipants[conn] = 0
+		user := EventUser{
+			Score: 0,
+			Name:  message.Username,
+		}
+		eventParticipants[conn] = user
 	}
 
-	score, oks := message.Message.(map[string]interface{})["score"].(float64)
-
+	score, oks := message.Message.(map[string]interface{})["score"].(string)
 	if !oks {
-		sendError(conn, "Failed to parse score. Wrong Type (Needs float64). Had Type: "+reflect.TypeOf(message.Message.(map[string]interface{})["score"]).String())
+		sendError(conn, "Failed to parse score. Wrong Type (Needs string).")
 		return
 	}
 
-	fmt.Println("New Score for " + message.Username + "New Score is " + strconv.Itoa(int(score)))
-	eventParticipants[conn] = int(score)
+	value, errorConv := strconv.Atoi(score)
+	if errorConv != nil {
+		sendError(conn, "Could not parse score. Send score was: "+score)
+		return
+	}
+
+	tmp := EventUser{
+		Score: value,
+		Name:  eventParticipants[conn].Name,
+	}
+
+	eventParticipants[conn] = tmp
+
+	fmt.Println(eventParticipants[conn].Score)
 }
 
 func startEvent(eventType string) {
 	fmt.Println("Event started")
 	currentEvent = true
-	eventParticipants = make(map[*websocket.Conn]int)
+	eventParticipants = make(map[*websocket.Conn]EventUser)
 	for conn := range clients {
 		eventStartMessage := ServerMessage{
 			Type:    "EventStart",
@@ -75,17 +95,30 @@ func startEvent(eventType string) {
 func endEvent() {
 	fmt.Println("Event stopped")
 	currentEvent = false
-	for conn := range eventParticipants {
+
+	sortedParticipants := sortParticipants(eventParticipants)
+	var leaderBoard = make([]EventUser, 10)
+	for i := 0; i < len(leaderBoard); i++ {
+		if i >= len(sortedParticipants) {
+			leaderBoard = append([]EventUser(nil), leaderBoard[:len(sortedParticipants)]...)
+			break
+		}
+		leaderBoard[i] = sortedParticipants[i].EventUser
+	}
+
+	for i, element := range sortedParticipants {
 		type EndEvent struct {
-			Score       int
-			Leaderboard string
-			Place       int
+			Score             int
+			Leaderboard       []EventUser
+			Place             int
+			ParticipantsCount int
 		}
 
 		var result = EndEvent{
-			Score:       eventParticipants[conn],
-			Leaderboard: " ",
-			Place:       2,
+			Score:             element.EventUser.Score,
+			Leaderboard:       leaderBoard,
+			Place:             i,
+			ParticipantsCount: len(eventParticipants),
 		}
 
 		sMessage := ServerMessage{
@@ -93,6 +126,28 @@ func endEvent() {
 			Message: result,
 		}
 
-		conn.WriteJSON(sMessage)
+		_ = element.Key.WriteJSON(sMessage)
 	}
 }
+
+func sortParticipants(eventParticipants map[*websocket.Conn]EventUser) EventLeaderboard {
+	pl := make(EventLeaderboard, len(eventParticipants))
+	i := 0
+	for k, v := range eventParticipants {
+		pl[i] = eventParticipantStruct{k, v}
+		i++
+	}
+	sort.Sort(sort.Reverse(pl))
+	return pl
+}
+
+type eventParticipantStruct struct {
+	Key       *websocket.Conn
+	EventUser EventUser
+}
+
+type EventLeaderboard []eventParticipantStruct
+
+func (p EventLeaderboard) Len() int           { return len(p) }
+func (p EventLeaderboard) Less(i, j int) bool { return p[i].EventUser.Score < p[j].EventUser.Score }
+func (p EventLeaderboard) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }

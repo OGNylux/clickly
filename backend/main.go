@@ -51,7 +51,6 @@ func main() {
 
 	// Register the WebSocket handler function
 	r := gin.Default()
-	//r.Use(cors.Default())
 
 	r.GET("/ws", handleWebSocketAuth)
 	r.POST("/registerUser", registerUser)
