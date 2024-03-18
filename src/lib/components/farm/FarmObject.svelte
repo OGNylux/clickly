@@ -6,6 +6,7 @@
     import { Plus, X } from "lucide-svelte";
     import { linear } from "svelte/easing";
     import { flyAndScale } from "$lib/transition";
+    import { formatNumber } from "$lib/formatNumber";
 
     let progress = tweened(0, { duration: 420, easing: linear }),
         remainingTime: number = 0,
@@ -70,17 +71,34 @@
                 sideOffset={20}
                 side={'top'}>
                 <div class="flex justify-between items-center">
-                    <p>Pick a seed</p>
+                    <p>Pick a seed!</p>
                     <Popover.Close><X /></Popover.Close>
                 </div>
                 <Separator.Root class="-mx-4 my-3 h-px bg-slate-300" />
                 <div class="grid grid-cols-3 gap-2">
                     {#each $unlockedFarmItems as item}
-                        <button on:click={() => plant(item)} 
-                            class={`relative text-center bg-slate-300 rounded-xl size-16 p-2 ${item.getAvailable() == 0 ? 'opacity-50' : ''}`}>
-                            <img src={item.image.src} alt={item.image.alt}>
-                            <span class="absolute bottom-0 right-0 p-1">{item.getAvailable()}</span>
-                        </button>
+                        <Tooltip.Root openDelay={200}>
+                            <Tooltip.Trigger> 
+                                <button on:click={() => plant(item)} 
+                                    class={`relative text-center bg-slate-300 rounded-xl size-16 p-2 ${item.getAvailable() == 0 ? 'opacity-50' : ''}`}>
+                                    <img src={item.image.src} alt={item.image.alt}>
+                                    <span class="absolute bottom-0 right-0 p-1">{item.getAvailable()}</span>
+                                </button>
+                            </Tooltip.Trigger>
+                            <Tooltip.Content
+                                transition={flyAndScale}
+                                transitionConfig={{ y: 8, duration: 150 }}
+                                sideOffset={-5}
+                                side={'bottom'}
+                                class="z-20 text-white">
+                                <div class="bg-slate-800">
+                                    <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-950" />
+                                </div>
+                                <div class="flex flex-col text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
+                                    <p>worth: <span class="text-yellow-400">{formatNumber(item.value)}</span> C</p>
+                                </div>
+                            </Tooltip.Content>  
+                        </Tooltip.Root>
                     {:else}
                     <div class="grid col-span-3">
                         Nothing to find here yet... <br> Level up to get your first seed!

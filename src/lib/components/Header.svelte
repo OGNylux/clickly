@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { Settings, Bell, X } from "lucide-svelte";
+    import { Settings, Bell, X, Trophy } from "lucide-svelte";
     import { Popover, Separator } from "bits-ui";
     import { flyAndScale } from "$lib/transition";
     import { getLevel } from "$lib/helper";
-    import { notifications, score } from "$lib/store";
+    import { isClassic, notifications, score } from "$lib/store";
     import SettingsDialogue from "./SettingsDialogue.svelte";
+    import Leaderboard from "./Leaderboard.svelte";
 
     function updateReadStatus() {
         notifications.update((notifications) => {
@@ -27,9 +28,33 @@
     <div class="place-self-start flex items-center">
         <div class="flex h-8 px-3 bg-slate-300 border-slate-200 border-2 rounded-xl">
             <div class="font-medium">
-                Username
+                Guest
             </div>
-        </div>
+        </div> 
+        {#if !$isClassic}
+            <Popover.Root>
+                <Popover.Trigger class="items-center justify-end px-4">
+                    <div class="transition hover:bg-slate-300 rounded-3xl p-1">
+                        <Trophy size={20} />
+                    </div>
+                </Popover.Trigger>
+                <Popover.Content
+                    class="z-20 w-full max-w-[320px] rounded-xl border bg-slate-800 p-4 text-white"
+                    transition={flyAndScale}
+                    sideOffset={8}
+                >
+                    <div class="bg-slate-800">
+                        <Popover.Arrow class="rounded-sm border-l border-t border-slate-950" />
+                    </div>
+                    <div class="flex items-center justify-center">
+                        <h2 class="text-lg font-bold">Leaderboard</h2>
+                    </div>
+                    <Separator.Root 
+                    class="my-2 shrink-0 bg-slate-300 h-px"/>
+                    <Leaderboard />
+                </Popover.Content>
+            </Popover.Root>
+        {/if}
         <div class="flex items-center px-3 font-medium">
             Level {getLevel($score)}
         </div>
