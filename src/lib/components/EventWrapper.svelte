@@ -17,7 +17,7 @@
 
     async function loadEventComponent() {
         // @ts-ignore
-        Event = (await import(`./${activeEvent.component}`)).default;
+        Event = (await import(`./events/${activeEvent.component}.svelte`)).default;
     }
 </script>
 <Dialog.Root bind:open={dialogOpen} closeOnOutsideClick={false}>

@@ -49,14 +49,14 @@ const eventTypes: Map<string, Event> = new Map([
     ["TestEvent",
         {
             name: "TestEvent",
-            component: "CookieEventWrapper.svelte",
+            component: "CookieEventWrapper",
             description: "This is a test event"
         }
     ],
     ["Cookie", 
         {
             name: "Cookie",
-            component: "CookieEventWrapper.svelte",
+            component: "CookieEventWrapper",
             description: "This is a test event"
         }
     ]

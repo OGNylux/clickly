@@ -26,7 +26,7 @@
     } from "$lib/api";
     import { Socket } from "$lib/websocket";
     import type { StoreItem } from "$lib/data";
-    import EventWrapper from "$lib/components/events/EventWrapper.svelte";
+    import EventWrapper from "$lib/components/EventWrapper.svelte";
 
     let socket: WebSocket;
     let saveInterval = 0;
