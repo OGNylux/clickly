@@ -73,7 +73,7 @@
 </script>
 
 {#if !success}
-    <div class="grid place-items-start gap-2 h-full">
+    <form on:submit={() => {if(!(username == "" || password == "" || validUsername == 0 || validUsername == 2)) register}} class="grid place-items-start gap-2 h-full">
         <label for="usernameRegister" class="text-sm font-medium">Username:</label>
         <div class="relative w-full" title={rule}>
             <input 
@@ -133,7 +133,7 @@
         >
             Register
         </Button.Root>
-    </div>
+    </form>
 {:else}
     <div class="flex flex-col justify-center items-center h-full w-full">
         <Check color="#6ffc03" class="h-10 w-10"></Check>

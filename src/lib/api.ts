@@ -18,6 +18,11 @@ interface GameState {
     farm: number[];
 }
 
+interface Leaderboard {
+    username: string;
+    score: number;
+}
+
 enum clientMessageTypes {
     Authentication = "authentication",
     SetState = "setState",
@@ -35,5 +40,5 @@ enum serverMessageTypes {
     Success = "success"
 }
 
-export type { ClientMessage, ServerMessage, GameState };
+export type { ClientMessage, ServerMessage, GameState, Leaderboard };
 export { clientMessageTypes, serverMessageTypes };
