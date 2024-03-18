@@ -117,7 +117,7 @@ func endEvent() {
 		var result = EndEvent{
 			Score:             element.EventUser.Score,
 			Leaderboard:       leaderBoard,
-			Place:             i,
+			Place:             i + 1,
 			ParticipantsCount: len(eventParticipants),
 		}
 
