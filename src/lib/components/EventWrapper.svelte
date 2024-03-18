@@ -50,7 +50,7 @@
             <Separator.Root class="my-5 h-px w-full bg-slate-400"/>
             <div class="w-full">
                 <h1 class="text-5xl font-extrabold text-center my-5">
-                    Du bist <span class="text-yellow-400">{eventResult.place}.</span> geworden!
+                    Du bist <span class="text-amber-300">{eventResult.place}.</span> geworden!
                 </h1>
                 <div class="grid grid-flow-col gap-2">
                     <section class="self-end">
