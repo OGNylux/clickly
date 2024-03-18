@@ -1,11 +1,36 @@
 <script lang="ts">
+    import { clientMessageTypes, type ClientMessage } from "$lib/api";
     import FallingObjectManager from "$lib/components/events/FallingObjectManager.svelte";
+    import { user } from "$lib/store";
+    import { Socket } from "$lib/websocket";
+    import { onDestroy, onMount } from "svelte";
     let width: number = 1000,
         height: number,
-        score: number;
+        socket: WebSocket,
+        score = 0,
+        saveInterval = 0;
+
+        onMount(() => {
+            socket = Socket.getInstance().getSocket();
+            saveInterval = setInterval(() => {
+                const message: ClientMessage = {
+                    // @ts-ignore
+                    username: user.get(),
+                    type: clientMessageTypes.EventScore,
+                    message: {
+                        score: score,
+                    },
+                };
+                socket.send(JSON.stringify(message));
+            }, 1000);
+        });
+
+        onDestroy(() => {
+            clearInterval(saveInterval);
+        });
 </script>
 
-<div bind:offsetWidth={width} bind:offsetHeight={height} class="flex w-1/3 h-96 overflow-hidden items-center justify-center relative">
+<div bind:offsetWidth={width} bind:offsetHeight={height} class="flex w-full h-96 overflow-hidden items-center justify-center relative">
     <div class="text-black text-9xl pointer-events-none" style="white-space: nowrap;">
         <p class="select-none absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">{score} Cookies</p>
         <p class="select-none absolute wave1 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">{score} Cookies</p>

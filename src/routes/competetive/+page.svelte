@@ -145,10 +145,7 @@
     <Header username={$user}/>
 </nav>
 <main class="flex justify-around gap-2 screen">
-    {#if activeEvent != null}
-        <EventWrapper activeEvent={activeEvent} />
-        <p>s</p>
-    {/if}
+    <EventWrapper activeEvent={activeEvent} />
     <Buildings />
     <div id="main" class="screen grid grid-rows-2">
         <Clicker />

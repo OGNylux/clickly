@@ -1,18 +1,41 @@
 <script lang="ts">
     import type { Event } from "$lib/api";
-    import { onMount } from "svelte";
+    import { flyAndScale } from "$lib/transition";
+    import { Dialog } from "bits-ui";
 
-    export let activeEvent: Event;
+    export let activeEvent: Event | null = null	;
 
     let Event: any;
+    let dialogOpen = false;
 
-    onMount(async() => {
+    $: if (activeEvent != null) {
+        dialogOpen = true;
+        loadEventComponent();
+     } else {
+        dialogOpen = false;
+     }
+
+    async function loadEventComponent() {
+        // @ts-ignore
         Event = (await import(`./${activeEvent.component}`)).default;
-    });
+    }
 </script>
-
-<div class="fixed z-40 top-0 left-0 w-full h-full grid place-content-center ">
-    <div class="z-40 bg-slate-100 p-2 rounded-xl shadow-2xl" style="height: 700px; width: 1100px;">
-        <svelte:component this={Event} />
-    </div>
-</div>
+<Dialog.Root bind:open={dialogOpen} closeOnOutsideClick={false}>
+    <Dialog.Portal>
+        <Dialog.Overlay class="fixed inset-0 z-50 bg-black/80" />
+        <Dialog.Content 
+            transition={flyAndScale} 
+            class="fixed left-[50%] top-[50%] z-50 w-full translate-x-[-50%] translate-y-[-50%] bg-slate-100"
+        >
+            {#if activeEvent != null}
+                <Dialog.Title>
+                    {activeEvent.name}
+                </Dialog.Title>
+                <Dialog.Description>
+                    {activeEvent.description}
+                </Dialog.Description>
+                <svelte:component this={Event} />
+            {/if}
+        </Dialog.Content>
+      </Dialog.Portal>
+</Dialog.Root>

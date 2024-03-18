@@ -39,12 +39,6 @@ enum serverMessageTypes {
     EventEnd = "eventEnd"
 }
 
-// enum eventTypes {
-//     TestEvent = "TestEvent.svelte",
-//     Cookie = "CookieEventWrapper.svelte",
-// }
-
-
 interface Event {
     name: string;
     component: string;
@@ -55,7 +49,7 @@ const eventTypes: Map<string, Event> = new Map([
     ["TestEvent",
         {
             name: "TestEvent",
-            component: "TestEvent.svelte",
+            component: "CookieEventWrapper.svelte",
             description: "This is a test event"
         }
     ],
