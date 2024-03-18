@@ -9,9 +9,11 @@
     import {
         crops,
         emojis,
+        farmUpgrades,
         isClassic,
         score,
         unlockedClicker,
+        unlockedFarmItems,
         unlockedPassiveItems,
         user,
     } from "$lib/store";
@@ -26,7 +28,7 @@
         type EventResult,
     } from "$lib/api";
     import { Socket } from "$lib/websocket";
-    import type { StoreItem } from "$lib/data";
+    import type { FarmItem, StoreItem, FarmUpgrade } from "$lib/data";
     import EventWrapper from "$lib/components/EventWrapper.svelte";
 
     let socket: WebSocket,
@@ -59,6 +61,16 @@
                     item.addItem(Number(gameState.passive[index]));
                     unlockedPassiveItems.update(item);
                 });
+
+                farmUpgrades.get().forEach((item: FarmUpgrade, index: number) => {
+                    item.addItem(Number(gameState.farmUpgrades[index]));
+                    farmUpgrades.update(item);
+                });
+
+                unlockedFarmItems.get().forEach((item: FarmItem, index: number) => {
+                    item.setAmount(Number(gameState.farm[index]));
+                    unlockedFarmItems.update(item);
+                });
             } else if (m.type == serverMessageTypes.EventStart){
                 const e = eventTypes.get(m.message.toString());
                 if (e){
@@ -72,7 +84,7 @@
                 eventResult = {
                     place: m.message.Place,
                     score: m.message.Score,
-                    leaderboard: [],
+                    leaderboard: m.message.Leaderboard
                 };
                 activeEvent = null;
             }
@@ -100,13 +112,24 @@
                 arr.push(item.getAmount());
             });
 
+            let farmUpgrade: number[] = [];
+            farmUpgrades.get().forEach((item) => {
+                farmUpgrade.push(item.getAmount());
+            });
+
+            let farm: number[] = [];
+            unlockedFarmItems.get().forEach((item) => {
+                farm.push(item.getAmount());
+            });
+
             let gameState: GameState = {
                 score: score.get(),
                 emojis: emojis.get(),
                 crops: crops.get(),
                 clicker: unlockedClicker.get().getAmount(),
                 passive: arr,
-                farm: [1, 2],
+                farmUpgrades: farmUpgrade,
+                farm: farm,
             };
             
 
@@ -150,7 +173,7 @@
     </div>
     <Shop />
 </main>
-<button class="fixed bottom-0 right-0" on:click={() => sendEventStart()}>Close</button>
+<button class="fixed bottom-0 right-0" on:click={() => sendEventStart()}>Start Debug Event</button>
 
 <style lang="postcss">
     #main {

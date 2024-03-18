@@ -3,6 +3,7 @@
     import { flyAndScale } from "$lib/transition";
     import { Dialog, Separator } from "bits-ui";
     import { X } from "lucide-svelte";
+    import { space } from "postcss/lib/list";
 
     export let activeEvent: Event | null = null	;
     export let eventResult: EventResult | null = null;
@@ -23,14 +24,13 @@
     } else {
         resultOpen = false;
     }
-
     async function loadEventComponent() {
         // @ts-ignore
         Event = (await import(`./events/${activeEvent.component}.svelte`)).default;
     }
 </script>
 
-<Dialog.Root bind:open={resultOpen} closeOnOutsideClick={false}>
+<Dialog.Root bind:open={resultOpen} onOutsideClick={() => {eventResult = null}}>
     <Dialog.Portal>
         <Dialog.Overlay class="fixed inset-0 z-50 bg-black/80" />
         <Dialog.Content 
@@ -43,27 +43,36 @@
                 <Dialog.Title class="text-xl">
                     Event-Ergebnisse
                 </Dialog.Title>
-                <Dialog.Close on:click={() => {resultOpen = false}}>
+                <Dialog.Close on:click={() => {eventResult = null}}>
                     <X size={20} />
                 </Dialog.Close>
             </div>
             <Separator.Root class="my-5 h-px w-full bg-slate-400"/>
             <div class="w-full">
-                <h1>Du bist {eventResult.place}. geworden!</h1>
+                <h1 class="text-5xl font-extrabold text-center my-5">
+                    Du bist <span class="text-yellow-400">{eventResult.place}.</span> geworden!
+                </h1>
                 <div class="grid grid-flow-col gap-2">
                     <section class="self-end">
-                        <h2 class="text-xl font-bold">Gewinn</h2>
+                        <h2 class="text-xl font-bold text-center">Gewinn</h2>
                         <div class="w-full bg-slate-600 h-28"></div>
                     </section>
                     <section class="self-end">
-                        <h2 class="text-xl font-bold">Gewinn</h2>
-                        <div class="w-full bg-slate-800 h-40"></div>
+                        <h2 class="text-2xl font-bold text-center">Gewinn</h2>
+                        <div class="w-full bg-slate-800 h-48"></div>
                     </section>
                     <section class="self-end">
-                        <h2 class="text-xl font-bold">Gewinn</h2>
+                        <h2 class="text-xl font-bold text-center">Gewinn</h2>
                         <div class="w-full bg-slate-400 h-16"></div>
                     </section>
                 </div>
+                {#each eventResult.leaderboard.splice(0,3) as player, i}
+                    <div class="flex justify-between">
+                        <p>{i+3}.</p>
+                        <p>{player.username}</p>
+                        <p>{player.score}</p>
+                    </div>
+                {/each}
             </div>
             {/if}
         </Dialog.Content>

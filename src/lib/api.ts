@@ -15,6 +15,7 @@ interface GameState {
     crops: number;
     clicker: number;
     passive: number[];
+    farmUpgrades: number[];
     farm: number[];
 }
 
@@ -45,10 +46,15 @@ interface Event {
     description: string;
 }
 
+interface LeaderboardPosition {
+    username: string;
+    score: number;
+}
+
 interface EventResult {
     score: number;
     place: number;
-    leaderboard: string[];
+    leaderboard: LeaderboardPosition[];
 }
 
 const eventTypes: Map<string, Event> = new Map([
