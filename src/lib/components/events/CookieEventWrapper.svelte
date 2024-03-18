@@ -18,7 +18,7 @@
                     username: user.get(),
                     type: clientMessageTypes.EventScore,
                     message: {
-                        score: score,
+                        score: score.toString(),
                     },
                 };
                 socket.send(JSON.stringify(message));
