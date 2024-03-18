@@ -43,7 +43,7 @@
     {#if leaderboard}
          {#each leaderboard as item, i}
              <div class="grid grid-cols-2">
-                <p class="w-20 truncate"><span class={`${i > 2 ? 'text-white' : 'text-amber-300'}`}>{i+1}. </span>{item.username}</p>
+                <p class="w-40 truncate"><span class={`${i > 2 ? 'text-white' : 'text-amber-300'}`}>{i+1}. </span>{item.username}</p>
                 <p class="text-end">{formatNumber(item.score)} E</p>
              </div>
          {/each}
