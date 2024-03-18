@@ -29,10 +29,10 @@
     import type { StoreItem } from "$lib/data";
     import EventWrapper from "$lib/components/EventWrapper.svelte";
 
-    let socket: WebSocket;
-    let saveInterval = 0;
-    let activeEvent: Event | null = null; 
-    let result: EventResult | null = null;
+    let socket: WebSocket,
+        saveInterval = 0,
+        activeEvent: Event | null = null,
+        eventResult: EventResult | null = null;
 
     onMount(() => {
         if (user.get() == null) return;
@@ -69,7 +69,11 @@
                 console.log("EventStart", activeEvent);
             } else if (m.type == serverMessageTypes.EventEnd){
                 console.log("EventEnd", m.message);
-                result = JSON.parse(m.message.toString());
+                eventResult = {
+                    place: m.message.Place,
+                    score: m.message.Score,
+                    leaderboard: [],
+                };
                 activeEvent = null;
             }
         };
@@ -131,16 +135,6 @@
             message: {},
         };
         socket.send(JSON.stringify(message));
-
-        const message2: ClientMessage = {
-            // @ts-ignore
-            username: user.get(),
-            type: clientMessageTypes.EventScore,
-            message: {
-                score: 1000,
-            },
-        };
-        socket.send(JSON.stringify(message2));
     }
 </script>
 
@@ -148,7 +142,7 @@
     <Header username={$user}/>
 </nav>
 <main class="flex justify-around gap-2 screen">
-    <EventWrapper activeEvent={activeEvent} eventResult={result} />
+    <EventWrapper {activeEvent} {eventResult} />
     <Buildings />
     <div id="main" class="screen grid grid-rows-2">
         <Clicker />
