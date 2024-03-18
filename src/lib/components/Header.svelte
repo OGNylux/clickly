@@ -1,10 +1,14 @@
 <script lang="ts">
-    import { Settings, Bell, X } from "lucide-svelte";
+    import { Settings, Bell, X, Crown } from "lucide-svelte";
     import { Popover, Separator } from "bits-ui";
     import { flyAndScale } from "$lib/transition";
     import { getLevel } from "$lib/helper";
-    import { notifications, score } from "$lib/store";
+    import { notifications, score, user } from "$lib/store";
     import SettingsDialogue from "./SettingsDialogue.svelte";
+    import { clientMessageTypes, type ClientMessage, type ServerMessage, type Leaderboard } from "$lib/api";
+    import { Socket } from "$lib/websocket";
+    
+    let socket: WebSocket;
 
     function updateReadStatus() {
         notifications.update((notifications) => {
@@ -21,6 +25,37 @@
         $notifications.splice(index, 1);
         $notifications = [...$notifications]
     }
+
+    function getLeaderboard() {
+        if (user.get() == null) return;
+        
+        socket = Socket.getInstance().getSocket();
+
+        const message: ClientMessage = {
+            // @ts-ignore
+            username: user.get(),
+            type: clientMessageTypes.GetLeaderboard,
+            message: {},
+        };
+
+        socket.send(JSON.stringify(message));
+        
+        socket.onmessage = (event) => {
+            const m: ServerMessage = JSON.parse(event.data);
+            if (m.type == "leaderboard") {
+                let leaderboard: Leaderboard[] = JSON.parse(m.message.toString());
+                console.log(m.message);
+            }
+        };
+        
+        socket.onclose = (event) => {
+            console.log("Connection closed", event);
+        };
+        socket.onerror = (event) => {
+            console.log("Connection error", event);
+        };
+    }
+
 </script>
 
 <div class="grid grid-cols-3 h-10 items-center bg-slate-200 px-3 header content-center">
@@ -29,7 +64,29 @@
             <div class="font-medium">
                 Guest
             </div>
-        </div>
+        </div> 
+        <Popover.Root>
+            <Popover.Trigger class="items-center justify-end px-4" on:click={() => getLeaderboard()}>
+                <div class="transition hover:bg-slate-300 rounded-3xl p-1">
+                    <Crown/>
+                </div>
+            </Popover.Trigger>
+            <Popover.Content
+                class="z-20 w-full max-w-[230px] rounded-xl border bg-slate-800 p-4 text-white"
+                transition={flyAndScale}
+                sideOffset={8}
+            >
+                <div class="bg-slate-800">
+                    <Popover.Arrow class="rounded-sm border-l border-t border-slate-950" />
+                </div>
+                <div class="flex items-center justify-center">
+                    <h2 class="text-lg font-bold">Settings</h2>
+                </div>
+                <Separator.Root 
+                class="my-2 shrink-0 bg-slate-300 h-px"/>
+                <SettingsDialogue />
+            </Popover.Content>
+        </Popover.Root>
         <div class="flex items-center px-3 font-medium">
             Level {getLevel($score)}
         </div>
