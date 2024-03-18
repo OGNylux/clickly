@@ -45,6 +45,12 @@ interface Event {
     description: string;
 }
 
+interface EventResult {
+    score: number;
+    place: number;
+    leaderboard: string[];
+}
+
 const eventTypes: Map<string, Event> = new Map([
     ["TestEvent",
         {
@@ -62,5 +68,5 @@ const eventTypes: Map<string, Event> = new Map([
     ]
 ]);
 
-export type { ClientMessage, ServerMessage, GameState, Event };
+export type { ClientMessage, ServerMessage, GameState, Event, EventResult };
 export { clientMessageTypes, serverMessageTypes, eventTypes };
