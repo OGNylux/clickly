@@ -20,12 +20,16 @@
         type ClientMessage,
         type ServerMessage,
         type GameState,
+        serverMessageTypes,
+        eventTypes,
     } from "$lib/api";
     import { Socket } from "$lib/websocket";
     import type { StoreItem } from "$lib/data";
+    import EventWrapper from "$lib/components/events/EventWrapper.svelte";
 
     let socket: WebSocket;
     let saveInterval = 0;
+    let activeEvent: Event | null = null; 
 
     onMount(() => {
         if (user.get() == null) return;
@@ -35,7 +39,7 @@
 
         socket.onmessage = (event) => {
             const m: ServerMessage = JSON.parse(event.data);
-            if (m.type == "gameState") {
+            if (m.type == serverMessageTypes.GameState) {
                 let gameState: GameState = JSON.parse(m.message.toString());
                 
                 score.set(gameState.score);
@@ -52,6 +56,15 @@
                     item.addItem(Number(gameState.passive[index]));
                     unlockedPassiveItems.update(item);
                 });
+            } else if (m.type == serverMessageTypes.EventStart){
+                const e = eventTypes.get(m.message.toString());
+                if (e != null){
+                    activeEvent = e;
+                }
+                console.log("EventStart", activeEvent);
+            } else if (m.type == serverMessageTypes.EventEnd){
+                console.log("EventEnd", m.message);
+                activeEvent = null;
             }
         };
         socket.onclose = (event) => {
@@ -85,7 +98,6 @@
                 passive: arr,
                 farm: [1, 2],
             };
-            console.log(gameState);
             
 
             const message: ClientMessage = {
@@ -104,12 +116,35 @@
     onDestroy(() => {
         clearInterval(saveInterval);
     });
+
+    function sendEventStart(){
+        const message: ClientMessage = {
+            // @ts-ignore
+            username: user.get(),
+            type: clientMessageTypes.DebugEvent,
+            message: {},
+        };
+        socket.send(JSON.stringify(message));
+
+        const message2: ClientMessage = {
+            // @ts-ignore
+            username: user.get(),
+            type: clientMessageTypes.EventScore,
+            message: {
+                score: 1000,
+            },
+        };
+        socket.send(JSON.stringify(message2));
+    }
 </script>
 
 <nav class="w-full h-16">
-    <Header/>
+    <Header username={$user}/>
 </nav>
 <main class="flex justify-around gap-2 screen">
+    {#if activeEvent != null}
+        <EventWrapper activeEvent={activeEvent} />
+    {/if}
     <Buildings />
     <div id="main" class="screen grid grid-rows-2">
         <Clicker />
@@ -117,6 +152,7 @@
     </div>
     <Shop />
 </main>
+<button class="fixed bottom-0 right-0" on:click={() => sendEventStart()}>Close</button>
 
 <style lang="postcss">
     #main {

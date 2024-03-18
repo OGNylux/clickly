@@ -6,6 +6,8 @@
     import { notifications, score } from "$lib/store";
     import SettingsDialogue from "./SettingsDialogue.svelte";
 
+    export let username: string | null = "Guest";
+
     function updateReadStatus() {
         notifications.update((notifications) => {
             return notifications.map((notification) => {
@@ -27,7 +29,7 @@
     <div class="place-self-start flex items-center">
         <div class="flex h-8 px-3 bg-slate-300 border-slate-200 border-2 rounded-xl">
             <div class="font-medium">
-                Guest
+                {username}
             </div>
         </div>
         <div class="flex items-center px-3 font-medium">
