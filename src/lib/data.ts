@@ -437,7 +437,7 @@ let hot = new PassiveIncomeItem({
     name: "Hot Face",
     description: "Hot Face",
     image: { src: "emojis/hot.svg", alt: "hot face" },
-    initialCost: 10000,
+    initialCost: 50000,
     max: Infinity
 }, 200, 1.3, 1000, 2.4, "HotEmoji");
 
