@@ -3,6 +3,8 @@
     import { formatNumber } from "$lib/formatNumber";
     import { emojis } from "$lib/store";
     import { Lock } from "lucide-svelte";
+    import { Tooltip } from "bits-ui";
+    import { flyAndScale } from "$lib/transition";
 
     export let upgrade: FarmUpgrade;
 
@@ -20,14 +22,35 @@
 </script>
 
 <div class="h-16 flex justify-between bg-amber-800 w-96 rounded-xl text-white shadow_top z-10">
-    <div class="flex flex-col justify-between p-2">
-        <p class="font-bold truncate">{upgrade.name}</p>
-        {#if upgrade.checkAddAmount(1)}
-            <p class="truncate" title={formatNumber(upgrade.nextCost(1))}>{formatNumber(upgrade.nextCost(1))}</p>
-        {:else}
-            <Lock size={16} />
-        {/if}
-    </div>
+    <Tooltip.Root openDelay={200}>
+        <Tooltip.Trigger> 
+            <div class="flex flex-col justify-between p-2">
+                <p class="font-bold truncate">{upgrade.name}</p>
+                {#if upgrade.checkAddAmount(1)}
+                    <p class="truncate flex" title={formatNumber(upgrade.nextCost(1))}>{formatNumber(upgrade.nextCost(1))} E</p>
+                {:else}
+                    <Lock size={16} />
+                {/if}
+            </div>
+        </Tooltip.Trigger>
+        <Tooltip.Content
+            transition={flyAndScale}
+            transitionConfig={{ y: 8, duration: 150 }}
+            sideOffset={-5}
+            side={'bottom'}
+            class="z-20 text-white">
+            <div class="bg-slate-800">
+                <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-950" />
+            </div>
+            <div class="flex flex-col text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
+                {#if upgrade.name === "Field Upgrade"}
+                    <p>Increases the amount of fields by <span class="text-yellow-400">1</span>!</p>
+                {:else if upgrade.name === "Growth Upgrade"}
+                    <p>Cuts the growth time by <span class="text-yellow-400">-50%</span>!</p>
+                {/if}
+            </div>
+        </Tooltip.Content>  
+    </Tooltip.Root>
     <div class="w-32 h-16 bg-amber-900 border-2 border-amber-800 rounded-xl flex items-center relative">
         <span class="text-xl pl-3">x {upgrade.getAmount()}</span>
         <button

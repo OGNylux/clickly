@@ -1,6 +1,6 @@
 <script lang="ts">
     import Shop from '$lib/components/shop/Shop.svelte';
-    import Buildings from '$lib/components/BuildingsWrapper.svelte';
+    import Buildings from '$lib/components/buildings/BuildingsWrapper.svelte';
     import Clicker from '$lib/components/clicker/Clicker.svelte';
     import { onMount } from 'svelte';
     import { loadLocalStorage, save } from '$lib/save';
