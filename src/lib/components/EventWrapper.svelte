@@ -76,7 +76,7 @@
                         </section>
                     {/if}
                 </div>
-                {#each getLeaderboardPosition() as player, i}
+                {#each getLeaderboardPosition() ?? [] as player, i}
                     <div class="flex justify-between">
                         <p>{i+4}.</p>
                         <p>{player.username}</p>
