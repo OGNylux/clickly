@@ -74,5 +74,5 @@ const eventTypes: Map<string, Event> = new Map([
     ]
 ]);
 
-export type { ClientMessage, ServerMessage, GameState, Event, EventResult };
+export type { ClientMessage, ServerMessage, GameState, Event, EventResult, LeaderboardPosition};
 export { clientMessageTypes, serverMessageTypes, eventTypes };
