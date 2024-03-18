@@ -32,7 +32,7 @@
                 <Dialog.Title class="text-center text-3xl font-bold">
                     {activeEvent.name}
                 </Dialog.Title>
-                <Dialog.Description class="text-center">
+                <Dialog.Description class="text-center ">
                     {activeEvent.description}
                 </Dialog.Description>
                 <svelte:component this={Event} />
