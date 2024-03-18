@@ -469,7 +469,7 @@ let cool = new PassiveIncomeItem({
     name: "Cool Face",
     description: "Cool Face",
     image: { src: "emojis/cool.svg", alt: "cool face" },
-    initialCost: 50000000,
+    initialCost: 5000000,
     max: Infinity
 }, 5000, 1.4, 50000, 2.2, "CoolEmoji");
 
@@ -477,7 +477,7 @@ let byebye = new PassiveIncomeItem({
     name: "Bye Bye Face",
     description: "Bye Bye Face",
     image: { src: "emojis/byebye.svg", alt: "bye bye face" },
-    initialCost: 1000000000,
+    initialCost: 10000000,
     max: Infinity
 }, 10000, 1.4, 100000, 2.2, "ByeByeEmoji");
 
@@ -485,7 +485,7 @@ let stonks = new PassiveIncomeItem({
     name: "Stonks Emoji",
     description: "Stonks",
     image: { src: "emojis/stonks.svg", alt: "stonks emoji" },
-    initialCost: 100000000000,
+    initialCost: 100000000,
     max: Infinity
 }, 500000, 1.4, 200000, 2.2, "StonksEmoji");
 
@@ -493,7 +493,7 @@ let hole = new PassiveIncomeItem({
     name: "Hole Emoji",
     description: "Hole Emoji",
     image: { src: "emojis/hole.svg", alt: "hole emoji" },
-    initialCost: 10000000000000,
+    initialCost: 100000000,
     max: Infinity
 }, 1000000, 1.4, 500000, 2.1, "HoleEmoji");
 
