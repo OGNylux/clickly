@@ -17,25 +17,16 @@
         await new Promise((resolve) => {
             socket.onopen = resolve;
         });
-        console.log("Connected to server");
-        // Das zuhören hier ist dann vermutlich (nach erfolgreichen Login) nicht mehr nötig
+
         socket.onmessage = (event) => {
             let test : ServerMessage = JSON.parse(event.data);
-            console.log(test);
             if (test.type === serverMessageTypes.Success){
                 user.login(username);
                 goto("/competitive")
             } else if (test.type === serverMessageTypes.Error){
                 errorMsg = test.message.toString();
             }
-            console.log(event.data);
         };
-        socket.onclose = (event) => {
-            console.log("Connection closed");
-        };
-
-        // Um dann mit dem listen aufzuhören
-        //socket.removeEventListener('message', () => {});
 
         let test: ClientMessage = {
             username: username,
@@ -44,7 +35,6 @@
                 password: password,
             },
         };
-        console.log(test);
         socket.send(JSON.stringify(test));
     }
 </script>
@@ -78,6 +68,4 @@
             </div>
             {/if}
         </Button.Root>
-
     </form>
-

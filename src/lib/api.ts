@@ -6,7 +6,14 @@ interface ClientMessage {
 
 interface ServerMessage {
     type: serverMessageTypes;
-    message: {};
+    message: EventEndMessage | {};
+}
+
+interface EventEndMessage {
+    Leaderboard: Array<{Name: string, Score: number}>;
+    ParticipantsCount: number;
+    Place: number;
+    Score: number;
 }
 
 interface GameState {
@@ -52,9 +59,8 @@ interface LeaderboardPosition {
 }
 
 interface EventResult {
-    score: number;
-    place: number;
     leaderboard: LeaderboardPosition[];
+    place: number;
 }
 
 const eventTypes: Map<string, Event> = new Map([
@@ -74,5 +80,5 @@ const eventTypes: Map<string, Event> = new Map([
     ]
 ]);
 
-export type { ClientMessage, ServerMessage, GameState, Event, EventResult, LeaderboardPosition};
+export type { ClientMessage, ServerMessage, GameState, Event, EventResult, LeaderboardPosition, EventEndMessage};
 export { clientMessageTypes, serverMessageTypes, eventTypes };

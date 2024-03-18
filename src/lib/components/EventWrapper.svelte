@@ -28,6 +28,10 @@
         // @ts-ignore
         Event = (await import(`./events/${activeEvent.component}.svelte`)).default;
     }
+
+    function getLeaderboardPosition() {
+        return eventResult?.leaderboard.slice(3);
+    }
 </script>
 
 <Dialog.Root bind:open={resultOpen} onOutsideClick={() => {eventResult = null}}>
@@ -53,22 +57,28 @@
                     Du bist <span class="text-amber-300">{eventResult.place}.</span> geworden!
                 </h1>
                 <div class="grid grid-flow-col gap-2">
-                    <section class="self-end">
-                        <h2 class="text-xl font-bold text-center">Gewinn</h2>
-                        <div class="w-full bg-slate-600 h-28"></div>
-                    </section>
-                    <section class="self-end">
-                        <h2 class="text-2xl font-bold text-center">Gewinn</h2>
-                        <div class="w-full bg-slate-800 h-48"></div>
-                    </section>
-                    <section class="self-end">
-                        <h2 class="text-xl font-bold text-center">Gewinn</h2>
-                        <div class="w-full bg-slate-400 h-16"></div>
-                    </section>
+                    {#if eventResult.leaderboard.length >= 2}
+                        <section class="self-end">
+                            <h2 class="text-xl font-bold text-center">{eventResult.leaderboard[1].username}</h2>
+                            <div class="w-full bg-slate-600 h-28 text-white grid place-content-center">{eventResult.leaderboard[1].score}</div>
+                        </section>
+                    {/if}
+                    {#if eventResult.leaderboard.length >= 1}
+                        <section class="self-end">
+                            <h2 class="text-xl font-bold text-center">{eventResult.leaderboard[0].username}</h2>
+                            <div class="w-full bg-slate-800 h-48 text-white grid place-content-center">{eventResult.leaderboard[0].score}</div>
+                        </section>
+                    {/if}
+                    {#if eventResult.leaderboard.length >= 3}
+                        <section class="self-end">
+                            <h2 class="text-xl font-bold text-center">{eventResult.leaderboard[2].username}</h2>
+                            <div class="w-full bg-slate-400 h-16 text-white grid place-content-center">{eventResult.leaderboard[2].score}</div>
+                        </section>
+                    {/if}
                 </div>
-                {#each eventResult.leaderboard.splice(0,3) as player, i}
+                {#each getLeaderboardPosition() as player, i}
                     <div class="flex justify-between">
-                        <p>{i+3}.</p>
+                        <p>{i+4}.</p>
                         <p>{player.username}</p>
                         <p>{player.score}</p>
                     </div>

@@ -26,6 +26,8 @@
         serverMessageTypes,
         eventTypes,
         type EventResult,
+        type LeaderboardPosition,
+        type EventEndMessage,
     } from "$lib/api";
     import { Socket } from "$lib/websocket";
     import type { FarmItem, StoreItem, FarmUpgrade } from "$lib/data";
@@ -42,7 +44,7 @@
         isClassic.set(false);
         socket = Socket.getInstance().getSocket();
 
-        socket.onmessage = (event) => {
+        socket.onmessage = async (event) => {
             const m: ServerMessage = JSON.parse(event.data);
             if (m.type == serverMessageTypes.GameState) {
                 let gameState: GameState = JSON.parse(m.message.toString());
@@ -78,22 +80,27 @@
                 } else {
                     throw new Error("Event not found");
                 }
-                console.log("EventStart", activeEvent);
             } else if (m.type == serverMessageTypes.EventEnd){
-                console.log("EventEnd", m.message);
+                const eventEndMessage = m.message as EventEndMessage;
+                let leaderboard: LeaderboardPosition[] = [];
+                eventEndMessage.Leaderboard.forEach((item) => {
+                    leaderboard.push({
+                        username: item.Name,
+                        score: item.Score,
+                    });
+                });
                 eventResult = {
-                    place: m.message.Place,
-                    score: m.message.Score,
-                    leaderboard: m.message.Leaderboard
-                };
+                    leaderboard: leaderboard,
+                    place: eventEndMessage.Place,
+                }
                 activeEvent = null;
             }
         };
         socket.onclose = (event) => {
-            console.log("Connection closed", event);
+            console.error("Connection closed", event);
         };
         socket.onerror = (event) => {
-            console.log("Connection error", event);
+            console.error("Connection error", event);
         };
 
         const message: ClientMessage = {
