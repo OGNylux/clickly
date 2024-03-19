@@ -95,12 +95,6 @@
                         </section>
                     {/if}
                 </div>
-                <Separator.Root class="my-5 h-[2px] w-full bg-slate-400"/>
-                <div class="flex justify-between">
-                    <p>4.</p>
-                    <p>{eventResult.leaderboard[3].username}</p>
-                    <p>{eventResult.leaderboard[3].score}</p>
-                </div>
             </div>
             {#if eventResult?.leaderboard.findIndex((board) => board.username === user.get()) > 3}
                 {#if eventResult?.leaderboard.findIndex((board) => board.username === user.get()) > 4}
@@ -110,12 +104,6 @@
                     <p>{eventResult?.leaderboard.findIndex((board) => board.username === user.get())+1}.</p>
                     <p>{eventResult.leaderboard[(eventResult?.leaderboard.findIndex((board) => board.username === user.get()))].username}</p>
                     <p>{eventResult.leaderboard[(eventResult?.leaderboard.findIndex((board) => board.username === user.get()))].score}</p>
-                </div>
-            {:else}
-                <div class="flex justify-between">
-                    <p>5.</p>
-                    <p>{eventResult.leaderboard[4].username}</p>
-                    <p>{eventResult.leaderboard[4].score}</p>
                 </div>
             {/if}
             {/if}
