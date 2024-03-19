@@ -1,10 +1,9 @@
 <script lang="ts">
     import type { Event, EventResult } from "$lib/api";
-    import { emojis } from "$lib/store";
+    import { emojis, user } from "$lib/store";
     import { flyAndScale } from "$lib/transition";
     import { Dialog, Separator } from "bits-ui";
     import { X } from "lucide-svelte";
-    import { get } from "svelte/store";
 
     export let activeEvent: Event | null = null	;
     export let eventResult: EventResult | null = null;
@@ -58,52 +57,67 @@
         <Dialog.Overlay class="fixed inset-0 z-50 bg-black/80" />
         <Dialog.Content 
             transition={flyAndScale} 
-            class="fixed left-[50%] top-[50%] z-50 w-full max-w-[1000px] translate-x-[-50%] translate-y-[-50%] bg-slate-100 p-5 rounded-xl"
+            class="fixed left-[50%] top-[50%] z-50 w-full max-w-[1000px] translate-x-[-50%] translate-y-[-50%] bg-slate-100 p-5 rounded-xl border-2 border-slate-400"
             style="aspect-ratio: 14/7;"
         >
             {#if eventResult != null}
             <div class="flex justify-between">
-                <Dialog.Title class="text-xl">
-                    Event-Ergebnisse
+                <Dialog.Title class="text-xl font-bold">
+                    Event Summary
                 </Dialog.Title>
                 <Dialog.Close on:click={() => {eventResult = null}}>
                     <X size={20} />
                 </Dialog.Close>
             </div>
-            <Separator.Root class="my-5 h-px w-full bg-slate-400"/>
+            <Separator.Root class="my-5 h-[2px] w-full bg-slate-400"/>
             <div class="w-full">
                 <h1 class="text-5xl font-extrabold text-center my-5">
-                    Du bist <span class="text-amber-300">{eventResult.place}.</span> geworden!
+                    You placed <span class="text-amber-300">{eventResult.place}.</span>!
                 </h1>
-                <h3 class="text-center text-xl mb-10">Deine Belohnung: <span class="rainbow">{getMultiplier()}x</span> Emoji Multiplikator</h3>
-                <div class="grid grid-flow-col gap-2">
+                <h3 class="text-center text-xl mb-10">Reward: <span class="rainbow">{getMultiplier()}x</span> your current Emojis</h3>
+                <div class="grid grid-cols-3 gap-2">
                     {#if eventResult.leaderboard.length >= 2}
                         <section class="self-end">
                             <h2 class="text-xl font-bold text-center">{eventResult.leaderboard[1].username}</h2>
-                            <div class="w-full bg-slate-600 h-28 text-white grid place-content-center">{eventResult.leaderboard[1].score}</div>
+                            <div class="w-full bg-slate-600 h-28 text-white grid place-content-center bar">{eventResult.leaderboard[1].score}</div>
                         </section>
                     {/if}
                     {#if eventResult.leaderboard.length >= 1}
                         <section class="self-end">
                             <h2 class="text-xl font-bold text-center">{eventResult.leaderboard[0].username}</h2>
-                            <div class="w-full bg-slate-800 h-48 text-white grid place-content-center">{eventResult.leaderboard[0].score}</div>
+                            <div class="w-full bg-slate-800 h-48 text-white grid place-content-center bar">{eventResult.leaderboard[0].score}</div>
                         </section>
                     {/if}
                     {#if eventResult.leaderboard.length >= 3}
                         <section class="self-end">
                             <h2 class="text-xl font-bold text-center">{eventResult.leaderboard[2].username}</h2>
-                            <div class="w-full bg-slate-400 h-16 text-white grid place-content-center">{eventResult.leaderboard[2].score}</div>
+                            <div class="w-full bg-slate-400 h-16 text-white grid place-content-center bar">{eventResult.leaderboard[2].score}</div>
                         </section>
                     {/if}
                 </div>
-                {#each getLeaderboardPositions() ?? [] as player, i}
-                    <div class="flex justify-between">
-                        <p>{i+4}.</p>
-                        <p>{player.username}</p>
-                        <p>{player.score}</p>
-                    </div>
-                {/each}
+                <Separator.Root class="my-5 h-[2px] w-full bg-slate-400"/>
+                <div class="flex justify-between">
+                    <p>4.</p>
+                    <p>{eventResult.leaderboard[3].username}</p>
+                    <p>{eventResult.leaderboard[3].score}</p>
+                </div>
             </div>
+            {#if eventResult?.leaderboard.findIndex((board) => board.username === user.get()) > 3}
+                {#if eventResult?.leaderboard.findIndex((board) => board.username === user.get()) > 4}
+                    ...
+                {/if}
+                <div class="flex justify-between">
+                    <p>{eventResult?.leaderboard.findIndex((board) => board.username === user.get())+1}.</p>
+                    <p>{eventResult.leaderboard[(eventResult?.leaderboard.findIndex((board) => board.username === user.get()))].username}</p>
+                    <p>{eventResult.leaderboard[(eventResult?.leaderboard.findIndex((board) => board.username === user.get()))].score}</p>
+                </div>
+            {:else}
+                <div class="flex justify-between">
+                    <p>5.</p>
+                    <p>{eventResult.leaderboard[4].username}</p>
+                    <p>{eventResult.leaderboard[4].score}</p>
+                </div>
+            {/if}
             {/if}
         </Dialog.Content>
       </Dialog.Portal>
@@ -131,6 +145,9 @@
 </Dialog.Root>
 
 <style>
+    .bar {
+        border-radius: 12px 12px 0px 0px;
+    }
     .rainbow{
 		animation: rainbow 2.5s linear;
 		animation-iteration-count: infinite;
