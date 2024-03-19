@@ -28,9 +28,12 @@ var currentEvent = false
 func eventXY() {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("To Start an Event Type something an hit enter. +Debug info")
-	_, _ = reader.ReadString('\n')
-	fmt.Printf("current connected Users: %v", len(clients))
-	eventEvent()
+	v, _ := reader.ReadString('\n')
+	if v == "d" {
+		fmt.Printf("current connected Users: %v", len(clients))
+	} else {
+		eventEvent()
+	}
 	eventXY()
 }
 
