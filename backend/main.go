@@ -136,6 +136,7 @@ func handleWebSocketAuth(c *gin.Context) {
 					Message: "Authentication completed",
 				}
 				_ = conn.WriteJSON(msg)
+				fmt.Println("User " + name + "is connected")
 				go handleWebSocket(conn, foundUser.Username)
 				return
 			} else {

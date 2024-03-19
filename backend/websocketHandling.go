@@ -104,8 +104,6 @@ func handleSetState(conn *websocket.Conn, msg ClientMessage) {
 			sendError(conn, result.Error.Error())
 		}
 	}
-
-	fmt.Println("State safed from " + msg.Username)
 }
 
 func handleGetState(conn *websocket.Conn, username string) {
@@ -118,7 +116,6 @@ func handleGetState(conn *websocket.Conn, username string) {
 		return
 	}
 	_ = conn.WriteJSON(ServerMessage{Type: "gameState", Message: gameState.Rest})
-	fmt.Println("State safed from " + username)
 }
 
 func handleGetLeaderboard(conn *websocket.Conn) {

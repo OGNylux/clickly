@@ -27,16 +27,16 @@ var currentEvent = false
 
 func eventXY() {
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("To Start an Event Type something an hit enter")
+	fmt.Print("To Start an Event Type something an hit enter. +Debug info")
 	_, _ = reader.ReadString('\n')
-	fmt.Println("Event will start")
+	fmt.Printf("current connected Users: %v", len(clients))
 	eventEvent()
 	eventXY()
 }
 
 func eventEvent() {
 	if currentEvent == false {
-		fmt.Println("Event startet")
+		fmt.Println("Event will be starting soon")
 		startEvent("TestEvent")
 		time.Sleep(20 * time.Second)
 		endEvent()
@@ -85,6 +85,7 @@ func handleEvent(conn *websocket.Conn, message ClientMessage) {
 
 func startEvent(eventType string) {
 	fmt.Println("Event started")
+	fmt.Printf("current connected Users: %v", len(clients))
 	currentEvent = true
 	eventParticipants = make(map[*websocket.Conn]EventUser)
 	for conn := range clients {
