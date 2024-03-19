@@ -46,6 +46,7 @@
         socket = Socket.getInstance().getSocket();
 
         socket.onmessage = async (event) => {
+            console.log("Message from server", event.data);
             const m: ServerMessage = JSON.parse(event.data);
             if (m.type == serverMessageTypes.GameState) {
                 let gameState: GameState = JSON.parse(m.message.toString());
