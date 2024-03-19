@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/gorilla/websocket"
+	"log"
 	"os"
 	"sort"
 	"strconv"
@@ -26,11 +27,14 @@ var eventParticipants = make(map[*websocket.Conn]EventUser)
 var currentEvent = false
 
 func eventXY() {
+	fmt.Println("d for debug. e for event")
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("To Start an Event Type something an hit enter. +Debug info")
-	v, _ := reader.ReadString('\n')
-	if v == "d" {
-		fmt.Printf("current connected Users: %v", len(clients))
+	char, _, err := reader.ReadRune()
+	if err != nil {
+		log.Fatal(err)
+	}
+	if char == 'd' {
+		fmt.Printf("current connected Users: %v \n", clients)
 	} else {
 		eventEvent()
 	}
@@ -88,7 +92,6 @@ func handleEvent(conn *websocket.Conn, message ClientMessage) {
 
 func startEvent(eventType string) {
 	fmt.Println("Event started")
-	fmt.Printf("current connected Users: %v", len(clients))
 	currentEvent = true
 	eventParticipants = make(map[*websocket.Conn]EventUser)
 	for conn := range clients {
