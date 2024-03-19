@@ -102,7 +102,9 @@ func endEvent() {
 	currentEvent = false
 
 	sortedParticipants := sortParticipants(eventParticipants)
+
 	var leaderBoard = make([]EventUser, 10)
+
 	for i := 0; i < len(leaderBoard); i++ {
 		if i >= len(sortedParticipants) {
 			leaderBoard = append([]EventUser(nil), leaderBoard[:len(sortedParticipants)]...)
@@ -110,6 +112,8 @@ func endEvent() {
 		}
 		leaderBoard[i] = sortedParticipants[i].EventUser
 	}
+
+	fmt.Println(leaderBoard)
 
 	for i, element := range sortedParticipants {
 		type EndEvent struct {

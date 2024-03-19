@@ -26,11 +26,10 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 
 	// Register our new client
 	clients[conn] = true
-
+	conn.CloseHandler()
 	// Listen for new messages
 	for {
 		var msg ClientMessage
-
 		err := conn.ReadJSON(&msg)
 		if err != nil {
 			fmt.Printf("error: %v", err)
@@ -47,7 +46,6 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 		case "debugEvent":
 			if currentEvent {
 				sendError(conn, "Du Hurensohn. Hör mal auf zu nerven. Event läuft bereits")
-				return
 			} else {
 				go eventEvent()
 			}
