@@ -6,21 +6,22 @@
     const timeConst = time;
     let interval: number;
     let score;
+    let gameover = false;
 
     onMount(() => {
         interval = setInterval(() => {
-            time -= 100;
-            console.log(time);
+            time -= 15;
             if(time <= timeConst * 0.85) {
                 document.getElementById("time")?.classList.add("opacity-0");
             }
             if(time <= 0) {
-                console.log("BOOM");
+                time = 0;
+                gameover = true;
                 document.getElementById("time")?.classList.add("opacity-100");
                 boom();
                 clearInterval(interval);
             }
-        }, 100);
+        }, 10);
 
         function boom() {
             document.getElementById("boom")?.classList.remove("hidden");
@@ -44,10 +45,10 @@
             { easing: "ease-in-out" },
         );
         clearInterval(interval);
-        score = 10000 - time;
+        score = timeConst - (gameover ? timeConst : time);
+        console.log("Score: ", score);
         document.getElementById("time")?.classList.add("opacity-100");
         animate("#time", { opacity: [0, 1, 0] }, { duration: 0.75, easing: "ease-in-out", repeat: Infinity })
-        console.log(score);
     }
 </script>
 
@@ -214,9 +215,9 @@
             </defs>
         </svg>
     </button>
-    <div class="relative overflow-hidden place-self-end">
+    <div class="relative overflow-hidden place-self-end -ml-1">
         <svg
-            width="1000"
+            width="1010"
             height="400"
             viewBox="0 0 1100 400"
             fill="none"
