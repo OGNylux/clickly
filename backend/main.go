@@ -30,7 +30,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var clients = make(map[*websocket.Conn]bool) // connected clients
+var clients = make(map[*websocket.Conn]string) // connected clients
 
 var db *gorm.DB
 

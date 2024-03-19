@@ -25,7 +25,7 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 	}()
 
 	// Register our new client
-	clients[conn] = true
+	clients[conn] = username
 	conn.CloseHandler()
 	// Listen for new messages
 	for {
