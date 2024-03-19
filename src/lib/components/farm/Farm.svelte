@@ -41,7 +41,7 @@
     }
 
 	function handleMousemove(e: any) {
-        let rect = (document.getElementById('farm') as HTMLElement).getBoundingClientRect();
+        const rect = (document.getElementById('farm') as HTMLElement).getBoundingClientRect();
         m.x = (e.clientX - rect.left)-20;
         m.y = (e.clientY - rect.top)-20;
 	}
