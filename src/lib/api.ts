@@ -6,7 +6,14 @@ interface ClientMessage {
 
 interface ServerMessage {
     type: serverMessageTypes;
-    message: {};
+    message: EventEndMessage | {};
+}
+
+interface EventEndMessage {
+    Leaderboard: Array<{Name: string, Score: number}>;
+    ParticipantsCount: number;
+    Place: number;
+    Score: number;
 }
 
 interface GameState {
@@ -15,12 +22,8 @@ interface GameState {
     crops: number;
     clicker: number;
     passive: number[];
+    farmUpgrades: number[];
     farm: number[];
-}
-
-interface Leaderboard {
-    username: string;
-    score: number;
 }
 
 enum clientMessageTypes {
@@ -28,7 +31,9 @@ enum clientMessageTypes {
     SetState = "setState",
     GetState = "getState",
     GetLeaderboard = "getLeaderboard",
-    SendMessage = "sendMessage"
+    SendMessage = "sendMessage",
+    DebugEvent = "debugEvent",
+    EventScore = "eventScore"
 }
 
 enum serverMessageTypes {
@@ -37,8 +42,43 @@ enum serverMessageTypes {
     Leaderboard = "leaderboard",
     Messages = "messages",
     Error = "error",
-    Success = "success"
+    Success = "success",
+    EventStart = "EventStart",
+    EventEnd = "eventEnd"
 }
 
-export type { ClientMessage, ServerMessage, GameState, Leaderboard };
-export { clientMessageTypes, serverMessageTypes };
+interface Event {
+    name: string;
+    component: string;
+    description: string;
+}
+
+interface LeaderboardPosition {
+    username: string;
+    score: number;
+}
+
+interface EventResult {
+    leaderboard: LeaderboardPosition[];
+    place: number;
+}
+
+const eventTypes: Map<string, Event> = new Map([
+    ["TestEvent",
+        {
+            name: "TestEvent",
+            component: "CookieEventWrapper",
+            description: "This is a test event"
+        }
+    ],
+    ["Cookie", 
+        {
+            name: "Cookie",
+            component: "CookieEventWrapper",
+            description: "This is a test event"
+        }
+    ]
+]);
+
+export type { ClientMessage, ServerMessage, GameState, Event, EventResult, LeaderboardPosition, EventEndMessage};
+export { clientMessageTypes, serverMessageTypes, eventTypes };

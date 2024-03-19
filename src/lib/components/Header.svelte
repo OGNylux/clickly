@@ -7,6 +7,8 @@
     import SettingsDialogue from "./SettingsDialogue.svelte";
     import Leaderboard from "./Leaderboard.svelte";
 
+    export let username: string | null = "Guest";
+
     function updateReadStatus() {
         notifications.update((notifications) => {
             return notifications.map((notification) => {
@@ -26,11 +28,7 @@
 
 <div class="grid grid-cols-3 h-10 items-center bg-slate-200 px-3 header content-center">
     <div class="place-self-start flex items-center">
-        <div class="flex h-8 px-3 bg-slate-300 border-slate-200 border-2 rounded-xl">
-            <div class="font-medium">
-                Guest
-            </div>
-        </div> 
+        <div class="flex py-0.5 px-3 bg-slate-300 border-slate-200 border-2 rounded-xl font-medium">{username}</div> 
         {#if !$isClassic}
             <Popover.Root>
                 <Popover.Trigger class="items-center justify-end px-4">
