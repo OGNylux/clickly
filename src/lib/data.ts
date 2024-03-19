@@ -398,6 +398,21 @@ class FarmUpgrade extends StoreItem {
     }    
 }
 
+class FallingItem {
+    img: CanvasImageSource;
+    x: number;
+    y: number;
+    size: number;
+    clicked: boolean = false;
+
+    constructor(img: CanvasImageSource, x: number, y: number, size: number) {
+        this.img = img;
+        this.x = x;
+        this.y = y;
+        this.size = size;
+    }
+
+}
 /**
  * StoreItem Definitions
  */
@@ -569,4 +584,4 @@ export const levelUpRewards: Record<number, Array<StoreItem | FarmItem>> = {
     30: [champagne]
 }
 
-export { StoreItem, ClickerItem, PassiveIncomeItem, EasyExpensivePassiveIncomeItem, FarmItem, FarmUpgrade, initialFarmUpgrades };
+export { StoreItem, ClickerItem, PassiveIncomeItem, EasyExpensivePassiveIncomeItem, FarmItem, FarmUpgrade, initialFarmUpgrades, FallingItem };
