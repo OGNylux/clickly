@@ -35,9 +35,14 @@ func eventXY() {
 }
 
 func eventEvent() {
-	startEvent("TestEvent")
-	time.Sleep(20 * time.Second)
-	endEvent()
+	if currentEvent == false {
+		fmt.Println("Event startet")
+		startEvent("TestEvent")
+		time.Sleep(20 * time.Second)
+		endEvent()
+	} else {
+		fmt.Println("Event läuft bereits")
+	}
 }
 
 func handleEvent(conn *websocket.Conn, message ClientMessage) {

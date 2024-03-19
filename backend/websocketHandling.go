@@ -45,7 +45,12 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 
 		switch msg.Type {
 		case "debugEvent":
-			go eventEvent()
+			if currentEvent {
+				sendError(conn, "Du Hurensohn. Hör mal auf zu nerven. Event läuft bereits")
+				return
+			} else {
+				go eventEvent()
+			}
 		case "eventScore":
 			handleEvent(conn, msg)
 		case "setState":

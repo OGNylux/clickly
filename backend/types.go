@@ -2,6 +2,10 @@ package main
 
 import "gorm.io/gorm"
 
+// cookie,button,simonsays
+
+var eventTypes = []string{"cookie", "button", "simonsays"}
+
 // ClientMessage Types: authentication, setState, eventScore, getState, getLeaderboard, sendMessage
 type ClientMessage struct {
 	Username string      `json:"username"`
