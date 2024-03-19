@@ -37,8 +37,10 @@
             setTimeout(() => {
                 flashButton(sequence[index]);
             }, 1000 * index);
+            setTimeout(() => {
+                userInput = true;
+            }, 1000 * sequence.length);
         }
-        userInput = true;
     }
 
     function flashButton(index: number) {
@@ -68,6 +70,7 @@
             } else {
                 playSound(0.4);
                 score = 0;
+                userIndex = 0;
                 sequence = [];
                 sequence.push(getRandomNumber());
                 setTimeout(() => {
@@ -85,25 +88,25 @@
     >
         <button
             id="b0"
-            class="w-full h-full bg-[#C33737] rounded-xl transform active:scale-95 transition-transform active:brightness-150"
+            class="w-full h-full bg-[#C33737] rounded-xl transform active:scale-95 transition-transform active:brightness-150 disabled:scale-95"
             disabled={!userInput}
             on:click={() => checkButton(0)}
         ></button>
         <button
             id="b1"
-            class="w-full h-full bg-[#5C913B] rounded-xl transform active:scale-95 transition-transform active:brightness-150"
+            class="w-full h-full bg-[#5C913B] rounded-xl transform active:scale-95 transition-transform active:brightness-150 disabled:scale-95"
             disabled={!userInput}
             on:click={() => checkButton(1)}
         ></button>
         <button
             id="b2"
-            class="w-full h-full bg-[#FFCC4D] rounded-xl transform active:scale-95 transition-transform active:brightness-150"
+            class="w-full h-full bg-[#FFCC4D] rounded-xl transform active:scale-95 transition-transform active:brightness-150 disabled:scale-95"
             disabled={!userInput}
             on:click={() => checkButton(2)}
         ></button>
         <button
             id="b3"
-            class="w-full h-full bg-[#55ACEE] rounded-xl transform active:scale-95 transition-transform active:brightness-150"
+            class="w-full h-full bg-[#55ACEE] rounded-xl transform active:scale-95 transition-transform active:brightness-150 disabled:scale-95"
             disabled={!userInput}
             on:click={() => checkButton(3)}
         ></button>
