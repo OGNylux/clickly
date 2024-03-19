@@ -36,7 +36,8 @@
     let socket: WebSocket,
         saveInterval = 0,
         activeEvent: Event | null = null,
-        eventResult: EventResult | null = null;
+        eventResult: EventResult | null = null,
+        isLoaded = false;
 
     onMount(() => {
         if (user.get() == null) return;
@@ -49,12 +50,12 @@
             if (m.type == serverMessageTypes.GameState) {
                 let gameState: GameState = JSON.parse(m.message.toString());
                 
+                unlockAllunlockedItems(getLevel(gameState.score));
+
                 score.set(gameState.score);
-                crops.set(gameState.crops);
                 emojis.set(gameState.emojis);
-
-                unlockAllunlockedItems(getLevel(score.get()));
-
+                crops.set(gameState.crops);
+                
                 const clicker = unlockedClicker.get();
                 clicker.addItem(Number(gameState.clicker));
                 unlockedClicker.update(clicker)
@@ -63,16 +64,17 @@
                     item.addItem(Number(gameState.passive[index]));
                     unlockedPassiveItems.update(item);
                 });
-
+                
                 farmUpgrades.get().forEach((item: FarmUpgrade, index: number) => {
                     item.addItem(Number(gameState.farmUpgrades[index]));
                     farmUpgrades.update(item);
                 });
-
+                
                 unlockedFarmItems.get().forEach((item: FarmItem, index: number) => {
                     item.setAmount(Number(gameState.farm[index]));
                     unlockedFarmItems.update(item);
                 });
+                isLoaded = true;
             } else if (m.type == serverMessageTypes.EventStart){
                 const e = eventTypes.get(m.message.toString());
                 if (e){
@@ -175,7 +177,9 @@
     <EventWrapper {activeEvent} {eventResult} />
     <Buildings />
     <div id="main" class="screen grid grid-rows-2">
-        <Clicker />
+        {#if isLoaded}
+            <Clicker />
+        {/if}
         <Farm />
     </div>
     <Shop />
