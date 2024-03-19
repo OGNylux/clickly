@@ -9,7 +9,7 @@
 
     onMount(() => {
         interval = setInterval(() => {
-            time -= 10;
+            time -= 100;
             console.log(time);
             if(time <= timeConst * 0.85) {
                 document.getElementById("time")?.classList.add("opacity-0");
@@ -20,7 +20,7 @@
                 boom();
                 clearInterval(interval);
             }
-        }, 10);
+        }, 100);
 
         function boom() {
             document.getElementById("boom")?.classList.remove("hidden");
