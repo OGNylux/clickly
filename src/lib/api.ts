@@ -67,7 +67,7 @@ const eventTypes: Map<string, Event> = new Map([
     ["TestEvent",
         {
             name: "TestEvent",
-            component: "CookieEventWrapper",
+            component: "SimonEvent",
             description: "This is a test event"
         }
     ],
@@ -75,9 +75,16 @@ const eventTypes: Map<string, Event> = new Map([
         {
             name: "Cookie",
             component: "CookieEventWrapper",
-            description: "This is a test event"
+            description: "Collect as many cookies as you can"
         }
-    ]
+    ],
+    ["Simon", 
+        {
+            name: "SimonSays",
+            component: "SimonEvent",
+            description: "Repeat the sequence"
+        }
+]
 ]);
 
 export type { ClientMessage, ServerMessage, GameState, Event, EventResult, LeaderboardPosition, EventEndMessage};

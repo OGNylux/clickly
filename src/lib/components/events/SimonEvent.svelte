@@ -1,11 +1,15 @@
 <script lang="ts">
+    import { clientMessageTypes, type ClientMessage } from "$lib/api";
     import { user } from "$lib/store";
-    import { onMount } from "svelte";
+    import { Socket } from "$lib/websocket";
+    import { onDestroy, onMount } from "svelte";
 
     let score = 0,
         sequence: number[] = [],
         userIndex = 0,
-        userInput = false;
+        userInput = false,
+        socket: WebSocket,
+        saveInterval = 0;
 
     let context: AudioContext;
     let sample: AudioBuffer;
@@ -17,6 +21,23 @@
             .then((buffer) => context.decodeAudioData(buffer));
         sequence.push(getRandomNumber());
         playSequence();
+
+        socket = Socket.getInstance().getSocket();
+            saveInterval = setInterval(() => {
+                const message: ClientMessage = {
+                    // @ts-ignore
+                    username: user.get(),
+                    type: clientMessageTypes.EventScore,
+                    message: {
+                        score: score.toString(),
+                    },
+                };
+                socket.send(JSON.stringify(message));
+        }, 1000);
+    });
+
+    onDestroy(() => {
+        clearInterval(saveInterval);
     });
 
     function playSound(rate: number) {
