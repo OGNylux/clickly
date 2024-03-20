@@ -36,15 +36,28 @@ func eventXY() {
 	if char == 'd' {
 		fmt.Printf("current connected Users: %v \n", clients)
 	} else {
-		eventEvent()
+		fmt.Println("a für cookie. b für button. c für simons")
+		reader = bufio.NewReader(os.Stdin)
+		char, _, err = reader.ReadRune()
+		switch char {
+		case 'a':
+			eventEvent(eventTypes[0])
+			break
+		case 'b':
+			eventEvent(eventTypes[1])
+			break
+		case 'c':
+			eventEvent(eventTypes[2])
+			break
+		}
 	}
 	eventXY()
 }
 
-func eventEvent() {
+func eventEvent(eventType string) {
 	if currentEvent == false {
-		fmt.Println("Event will be starting soon")
-		startEvent("TestEvent")
+		fmt.Println("Event " + eventType + " will be starting soon")
+		startEvent(eventType)
 		time.Sleep(20 * time.Second)
 		endEvent()
 	} else {

@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/websocket"
 	"gorm.io/gorm"
 	"log"
+	"math/rand"
 )
 
 func sendError(conn *websocket.Conn, msg string) {
@@ -47,7 +48,7 @@ func handleWebSocket(conn *websocket.Conn, username string) {
 			if currentEvent {
 				sendError(conn, "Du Hurensohn. Hör mal auf zu nerven. Event läuft bereits")
 			} else {
-				go eventEvent()
+				go eventEvent(eventTypes[rand.Intn(len(eventTypes))])
 			}
 		case "eventScore":
 			handleEvent(conn, msg)
