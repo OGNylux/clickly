@@ -80,7 +80,7 @@ const eventTypes: Map<string, Event> = new Map([
     ],
     ["simonsays", 
         {
-            name: "SimonSays",
+            name: "Simon Says",
             component: "SimonEvent",
             description: "Repeat the sequence"
         }
