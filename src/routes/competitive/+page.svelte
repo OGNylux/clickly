@@ -150,10 +150,6 @@
                 farm: farm,
             };
 
-            console.log(JSON.stringify(gameState));
-            
-            
-
             const message: ClientMessage = {
                 // @ts-ignore
                 username: user.get(),
