@@ -3,25 +3,37 @@
     import { onMount } from "svelte";
 
     let time = 10000;
+    let startTime = 3;
     const timeConst = time;
     let interval: number;
+    let startInterval: number;
     let score;
     let gameover = false;
 
     onMount(() => {
-        interval = setInterval(() => {
-            time -= 15;
-            if(time <= timeConst * 0.85) {
-                document.getElementById("time")?.classList.add("opacity-0");
+        startInterval = setInterval(() => {
+            startTime -= 1;
+            if(startTime <= 0) {
+                countdown();
+                clearInterval(startInterval);
             }
-            if(time <= 0) {
-                time = 0;
-                gameover = true;
-                document.getElementById("time")?.classList.add("opacity-100");
-                boom();
-                clearInterval(interval);
-            }
-        }, 10);
+        }, 1000);
+
+        function countdown() {
+            interval = setInterval(() => {
+                time -= 15;
+                if(time <= timeConst * 0.85) {
+                    document.getElementById("time")?.classList.add("opacity-0");
+                }
+                if(time <= 0) {
+                    time = 0;
+                    gameover = true;
+                    document.getElementById("time")?.classList.add("opacity-100");
+                    boom();
+                    clearInterval(interval);
+                }
+            }, 10);
+        }
 
         function boom() {
             document.getElementById("boom")?.classList.remove("hidden");
@@ -52,12 +64,10 @@
     }
 </script>
 
-<div
-    class="flex w-[1000px] h-[480px] bg-slate-600 justify-center relative overflow-hidden"
->
-    <span id="time" class="absolute text-8xl z-20 pt-[52px] text-left text-[#77B255]"
-        >{(time / 1000).toFixed(2)}</span
-    >
+<div class="flex w-[1000px] h-[480px] bg-slate-600 justify-center relative overflow-hidden">
+    <span id="startTimer" class={`absolute text-9xl text-amber-300 z-40 justify-self-center mt-40 ${startTime <= 0 ? 'hidden' : ''}`}>{startTime}</span>
+    <div id="startTimer" class={`w-full h-full absolute bg-white ${startTime <= 0 ? 'hidden' : 'opacity-80'} z-30`}/>
+    <span id="time" class="absolute text-8xl z-20 pt-[52px] text-left text-[#77B255]">{(time / 1000).toFixed(2)}</span>
     <svg
         id="boom"
         class="absolute z-30 place-self-center hidden"
