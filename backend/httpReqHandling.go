@@ -46,9 +46,8 @@ func registerUser(c *gin.Context) {
 	}
 	// Create new user in the database
 	newUser := User{
-		Username:   name,
-		Password:   password,
-		GameStates: defaultGamestate,
+		Username: name,
+		Password: password,
 	}
 
 	result = db.Create(&newUser)
