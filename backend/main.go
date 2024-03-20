@@ -129,6 +129,15 @@ func handleWebSocketAuth(c *gin.Context) {
 				tries++
 				continue
 			}
+			if checkForValue(name, clients) {
+				errorMessage := ServerMessage{
+					Type:    "error",
+					Message: "User already connected",
+				}
+				_ = conn.WriteJSON(errorMessage)
+				tries++
+				continue
+			}
 
 			if foundUser.Password == password {
 				msg := ServerMessage{
@@ -157,4 +166,21 @@ func handleWebSocketAuth(c *gin.Context) {
 			tries++
 		}
 	}
+}
+
+func checkForValue(userName string, students map[*websocket.Conn]string) bool {
+
+	//traverse through the map
+	for _, value := range students {
+
+		//check if present value is equals to userValue
+		if value == userName {
+
+			//if same return true
+			return true
+		}
+	}
+
+	//if value not found return false
+	return false
 }
