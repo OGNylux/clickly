@@ -150,11 +150,11 @@ class ClickerItem extends StoreItem {
     }
 
     getIncomeMultiplier(): number {
-        return this.multiplier * (1.5 ** this.upgradeAmount);
+        return this.multiplier * (2 ** this.upgradeAmount);
     }
 
     getInfluence(): number {
-        return this.amount * this.multiplier * (1.5 ** this.upgradeAmount);
+        return this.amount * this.multiplier * (2 ** this.upgradeAmount);
     }
 
     addItem(amount: number = 1) {
@@ -201,11 +201,11 @@ class PassiveIncomeItem extends StoreItem {
     }
 
     getIncomeMultiplier(): number {
-        return this.incomeMultiplier * (1.5 ** this.upgradeAmount)
+        return this.incomeMultiplier * (2 ** this.upgradeAmount)
     }
 
     getInfluence(): number {
-        return this.amount * this.incomeMultiplier * (1.5 ** this.upgradeAmount);
+        return this.amount * this.incomeMultiplier * (2 ** this.upgradeAmount);
     }
 
     nextCost(count: number) {
@@ -430,7 +430,7 @@ let blushed = new PassiveIncomeItem({
     image: { src: "emojis/blushed.svg", alt: "blushed face" },
     initialCost: 100,
     max: Infinity
-}, 3, 1.2, 75, 2.5, "BlushedEmoji");
+}, 5, 1.2, 75, 2.5, "BlushedEmoji");
 
 let money = new PassiveIncomeItem({
     name: "Money Face",
@@ -438,7 +438,7 @@ let money = new PassiveIncomeItem({
     image: { src: "emojis/money.svg", alt: "money face" },
     initialCost: 1000,
     max: Infinity
-}, 5, 1.2, 150, 2.5, "MoneyEmoji");
+}, 50, 1.2, 150, 2.5, "MoneyEmoji");
 
 let cowboy = new PassiveIncomeItem({
     name: "Cowboy",
@@ -446,71 +446,71 @@ let cowboy = new PassiveIncomeItem({
     image: { src: "emojis/cowboy.svg", alt: "cowboy" },
     initialCost: 15000,
     max: Infinity
-}, 10, 1.3, 500, 2.4, "CowboyEmoji");
+}, 100, 1.3, 500, 2.4, "CowboyEmoji");
 
 let hot = new PassiveIncomeItem({
     name: "Hot Face",
     description: "Hot Face",
     image: { src: "emojis/hot.svg", alt: "hot face" },
-    initialCost: 100000,
+    initialCost: 50000,
     max: Infinity
-}, 20, 1.3, 1000, 2.4, "HotEmoji");
+}, 200, 1.3, 1000, 2.4, "HotEmoji");
 
 let cold = new PassiveIncomeItem({
     name: "Cold Face",
     description: "Cold Face",
     image: { src: "emojis/cold.svg", alt: "cold face" },
-    initialCost: 1000000,
+    initialCost: 100000,
     max: Infinity
-}, 50, 1.3, 2000, 2.3, "ColdEmoji");
+}, 500, 1.3, 2000, 2.3, "ColdEmoji");
 
 let weary = new PassiveIncomeItem({
     name: "Weary Face",
     description: "Weary Face",
     image: { src: "emojis/weary.svg", alt: "weary face" },
-    initialCost: 20000000,
+    initialCost: 500000,
     max: Infinity
-}, 75, 1.4, 5000, 2.3, "WearyEmoji");
+}, 1000, 1.4, 5000, 2.3, "WearyEmoji");
 
 let clown = new PassiveIncomeItem({
     name: "Clown Face",
     description: "Clown Face",
     image: { src: "emojis/clown.svg", alt: "clown face" },
-    initialCost: 300000000,
+    initialCost: 3000000,
     max: Infinity
-}, 120, 1.4, 10000, 2.3, "ClownEmoji");
+}, 2000, 1.4, 10000, 2.3, "ClownEmoji");
 
 let cool = new PassiveIncomeItem({
     name: "Cool Face",
     description: "Cool Face",
     image: { src: "emojis/cool.svg", alt: "cool face" },
-    initialCost: 5000000000,
+    initialCost: 5000000,
     max: Infinity
-}, 200, 1.4, 50000, 2.2, "CoolEmoji");
+}, 5000, 1.4, 50000, 2.2, "CoolEmoji");
 
 let byebye = new PassiveIncomeItem({
     name: "Bye Bye Face",
     description: "Bye Bye Face",
     image: { src: "emojis/byebye.svg", alt: "bye bye face" },
-    initialCost: 100000000000,
+    initialCost: 10000000,
     max: Infinity
-}, 300, 1.4, 100000, 2.2, "ByeByeEmoji");
+}, 10000, 1.4, 100000, 2.2, "ByeByeEmoji");
 
 let stonks = new PassiveIncomeItem({
     name: "Stonks Emoji",
     description: "Stonks",
     image: { src: "emojis/stonks.svg", alt: "stonks emoji" },
-    initialCost: 10000000000000,
+    initialCost: 100000000,
     max: Infinity
-}, 500, 1.4, 200000, 2.2, "StonksEmoji");
+}, 500000, 1.4, 200000, 2.2, "StonksEmoji");
 
 let hole = new PassiveIncomeItem({
     name: "Hole Emoji",
     description: "Hole Emoji",
     image: { src: "emojis/hole.svg", alt: "hole emoji" },
-    initialCost: 1000000000000000,
+    initialCost: 100000000,
     max: Infinity
-}, 1000, 1.4, 500000, 2.1, "HoleEmoji");
+}, 1000000, 1.4, 500000, 2.1, "HoleEmoji");
 
 let easyHot = new EasyExpensivePassiveIncomeItem();
 
@@ -530,16 +530,16 @@ let expensiveHot = new ExpensivePassiveIncomeItem(
 /**
  * Farm Definitions
  */
-let strawberry = new FarmItem("Strawberry", "A juicy strawberry", 3, 5000, { src: "/farm/strawberry.svg", alt: "strawberry" });
-let peach = new FarmItem("Peach", "A juicy peach", 10, 10000, { src: "/farm/peach.svg", alt: "peach" });
-let potato = new FarmItem("Potato", "A juicy potato", 20, 8000, { src: "/farm/potato.svg", alt: "potato" });
-let banana = new FarmItem("Banana", "A juicy banana", 50, 10000, { src: "/farm/banana.svg", alt: "banana" });
-let eggplant = new FarmItem("Eggplant", "A juicy eggplant", 100, 10000, { src: "/farm/eggplant.svg", alt: "eggplant" });
-let peanut = new FarmItem("Peanut", "A juicy peanut", 250, 12000, { src: "/farm/peanut.svg", alt: "peanut" });
+let strawberry = new FarmItem("Strawberry", "A juicy strawberry", 10, 5000, { src: "/farm/strawberry.svg", alt: "strawberry" });
+let peach = new FarmItem("Peach", "A juicy peach", 100, 10000, { src: "/farm/peach.svg", alt: "peach" });
+let potato = new FarmItem("Potato", "A juicy potato", 1000, 8000, { src: "/farm/potato.svg", alt: "potato" });
+let banana = new FarmItem("Banana", "A juicy banana", 5000, 10000, { src: "/farm/banana.svg", alt: "banana" });
+let eggplant = new FarmItem("Eggplant", "A juicy eggplant", 50000, 10000, { src: "/farm/eggplant.svg", alt: "eggplant" });
+let peanut = new FarmItem("Peanut", "A juicy peanut", 250000, 12000, { src: "/farm/peanut.svg", alt: "peanut" });
 
-let burger = new FarmItem("Burger", "A juicy burger", 500, 15000, { src: "/farm/burger.svg", alt: "burger" });
-let candy = new FarmItem("Candy", "A juicy candy", 1000, 20000, { src: "/farm/candy.svg", alt: "candy" });
-let champagne = new FarmItem("Champagne", "The tears of all emojis combined to sacrifice to the emoji gods", 1000000, 50000, { src: "/farm/champagne.svg", alt: "champagne" });
+let burger = new FarmItem("Burger", "A juicy burger", 500000, 15000, { src: "/farm/burger.svg", alt: "burger" });
+let candy = new FarmItem("Candy", "A juicy candy", 1000000, 20000, { src: "/farm/candy.svg", alt: "candy" });
+let champagne = new FarmItem("Champagne", "The tears of all emojis combined to sacrifice to the emoji gods", 1000000000, 50000, { src: "/farm/champagne.svg", alt: "champagne" });
 
 const initialFarmUpgrades = () => {
     return [ new FarmUpgrade({

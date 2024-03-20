@@ -4,6 +4,7 @@
     import { Socket } from "$lib/websocket";
     import { onDestroy, onMount } from "svelte";
     import FallingObjectManager from "./FallingObjectManager.svelte";
+
     let width: number = 1000,
         height: number,
         socket: WebSocket,
