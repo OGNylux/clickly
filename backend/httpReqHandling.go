@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func registerUser(c *gin.Context) {
@@ -33,11 +34,16 @@ func registerUser(c *gin.Context) {
 		c.JSON(http.StatusConflict, gin.H{"error": "Username already taken"})
 		return
 	}
-
+	defaultGamestate := GameStateFromUser{
+		Username: name,
+		Score:    0,
+		Rest:     `{"score":0,"emojis":0,"crops":0,"clicker":0,"passive":[0],"farmUpgrades":[0,0],"farm":[]}`,
+	}
 	// Create new user in the database
 	newUser := User{
-		Username: name,
-		Password: password,
+		Username:   name,
+		Password:   password,
+		GameStates: defaultGamestate,
 	}
 
 	result = db.Create(&newUser)
