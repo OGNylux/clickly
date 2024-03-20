@@ -22,6 +22,7 @@ interface GameState {
     crops: number;
     clicker: number;
     passive: number[];
+    passiveUpgrades: number[];
     farmUpgrades: number[];
     farm: number[];
 }

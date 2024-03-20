@@ -62,6 +62,7 @@
 
                 unlockedPassiveItems.get().forEach((item: StoreItem, index: number) => {
                     item.addItem(Number(gameState.passive[index]));
+                    item.addUpgrade(Number(gameState.passiveUpgrades[index]));
                     unlockedPassiveItems.update(item);
                 });
                 
@@ -123,6 +124,11 @@
                 arr.push(item.getAmount());
             });
 
+            let arr2: number[] = [];
+            unlockedPassiveItems.get().forEach((item) => {
+                arr.push(item.getUpgradeAmount());
+            });
+
             let farmUpgrade: number[] = [];
             farmUpgrades.get().forEach((item) => {
                 farmUpgrade.push(item.getAmount());
@@ -139,9 +145,13 @@
                 crops: crops.get(),
                 clicker: unlockedClicker.get().getAmount(),
                 passive: arr,
+                passiveUpgrades: arr2,
                 farmUpgrades: farmUpgrade,
                 farm: farm,
             };
+
+            console.log(JSON.stringify(gameState));
+            
             
 
             const message: ClientMessage = {
