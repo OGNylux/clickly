@@ -62,6 +62,7 @@
 
                 unlockedPassiveItems.get().forEach((item: StoreItem, index: number) => {
                     item.addItem(Number(gameState.passive[index]));
+                    item.addUpgrade(Number(gameState.passiveUpgrades[index]));
                     unlockedPassiveItems.update(item);
                 });
                 
@@ -99,7 +100,9 @@
             }
         };
         socket.onclose = (event) => {
-            console.error("Connection closed", event);
+            console.error("Connection closed, trying to reconnect", event);
+            Socket.getInstance().reconnect();   
+            socket = Socket.getInstance().getSocket();         
         };
         socket.onerror = (event) => {
             console.error("Connection error", event);
@@ -121,6 +124,11 @@
                 arr.push(item.getAmount());
             });
 
+            let arr2: number[] = [];
+            unlockedPassiveItems.get().forEach((item) => {
+                arr2.push(item.getUpgradeAmount());
+            });
+
             let farmUpgrade: number[] = [];
             farmUpgrades.get().forEach((item) => {
                 farmUpgrade.push(item.getAmount());
@@ -137,10 +145,10 @@
                 crops: crops.get(),
                 clicker: unlockedClicker.get().getAmount(),
                 passive: arr,
+                passiveUpgrades: arr2,
                 farmUpgrades: farmUpgrade,
                 farm: farm,
             };
-            
 
             const message: ClientMessage = {
                 // @ts-ignore
