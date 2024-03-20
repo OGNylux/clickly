@@ -27,8 +27,7 @@
                 else success = true;
             })
             .catch((error) => {
-                console.log("Error:", error);
-                // Handle any errors here
+                console.error("Error:", error);
             });
     }
 
@@ -49,7 +48,6 @@
             if (!response.ok) {
                 validUsername = 0;
                 rule = "Username already exists. Please choose another one."
-                console.log("Username already exists");
             } else {
                 validUsername = 1;
             }
