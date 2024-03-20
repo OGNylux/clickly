@@ -126,7 +126,7 @@
 
             let arr2: number[] = [];
             unlockedPassiveItems.get().forEach((item) => {
-                arr.push(item.getUpgradeAmount());
+                arr2.push(item.getUpgradeAmount());
             });
 
             let farmUpgrade: number[] = [];
