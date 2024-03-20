@@ -7,6 +7,8 @@
     import SettingsDialogue from "./SettingsDialogue.svelte";
     import Leaderboard from "./Leaderboard.svelte";
 
+    export let username: string | null = "Guest";
+
     function updateReadStatus() {
         notifications.update((notifications) => {
             return notifications.map((notification) => {

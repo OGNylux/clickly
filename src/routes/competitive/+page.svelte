@@ -9,9 +9,11 @@
     import {
         crops,
         emojis,
+        farmUpgrades,
         isClassic,
         score,
         unlockedClicker,
+        unlockedFarmItems,
         unlockedPassiveItems,
         user,
     } from "$lib/store";
@@ -20,12 +22,22 @@
         type ClientMessage,
         type ServerMessage,
         type GameState,
+        type Event,
+        serverMessageTypes,
+        eventTypes,
+        type EventResult,
+        type LeaderboardPosition,
+        type EventEndMessage,
     } from "$lib/api";
     import { Socket } from "$lib/websocket";
-    import type { StoreItem } from "$lib/data";
+    import type { FarmItem, StoreItem, FarmUpgrade } from "$lib/data";
+    import EventWrapper from "$lib/components/EventWrapper.svelte";
 
-    let socket: WebSocket;
-    let saveInterval = 0;
+    let socket: WebSocket,
+        saveInterval = 0,
+        activeEvent: Event | null = null,
+        eventResult: EventResult | null = null,
+        isLoaded = false;
 
     onMount(() => {
         if (user.get() == null) return;
@@ -33,17 +45,17 @@
         isClassic.set(false);
         socket = Socket.getInstance().getSocket();
 
-        socket.onmessage = (event) => {
+        socket.onmessage = async (event) => {
             const m: ServerMessage = JSON.parse(event.data);
-            if (m.type == "gameState") {
+            if (m.type == serverMessageTypes.GameState) {
                 let gameState: GameState = JSON.parse(m.message.toString());
                 
+                unlockAllunlockedItems(getLevel(gameState.score));
+
                 score.set(gameState.score);
-                crops.set(gameState.crops);
                 emojis.set(gameState.emojis);
-
-                unlockAllunlockedItems(getLevel(score.get()));
-
+                crops.set(gameState.crops);
+                
                 const clicker = unlockedClicker.get();
                 clicker.addItem(Number(gameState.clicker));
                 unlockedClicker.update(clicker)
@@ -52,13 +64,45 @@
                     item.addItem(Number(gameState.passive[index]));
                     unlockedPassiveItems.update(item);
                 });
+                
+                farmUpgrades.get().forEach((item: FarmUpgrade, index: number) => {
+                    item.addItem(Number(gameState.farmUpgrades[index]));
+                    farmUpgrades.update(item);
+                });
+                
+                unlockedFarmItems.get().forEach((item: FarmItem, index: number) => {
+                    item.setAmount(Number(gameState.farm[index]));
+                    unlockedFarmItems.update(item);
+                });
+                isLoaded = true;
+            } else if (m.type == serverMessageTypes.EventStart){
+                const e = eventTypes.get(m.message.toString());
+                if (e){
+                    activeEvent = e;
+                } else {
+                    throw new Error("Event not found");
+                }
+            } else if (m.type == serverMessageTypes.EventEnd){
+                const eventEndMessage = m.message as EventEndMessage;
+                let leaderboard: LeaderboardPosition[] = [];
+                eventEndMessage.Leaderboard.forEach((item) => {
+                    leaderboard.push({
+                        username: item.Name,
+                        score: item.Score,
+                    });
+                });
+                eventResult = {
+                    leaderboard: leaderboard,
+                    place: eventEndMessage.Place,
+                }
+                activeEvent = null;
             }
         };
         socket.onclose = (event) => {
-            console.log("Connection closed", event);
+            console.error("Connection closed", event);
         };
         socket.onerror = (event) => {
-            console.log("Connection error", event);
+            console.error("Connection error", event);
         };
 
         const message: ClientMessage = {
@@ -77,15 +121,25 @@
                 arr.push(item.getAmount());
             });
 
+            let farmUpgrade: number[] = [];
+            farmUpgrades.get().forEach((item) => {
+                farmUpgrade.push(item.getAmount());
+            });
+
+            let farm: number[] = [];
+            unlockedFarmItems.get().forEach((item) => {
+                farm.push(item.getAmount());
+            });
+
             let gameState: GameState = {
                 score: score.get(),
                 emojis: emojis.get(),
                 crops: crops.get(),
                 clicker: unlockedClicker.get().getAmount(),
                 passive: arr,
-                farm: [1, 2],
+                farmUpgrades: farmUpgrade,
+                farm: farm,
             };
-            console.log(gameState);
             
 
             const message: ClientMessage = {
@@ -104,19 +158,33 @@
     onDestroy(() => {
         clearInterval(saveInterval);
     });
+
+    function sendEventStart(){
+        const message: ClientMessage = {
+            // @ts-ignore
+            username: user.get(),
+            type: clientMessageTypes.DebugEvent,
+            message: {},
+        };
+        socket.send(JSON.stringify(message));
+    }
 </script>
 
 <nav class="w-full h-16">
-    <Header/>
+    <Header username={$user}/>
 </nav>
 <main class="flex justify-around gap-2 screen">
+    <EventWrapper {activeEvent} {eventResult} />
     <Buildings />
     <div id="main" class="screen grid grid-rows-2">
-        <Clicker />
+        {#if isLoaded}
+            <Clicker />
+        {/if}
         <Farm />
     </div>
     <Shop />
 </main>
+<button class="fixed bottom-0 right-0" on:click={() => sendEventStart()}>Start Debug Event</button>
 
 <style lang="postcss">
     #main {

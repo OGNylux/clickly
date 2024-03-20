@@ -1,6 +1,6 @@
 <script lang="ts">
     import { getLevel, getLevelupScore, loadScore, unlockAllunlockedItems, unlockLevelUpReward } from "$lib/helper";
-    import { emojis, score, unlockedClicker, unlockedPassiveItems } from "$lib/store";
+    import { emojis, isClassic, score, unlockedClicker, unlockedPassiveItems } from "$lib/store";
     import { beforeUpdate, onDestroy, onMount } from "svelte";
     import { tweened } from "svelte/motion";
     import { cubicOut } from "svelte/easing";
@@ -21,7 +21,8 @@
         currentLevelScore = 0,
         width = 0,
         passiveIncome = 0,
-        interval = 0;
+        interval = 0,
+        mounted = false;
 
     function incrementCount() {
         const value = 1 + $unlockedClicker.getInfluence();
@@ -38,16 +39,22 @@
     });
 
     onMount(() => {
-        const level = getLevel(loadScore());
-        unlockAllunlockedItems(level);
-        currentLevel = level;
-        currentLevelScore = getLevelupScore(level);
-        nextLevelScore = getLevelupScore(level + 1);
+        if ($isClassic){
+            const level = getLevel(loadScore());
+            unlockAllunlockedItems(level);
+            currentLevel = level;
+        } else {
+            currentLevel = getLevel($score);
+        }
+        currentLevelScore = getLevelupScore(currentLevel);
+        nextLevelScore = getLevelupScore(currentLevel + 1);
 
         interval = setInterval(() => {
             emojis.increment(passiveIncome);
             score.increment(passiveIncome);
         }, 1000);
+
+        mounted = true;
     });
 
     onDestroy(() => {
@@ -55,6 +62,9 @@
     });
 
     beforeUpdate(() => {
+        // because beforeUpdate is even called before onMount and the data is not yet loaded
+        if (!mounted) return;
+
         if ($score >= nextLevelScore) {
             currentLevel++;
             unlockLevelUpReward(currentLevel);
