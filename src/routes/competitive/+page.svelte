@@ -114,7 +114,6 @@
 
         unlockAllunlockedItems(0); // if no save is present, unlock the first items
         socket.send(JSON.stringify(message));
-        isLoaded = true;
 
         saveInterval = setInterval(() => {
             let arr: number[] = [];
