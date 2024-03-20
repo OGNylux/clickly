@@ -87,9 +87,9 @@
             <div class="bg-slate-800">
                 <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-950" />
             </div>
-            <div class="flex flex-col text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
-                <p><span class="text-yellow-400">{$emojis.toLocaleString("de-DE")}</span> E</p>
-                <p>passive Income: <span class="text-yellow-400">{formatNumber(passiveIncome)}</span> E/s</p>
+            <div class="flex flex-col text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl max-w-[1024px] overflow-hidden">
+                <p class="truncate"><span title={$emojis.toLocaleString("de-DE")} class="text-yellow-400 truncate">{$emojis.toLocaleString("de-DE")}</span> E</p>
+                <p>Passive Income: <span class="text-yellow-400">{formatNumber(passiveIncome)}</span> E/s</p>
             </div>
         </Tooltip.Content>  
     </Tooltip.Root>
@@ -116,7 +116,7 @@
                         <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-950" />
                     </div>
                     <div class="text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
-                        <p>current Score: <span class="text-yellow-400">{formatNumber($score)}</span></p>
+                        <p>Current Score: <span class="text-yellow-400">{formatNumber($score)}</span></p>
                     </div>
                 </Tooltip.Content>  
             </Tooltip.Root>

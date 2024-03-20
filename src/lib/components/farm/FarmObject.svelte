@@ -95,7 +95,7 @@
                                     <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-950" />
                                 </div>
                                 <div class="flex flex-col text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
-                                    <p>worth: <span class="text-yellow-400">{formatNumber(item.value)}</span> C</p>
+                                    <p>Worth: <span class="text-yellow-400">{formatNumber(item.value)}</span> C</p>
                                 </div>
                             </Tooltip.Content>  
                         </Tooltip.Root>
