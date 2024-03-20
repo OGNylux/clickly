@@ -39,6 +39,11 @@ func registerUser(c *gin.Context) {
 		Score:    0,
 		Rest:     `{"score":0,"emojis":0,"crops":0,"clicker":0,"passive":[0],"farmUpgrades":[0,0],"farm":[]}`,
 	}
+	result = db.Create(&defaultGamestate)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
+		return
+	}
 	// Create new user in the database
 	newUser := User{
 		Username:   name,
