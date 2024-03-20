@@ -64,21 +64,21 @@ interface EventResult {
 }
 
 const eventTypes: Map<string, Event> = new Map([
-    ["TestEvent",
+    ["button",
         {
-            name: "TestEvent",
+            name: "Don't Press the Button!",
             component: "ButtonEventWrapper",
-            description: "This is a test event"
+            description: "Click the button as late as possible"
         }
     ],
-    ["Cookie", 
+    ["cookie", 
         {
             name: "Cookie",
             component: "CookieEventWrapper",
             description: "Collect as many cookies as you can"
         }
     ],
-    ["Simon", 
+    ["simonsays", 
         {
             name: "SimonSays",
             component: "SimonEvent",
