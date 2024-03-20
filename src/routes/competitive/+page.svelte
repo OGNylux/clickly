@@ -100,7 +100,8 @@
         };
         socket.onclose = (event) => {
             console.error("Connection closed, trying to reconnect", event);
-            Socket.getInstance().reconnect();            
+            Socket.getInstance().reconnect();   
+            socket = Socket.getInstance().getSocket();         
         };
         socket.onerror = (event) => {
             console.error("Connection error", event);
