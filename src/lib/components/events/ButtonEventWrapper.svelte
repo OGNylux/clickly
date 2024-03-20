@@ -1,4 +1,7 @@
 <script lang="ts">
+    import { clientMessageTypes, type ClientMessage } from "$lib/api";
+    import { user } from "$lib/store";
+    import { Socket } from "$lib/websocket";
     import { animate, timeline } from "motion";
     import { onMount } from "svelte";
 
@@ -7,8 +10,10 @@
     const timeConst = time;
     let interval: number;
     let startInterval: number;
-    let score;
+    let score = 0;
     let gameover = false;
+    let socket: WebSocket;
+    let saveInterval = 0;
 
     onMount(() => {
         startInterval = setInterval(() => {
@@ -30,6 +35,7 @@
                     gameover = true;
                     document.getElementById("time")?.classList.add("opacity-100");
                     boom();
+                    test();
                     clearInterval(interval);
                 }
             }, 10);
@@ -59,8 +65,22 @@
         clearInterval(interval);
         score = timeConst - (gameover ? timeConst : time);
         console.log("Score: ", score);
+        test();
         document.getElementById("time")?.classList.add("opacity-100");
         animate("#time", { opacity: [0, 1, 0] }, { duration: 0.75, easing: "ease-in-out", repeat: Infinity })
+    }
+
+    function test() {
+        socket = Socket.getInstance().getSocket();
+        const message: ClientMessage = {
+                    // @ts-ignore
+                    username: user.get(),
+                    type: clientMessageTypes.EventScore,
+                    message: {
+                        score: score.toString(),
+                    },
+                };
+        socket.send(JSON.stringify(message));
     }
 </script>
 
