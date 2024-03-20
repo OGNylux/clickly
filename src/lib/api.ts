@@ -22,6 +22,7 @@ interface GameState {
     crops: number;
     clicker: number;
     passive: number[];
+    passiveUpgrades: number[];
     farmUpgrades: number[];
     farm: number[];
 }
@@ -64,20 +65,27 @@ interface EventResult {
 }
 
 const eventTypes: Map<string, Event> = new Map([
-    ["TestEvent",
+    ["button",
         {
-            name: "TestEvent",
-            component: "CookieEventWrapper",
-            description: "This is a test event"
+            name: "Don't Press the Button!",
+            component: "ButtonEventWrapper",
+            description: "Click the button as late as possible"
         }
     ],
-    ["Cookie", 
+    ["cookie", 
         {
             name: "Cookie",
             component: "CookieEventWrapper",
-            description: "This is a test event"
+            description: "Collect as many cookies as you can"
         }
-    ]
+    ],
+    ["simonsays", 
+        {
+            name: "Simon Says",
+            component: "SimonEvent",
+            description: "Repeat the sequence"
+        }
+]
 ]);
 
 export type { ClientMessage, ServerMessage, GameState, Event, EventResult, LeaderboardPosition, EventEndMessage};
