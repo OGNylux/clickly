@@ -58,11 +58,11 @@
         <Popover.Root bind:open={popoverOpen}>
             <Popover.Trigger>
                 <div class="xl:size-20">
-                    <div class="grid items-center">
+                    <div class="grid items-center justify-center">
                         {#if farmItem}
                             <img src={farmItem.image.src} alt={farmItem.image.alt} class="size-16 object-contain mt-5" style={`transform: scale(${$progress}%); transform-origin: center center`} />
                         {:else}
-                            <Plus class="size-10 text-amber-900" />
+                            <Plus class="m-4 size-10 text-amber-900" />
                         {/if}
                     </div>
                 </div>
