@@ -8,8 +8,6 @@ import { unlockAllunlockedItems } from "./helper";
  */
 export function loadLocalStorage() {
     if (browser) {
-        let isSoundOnLocal = localStorage.getItem('isSoundOn');
-        let isAnimOnLocal = localStorage.getItem('isAnimOn');
         let emojisLocal = localStorage.getItem('emojis');
         let scoreLocal = localStorage.getItem('score');
         let cropsLocal = localStorage.getItem('crops');
@@ -19,9 +17,7 @@ export function loadLocalStorage() {
         let farmLocal = localStorage.getItem('farm');
         let farmUpgradesLocal = localStorage.getItem('farmUpgrades');
 
-        if (isSoundOnLocal && isAnimOnLocal && emojisLocal && scoreLocal && cropsLocal && passiveLocal && upgradeLocal && clickerLocal && farmLocal && farmUpgradesLocal) {
-            isSoundOn.set(JSON.parse(isSoundOnLocal));
-            isAnimOn.set(JSON.parse(isAnimOnLocal));
+        if (emojisLocal && scoreLocal && cropsLocal && passiveLocal && upgradeLocal && clickerLocal && farmLocal && farmUpgradesLocal) {
             emojis.set(JSON.parse(emojisLocal));
             score.set(JSON.parse(scoreLocal));
             crops.set(JSON.parse(cropsLocal));
@@ -53,6 +49,33 @@ export function loadLocalStorage() {
     }
 }
 
+export function loadSettings() {
+    if (browser) {
+        let isSoundOnLocal = localStorage.getItem('isSoundOn');
+        let isAnimOnLocal = localStorage.getItem('isAnimOn');
+        if (isSoundOnLocal) {
+            isSoundOn.set(JSON.parse(isSoundOnLocal));
+        }
+        if (isAnimOnLocal) {
+            isAnimOn.set(JSON.parse(isAnimOnLocal));
+        }
+    }
+}
+
+export function saveSettings() {
+    isSoundOn.subscribe(value => {
+        if (browser ) {
+            localStorage.setItem('isSoundOn', JSON.stringify(value));
+        }
+    });
+
+    isAnimOn.subscribe(value => {
+        if (browser) {
+            localStorage.setItem('isAnimOn', JSON.stringify(value));
+        }
+    });
+}
+
 /**
  * Save the state of the store to local storage or server by subscribing to the store.
  * To switch between local storage and the server, use the isClassic store.
@@ -60,18 +83,6 @@ export function loadLocalStorage() {
 export function save() {
     let classic = true;
     const ununscribeIsOnline = isClassic.subscribe(c => {classic = c});
-
-    isSoundOn.subscribe(value => {
-        if (browser && classic) {
-            localStorage.setItem('isSoundOn', JSON.stringify(value));
-        }
-    });
-
-    isAnimOn.subscribe(value => {
-        if (browser && classic) {
-            localStorage.setItem('isAnimOn', JSON.stringify(value));
-        }
-    });
 
     emojis.subscribe(value => {
         if (browser && classic) {

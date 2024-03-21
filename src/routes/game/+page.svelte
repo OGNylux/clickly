@@ -3,13 +3,15 @@
     import Buildings from '$lib/components/buildings/BuildingsWrapper.svelte';
     import Clicker from '$lib/components/clicker/Clicker.svelte';
     import { onMount } from 'svelte';
-    import { loadLocalStorage, save } from '$lib/save';
+    import { loadLocalStorage, loadSettings, save, saveSettings } from '$lib/save';
     import Farm from '$lib/components/farm/Farm.svelte';
     import Header from '$lib/components/Header.svelte';
 
     onMount(() => {
         loadLocalStorage();
+        loadSettings();
         save();
+        saveSettings();
     });
 </script>
 
