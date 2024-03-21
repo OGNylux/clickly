@@ -133,13 +133,24 @@
             <span class="justify-self-end">{formatNumber(nextLevelScore)}</span>
         </div>
     </div>
-    <div class="h-full w-full flex justify-center items-center">
+    <div class="grid place-items-center h-full w-full z-10">
         <button
             on:click={incrementCount}
-            class="transform active:scale-75 transition-transform z-10 select-none h-full max-w-prose flex justify-center"
+            class="transform active:scale-75 transition-transform select-none"
         >
-            <img src="emojis/heart.svg" alt="" class=" h-full w-auto p-2 filter drop-shadow-2xl" />
+            <img src="emojis/heart.svg" alt="clicker" class="filter drop-shadow-2xl h-ficken" />
         </button>
     </div>
     <ClickerCanvas bind:width />
 </div>
+
+<style>
+    /* 
+    This calculates the height of the main div divided by two. to get the height of the clicker component. 
+    Then subtract 10rem, which is the height of the other clicker content.
+    This Works!
+    */
+    .h-ficken{
+        height: calc(calc(100vh - 4.25rem) / 2 - 10rem);
+    }
+</style>
