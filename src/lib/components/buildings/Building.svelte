@@ -65,9 +65,9 @@
                 <Separator.Root orientation="vertical" class="mx-1 my-auto h-10 rounded-xl w-0.5 bg-slate-200" />
                 <div class="flex flex-col my-auto text-left ml-1">
                     {#if storeItem instanceof ClickerItem}
-                        <p class="font-bold truncate">{storeItem.name}: +50% E/c</p>
+                        <p class="font-bold truncate">{storeItem.name}: +100% E/c</p>
                     {:else}
-                        <p class="font-bold truncate">{storeItem.name}: +50% E/s</p>
+                        <p class="font-bold truncate">{storeItem.name}: +100% E/s</p>
                     {/if}
                     <p class="truncate">{formatNumber(marketValue)} C</p>
                 </div>

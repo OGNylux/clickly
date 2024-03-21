@@ -55,7 +55,7 @@
     }
 
     function squirrelReward() {
-        const randomReward = randomIntFromInterval(10, 20) * (getLevel($score) > 0 ? getLevel($score)*10 : 1);
+        const randomReward = randomIntFromInterval(10, 20) * (getLevel($score) > 0 ? getLevel($score)*100 : 1);
 
 		const rewardLabel = document.createElement('span');
 		rewardLabel.textContent = `+${randomReward} C`;
