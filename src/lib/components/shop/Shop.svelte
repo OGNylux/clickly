@@ -26,8 +26,8 @@
     }
 </script>
 
-<div id="shop" class="flex flex-col gap-2 mr-1 z-10 xl:z-0 right-[-26rem] xl:right-0 absolute xl:relative transition-all">
-    <button class="block absolute -left-14 bg-slate-800 text-white p-5 button1 xl:hidden z-10" on:click={() => toggleCollapsed()}>
+<div id="shop" class="flex flex-col gap-2 mr-1 z-10 xl:z-0 right-[-26rem] xl:right-0 absolute xl:relative shadow-xl xl:shadow-none transition-all">
+    <button class="block absolute left-[-3.7rem] bg-slate-800 text-white p-5 button1 xl:hidden z-10" on:click={() => toggleCollapsed()}>
         {#if collapsed}
             <ArrowRightFromLine size={20} />
         {:else}
