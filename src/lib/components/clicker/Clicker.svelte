@@ -151,6 +151,6 @@
     This Works!
     */
     .h-ficken{
-        height: calc(calc(100vh - 4.25rem) / 2 - 10rem);
+        height: max(min(calc(calc(100vh - 4.25rem) / 2 - 10rem), calc(100vw - 48rem - 5rem)), 5rem);
     }
 </style>
