@@ -12,10 +12,12 @@
     let password = "";
     let errorMsg ="";
 
-    async function handleLogin(){
-        const socket = Socket.getInstance().getSocket();
+    let socket: WebSocket | null = null;
+
+    async function initWs() {
+        socket = Socket.getInstance().getSocket();
         await new Promise((resolve) => {
-            socket.onopen = resolve;
+            socket!.onopen = resolve;
         });
 
         socket.onmessage = (event) => {
@@ -27,6 +29,14 @@
                 errorMsg = test.message.toString();
             }
         };
+        socket.onclose = ()=>{
+            errorMsg = " Fuck you (reload Page)"
+        }
+    }
+    async function handleLogin(){
+        if (socket == null){
+            await initWs()
+        }
 
         let test: ClientMessage = {
             username: username,
@@ -35,7 +45,8 @@
                 password: password,
             },
         };
-        socket.send(JSON.stringify(test));
+
+        socket!.send(JSON.stringify(test));
     }
 </script>
 

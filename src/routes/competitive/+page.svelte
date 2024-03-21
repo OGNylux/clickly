@@ -196,7 +196,6 @@
     </div>
     <Shop />
 </main>
-<button class="fixed bottom-0 right-0" on:click={() => sendEventStart()}>Start Debug Event</button>
 
 <style lang="postcss">
     .screen {
