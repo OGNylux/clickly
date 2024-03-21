@@ -5,9 +5,8 @@
     import { SvelteToast } from '@zerodevx/svelte-toast'
 </script>
 
-<!-- {#if dev}
+{#if dev}
     <Debug />
-{/if}  -->
-    <Debug />
+{/if}
 <SvelteToast options={{ pausable: true, intro: { y: 192 }, reversed: true }}/>
 <slot></slot>
