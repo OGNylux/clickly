@@ -6,6 +6,8 @@
     import { isClassic, notifications, score } from "$lib/store";
     import SettingsDialogue from "./SettingsDialogue.svelte";
     import Leaderboard from "./Leaderboard.svelte";
+    import { goto } from "$app/navigation";
+    import { Socket } from "$lib/websocket";
 
     export let username: string | null = "Guest";
 
@@ -29,11 +31,11 @@
 <div class="grid grid-cols-3 h-10 items-center bg-slate-200 px-3 header content-center">
     <div class="place-self-start flex items-center">
         <div class="pr-4">
-            <a href="/">
+            <button on:click={()=> {goto("/");Socket.getInstance().gotoHell();}}>
                 <div class="transition hover:bg-slate-300 rounded-3xl p-1">
                     <Undo2 size={20}/>
                 </div>
-            </a>
+            </button>
         </div>
         <div class="flex py-0.5 px-3 bg-slate-300 border-slate-200 border-2 rounded-xl">
             <div class="font-medium">

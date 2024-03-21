@@ -33,6 +33,7 @@
     import type { FarmItem, StoreItem, FarmUpgrade } from "$lib/data";
     import EventWrapper from "$lib/components/EventWrapper.svelte";
     import { loadSettings, saveSettings } from "$lib/save";
+    import { goto } from "$app/navigation";
 
     let socket: WebSocket,
         saveInterval = 0,
@@ -104,12 +105,12 @@
             }
         };
         socket.onclose = (event) => {
-            console.error("Connection closed, trying to reconnect", event);
-            Socket.getInstance().reconnect();   
-            socket = Socket.getInstance().getSocket();
+            goto("/")
+
         };
         socket.onerror = (event) => {
-            console.error("Connection error", event);
+            socket.close()
+            goto("/")
         };
 
         const message: ClientMessage = {

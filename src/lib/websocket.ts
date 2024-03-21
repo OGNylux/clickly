@@ -8,6 +8,10 @@ export class Socket {
     public static getInstance() {
         if (!Socket.instance) {
             Socket.instance = new Socket();
+            return Socket.instance;
+        } else if(Socket.instance.getSocket().readyState === WebSocket.CLOSED){
+            Socket.instance = new Socket();
+            return Socket.instance;
         }
         return Socket.instance;
     }
@@ -18,5 +22,9 @@ export class Socket {
     public reconnect() {
         this.ws.close();
         this.ws = new WebSocket('wss://johafo.de:14133/ws');
+    }
+    public gotoHell(){
+        this.ws.close();
+
     }
 }
