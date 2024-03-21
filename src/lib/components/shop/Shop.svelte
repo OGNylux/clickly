@@ -6,20 +6,26 @@
 
     let buy = true;
     let numberOfItems = 1;
-    let expanded = false;
-    let innerWidth = 0;
+    let collapsed = false;
 
     function toggleItems(n: number) {
         numberOfItems = n;
     }
 
-    $: innerWidth > 1280 ? expanded = false : expanded = true;
+    function toggleCollapsed() {
+        const shop = document.getElementById("shop");
+        if (collapsed) {
+            if (shop) shop.style.right = "-26rem";
+            collapsed = false;
+        } else {
+            if (shop) shop.style.right = "0rem";
+            collapsed = true;
+        }
+    }
 </script>
 
-<svelte:window bind:innerWidth={innerWidth}/>
-
-<div class="flex flex-col gap-2 mr-1 z-10 xl:z-0 absolute xl:relative transition-all" style={`right: ${expanded ? '-26rem' : ' 0rem'} `}>
-    <button class="block absolute -left-14 bg-slate-800 text-white p-5 button1 xl:hidden z-10" on:click={() => expanded = !expanded}>
+<div id="shop" class="flex flex-col gap-2 mr-1 z-10 xl:z-0 right-[-26rem] xl:right-0 absolute xl:relative transition-all">
+    <button class="block absolute -left-14 bg-slate-800 text-white p-5 button1 xl:hidden z-10" on:click={() => toggleCollapsed()}>
         <ArrowLeftFromLine size={20} />
     </button>
     <div class="border-slate-100 border-2 h-full bg-slate-50 rounded-xl p-2 overflow-y-auto">
