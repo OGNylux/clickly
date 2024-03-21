@@ -33,18 +33,20 @@
     ];
 
 </script>
-<div class="flex justify-center">
-    <a href="/" class="hidden md:inline-flex dark:text-black self-center w-fit">
-        <ArrowLeftIcon class="w-12 h-12"/>
-    </a>
-    <h1 class="flex justify-center text-4xl md:text-9xl text-center dark:text-black">
-        Impressum? Nein Memes!
-    </h1>
-</div>
-<div class="image-gallery flex flex-wrap m-9 justify-center items-center">
-    {#each imageList as image (image)}
-        <img src={`memes/${image}`} alt={"alt"} class="max-w-full h-[200px] m-2 transition-transform transform hover:scale-[2.25] hover:z-10"  />
-    {/each}
+<div class="overflow-y-scroll flex flex-col">
+    <div class="flex justify-center">
+        <a href="/" class="hidden md:inline-flex dark:text-black self-center w-fit">
+            <ArrowLeftIcon class="w-12 h-12"/>
+        </a>
+        <h1 class="flex justify-center text-4xl md:text-9xl text-center dark:text-black">
+            Impressum? Nein Memes!
+        </h1>
+    </div>
+    <div class="image-gallery flex flex-wrap m-9 justify-center items-center h-[73vh]">
+        {#each imageList as image (image)}
+            <img src={`memes/${image}`} alt={"alt"} class="max-w-full h-[200px] m-2 transition-transform transform hover:scale-[2.25] hover:z-10"  />
+        {/each}
+    </div>
 </div>
 
 <style>
