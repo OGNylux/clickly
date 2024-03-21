@@ -1,6 +1,7 @@
 # Clickly
 
-The new boredom killer - Clickly We all know the situation: you’re extremely bored and want to play something, but you don’t know what. Then Clickly is the ideal game for you! Clickly is an idle web game similar to Cookie Clicker. The main goal is to collect the most emojis and climb the leaderboard.
+### The new boredom killer - Clickly
+We all know the situation: you’re extremely bored and want to play something, but you don’t know what. Then Clickly is the ideal game for you! <br> Clickly is an idle web game similar to Cookie Clicker. The main goal is to collect the most emojis and climb the leaderboard.
 
 ## Developing
 
