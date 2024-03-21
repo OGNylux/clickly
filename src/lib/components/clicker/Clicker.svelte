@@ -136,7 +136,7 @@
     <div class="h-full w-full flex justify-center items-center">
         <button
             on:click={incrementCount}
-            class="transform active:scale-75 transition-transform z-10 select-none h-full"
+            class="transform active:scale-75 transition-transform z-10 select-none h-full flex justify-center"
         >
             <img src="emojis/heart.svg" alt="" class=" h-full w-auto p-2 filter drop-shadow-2xl" />
         </button>
