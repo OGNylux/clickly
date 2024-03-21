@@ -35,9 +35,9 @@
                 </div>
             </a>
         </div>
-        <div class="flex h-8 px-3 bg-slate-300 border-slate-200 border-2 rounded-xl">
+        <div class="flex py-0.5 px-3 bg-slate-300 border-slate-200 border-2 rounded-xl">
             <div class="font-medium">
-                Guest
+                {username}
             </div>
         </div> 
         {#if !$isClassic}
