@@ -32,6 +32,7 @@
     import { Socket } from "$lib/websocket";
     import type { FarmItem, StoreItem, FarmUpgrade } from "$lib/data";
     import EventWrapper from "$lib/components/EventWrapper.svelte";
+    import { loadSettings, saveSettings } from "$lib/save";
 
     let socket: WebSocket,
         saveInterval = 0,
@@ -44,6 +45,9 @@
 
         isClassic.set(false);
         socket = Socket.getInstance().getSocket();
+
+        loadSettings();
+        saveSettings();
 
         socket.onmessage = async (event) => {
             const m: ServerMessage = JSON.parse(event.data);
