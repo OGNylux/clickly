@@ -57,12 +57,14 @@
     <button on:click={collect} class="bg-amber-950 rounded-3xl transform active:scale-90 transition z-10 select-none xl:size-20 grid place-content-center gap-2">  
         <Popover.Root bind:open={popoverOpen}>
             <Popover.Trigger>
-                <div class="grid items-center">
-                    {#if farmItem}
-                        <img src={farmItem.image.src} alt={farmItem.image.alt} class="size-16 object-contain mt-5" style={`transform: scale(${$progress}%); transform-origin: center center`} />
-                    {:else}
-                        <Plus class="size-10 text-amber-900" />
-                    {/if}
+                <div class="xl:size-20">
+                    <div class="grid items-center justify-center">
+                        {#if farmItem}
+                            <img src={farmItem.image.src} alt={farmItem.image.alt} class="size-16 object-contain mt-5" style={`transform: scale(${$progress}%); transform-origin: center center`} />
+                        {:else}
+                            <Plus class="m-4 size-10 text-amber-900" />
+                        {/if}
+                    </div>
                 </div>
             </Popover.Trigger>
             <Popover.Content
@@ -95,7 +97,7 @@
                                     <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-950" />
                                 </div>
                                 <div class="flex flex-col text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
-                                    <p>worth: <span class="text-yellow-400">{formatNumber(item.value)}</span> C</p>
+                                    <p>Worth: <span class="text-yellow-400">{formatNumber(item.value)}</span> C</p>
                                 </div>
                             </Tooltip.Content>  
                         </Tooltip.Root>

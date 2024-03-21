@@ -2,16 +2,38 @@
     import { unlockedPassiveItems } from "$lib/store";
     import ShopItem from "./ShopItem.svelte";
     import ClickerShopItem from "./ClickerShopItem.svelte";
+    import { ArrowLeftFromLine, ArrowRightFromLine } from "lucide-svelte";
 
     let buy = true;
     let numberOfItems = 1;
+    let collapsed = false;
 
     function toggleItems(n: number) {
         numberOfItems = n;
     }
+
+    function toggleCollapsed() {
+        const shop = document.getElementById("shop");
+        if (collapsed) {
+            shop?.classList.remove("right-0");
+            shop?.classList.add("right-[-26rem]");
+            collapsed = false;
+        } else {
+            shop?.classList.remove("right-[-26rem]");
+            shop?.classList.add("right-0");
+            collapsed = true;
+        }
+    }
 </script>
 
-<div class="flex flex-col gap-2 mr-1">
+<div id="shop" class="flex flex-col gap-2 mr-1 z-10 xl:z-0 right-[-26rem] xl:right-0 absolute xl:relative shadow-xl xl:shadow-none transition-all">
+    <button class="block absolute left-[-3.7rem] bg-slate-800 text-white p-5 button1 xl:hidden z-10" on:click={() => toggleCollapsed()}>
+        {#if collapsed}
+            <ArrowRightFromLine size={20} />
+        {:else}
+            <ArrowLeftFromLine size={20} />
+        {/if}
+    </button>
     <div class="border-slate-100 border-2 h-full bg-slate-50 rounded-xl p-2 overflow-y-auto">
         <div class="grid grid-flow-col grid-cols-1 sticky">
             <div class="grid grid-cols-2 w-28 font-medium border-slate-200 border-2 rounded-xl">

@@ -97,9 +97,9 @@
             <div class="bg-slate-800">
                 <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-950" />
             </div>
-            <div class="flex flex-col text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
-                <p><span class="text-yellow-400">{$emojis.toLocaleString("de-DE")}</span> E</p>
-                <p>passive Income: <span class="text-yellow-400">{formatNumber(passiveIncome)}</span> E/s</p>
+            <div class="flex flex-col text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl max-w-[1024px] overflow-hidden">
+                <p class="truncate"><span title={$emojis.toLocaleString("de-DE")} class="text-yellow-400 truncate">{$emojis.toLocaleString("de-DE")}</span> E</p>
+                <p>Passive Income: <span class="text-yellow-400">{formatNumber(passiveIncome)}</span> E/s</p>
             </div>
         </Tooltip.Content>  
     </Tooltip.Root>
@@ -126,18 +126,31 @@
                         <Tooltip.Arrow class="rounded-[2px] border-l border-t border-slate-950" />
                     </div>
                     <div class="text-center border-slate-950 bg-slate-800 p-2 font-medium shadow-2xl outline-none rounded-xl">
-                        <p>current Score: <span class="text-yellow-400">{formatNumber($score)}</span></p>
+                        <p>Current Score: <span class="text-yellow-400">{formatNumber($score)}</span></p>
                     </div>
                 </Tooltip.Content>  
             </Tooltip.Root>
             <span class="justify-self-end">{formatNumber(nextLevelScore)}</span>
         </div>
     </div>
-    <button
-        on:click={incrementCount}
-        class="h-full transform active:scale-75 transition-transform z-10 select-none flex justify-center "
-    >
-        <img src="emojis/heart.svg" alt="" class="h-full p-2 filter drop-shadow-2xl" />
-    </button>
+    <div class="grid place-items-center h-full w-full z-10">
+        <button
+            on:click={incrementCount}
+            class="transform active:scale-75 transition-transform select-none"
+        >
+            <img src="emojis/heart.svg" alt="clicker" class="filter drop-shadow-2xl h-ficken" />
+        </button>
+    </div>
     <ClickerCanvas bind:width />
 </div>
+
+<style>
+    /* 
+    This calculates the height of the main div divided by two. to get the height of the clicker component. 
+    Then subtract 10rem, which is the height of the other clicker content.
+    This Works!
+    */
+    .h-ficken{
+        height: max(min(calc(calc(100vh - 4.25rem) / 2 - 10rem), calc(100vw - 48rem - 5rem)), 5rem);
+    }
+</style>

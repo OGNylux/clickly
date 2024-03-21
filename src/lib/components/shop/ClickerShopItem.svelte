@@ -35,7 +35,7 @@
     <div class="grid grid-rows-2 grid-cols-2 grow p-2 w-full">
         <p class="font-bold col-span-2">{$unlockedClicker.name}</p>
         <span title={formatNumber(marketValue) + " E"} class="truncate">{formatNumber(marketValue)} E</span>
-        <span title={formatNumber($unlockedClicker.getIncomeMultiplier()) + " E/s"} class="truncate text-end">+{formatNumber(Math.floor($unlockedClicker.getIncomeMultiplier()))} E/s</span>
+        <span title={formatNumber($unlockedClicker.getIncomeMultiplier()) + " E/c"} class="truncate text-end">{action ? '+' : '-'}{formatNumber(Math.floor($unlockedClicker.getIncomeMultiplier()))} E/c</span>
     </div>
     {#if $unlockedClicker.getAmount() == 0 && !action}
         <div class="flex justify-center items-center buy_button transition font-bold text-xl w-40 bg-slate-300 border-slate-200 border-2">
