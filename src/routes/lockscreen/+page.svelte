@@ -7,6 +7,7 @@
 <main class="relative h-screen bg-cover bg-no-repeat text-center" style="background-image: url('/background.jpg')">
     <div class="bottom-0 left-0 right-0 top-0 h-full w-full" style="background-color: rgba(0, 0, 0, 0.4)">
         <div class="flex h-full flex-col items-center justify-center">
+            <p class="text-4xl font-bold text-white pt-10">The Competitive Mode is offline now! Please contact s_foltin22@stud.hwr-berlin.de</p>
             <Tabs.Root
                 value="login"
                 class="w-[390px] p-3 rounded-xl bg-slate-200"
